@@ -21,12 +21,12 @@ class DecideTest {
     }
 
     @Test
-    void testLIC3() {
+    void testLIC1() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        Main.main(null);
+        Decide.main(null);
 
         assertEquals("Hello world!" + System.lineSeparator(), outputStream.toString());
 
@@ -39,7 +39,7 @@ class DecideTest {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        Main.main(null);
+        Decide.main(null);
 
         assertEquals("Hello world!" + System.lineSeparator(), outputStream.toString());
 

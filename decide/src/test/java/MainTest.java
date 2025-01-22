@@ -19,4 +19,17 @@ class MainTest {
 
         System.setOut(originalOut);
     }
+
+    @Test
+    void testLIC3() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outputStream));
+
+        Main.main(null);
+
+        assertEquals("Hello world!" + System.lineSeparator(), outputStream.toString());
+
+        System.setOut(originalOut);
+    }
 }

@@ -4,16 +4,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import com.decide.Main;
+import com.decide.Decide;
 
-class MainTest {
+class DecideTest {
     @Test
-    void testMainOutput() {
+    void testDecideOutput() {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outputStream));
 
-        Main.main(null);
+        Decide.main(null);
 
         assertEquals("Hello world!" + System.lineSeparator(), outputStream.toString());
 

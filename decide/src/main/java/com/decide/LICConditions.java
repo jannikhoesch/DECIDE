@@ -1,5 +1,8 @@
 package com.decide;
 
+import java.util.Dictionary;
+import java.util.Hashtable;
+
 public class LICConditions {
     public static boolean evaluateLIC(int licIndex, double[][] points, Parameters parameters, int numPoints){
         switch(licIndex){
@@ -11,8 +14,8 @@ public class LICConditions {
             //     return LIC2(points, parameters, numPoints);
             // case 3:
             //     return LIC3(points, parameters, numPoints);
-            // case 4:
-            //     return LIC4(points, parameters, numPoints);
+            case 4:
+                return LIC4(points, parameters.QUADS, parameters.Q_PTS, numPoints);
             // case 5:
             //     return LIC5(points, parameters, numPoints);
             // case 6:
@@ -39,4 +42,45 @@ public class LICConditions {
     } 
 
 
+    public static boolean LIC4(double[][] points, int QUADS, int Q_PTS, int numPoints) {
+        int index = 0;
+
+        while (index + Q_PTS <= numPoints) {
+            int numberOfQuadrants = 0;
+            Dictionary<String, Boolean> quadrants = new Hashtable<>();
+            quadrants.put("q1", false);
+            quadrants.put("q2", false);
+            quadrants.put("q3", false);
+            quadrants.put("q4", false);
+
+            for (int i = index; i < index + Q_PTS; i++){
+                if (points[i][0] >= 0 && points[i][1] >= 0) {
+                    if (quadrants.get("q1") == false) {
+                        quadrants.put("q1", true);
+                        numberOfQuadrants++;
+                    }
+                } else if (points[i][0] < 0 && points[i][1] >= 0) {
+                    if (quadrants.get("q2") == false) {
+                        quadrants.put("q2", true);
+                        numberOfQuadrants++;
+                    }
+                } else if (points[i][0] <= 0 && points[i][1] < 0) {
+                    if (quadrants.get("q3") == false) {
+                        quadrants.put("q3", true);
+                        numberOfQuadrants++;
+                    }
+                } else if (points[i][0] > 0 && points[i][1] < 0) {
+                    if (quadrants.get("q4") == false) {
+                        quadrants.put("q4", true);
+                        numberOfQuadrants++;
+                    }
+                }
+            }
+            if (numberOfQuadrants > QUADS) {
+                return true;
+            }
+            index++;
+        }
+        return false;
+    }
 }

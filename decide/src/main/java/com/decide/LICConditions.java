@@ -61,7 +61,7 @@ public class LICConditions {
     }
 
     /**
-     * Checks if there is a set of three consecutive data points that forms a triangle with area greater than AREA1 and
+     * Checks if there is a set of three data points seperated by E_PTS and F_PTS that forms a triangle with area greater than AREA1 and
      * a set that forms a triangle with area less than AREA2
      * @param points
      * @param E_PTS

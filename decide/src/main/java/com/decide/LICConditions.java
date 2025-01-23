@@ -1,9 +1,10 @@
 package com.decide;
 
 import com.decide.Parameters;
+import com.decide.Point;
 
 public class LICConditions {
-    public static boolean evaluateLIC(int licIndex, double[][] points, Parameters parameters, int numPoints){
+    public static boolean evaluateLIC(int licIndex, Point[] points, Parameters parameters, int numPoints){
         switch(licIndex){
             // case 0:
             //     return LIC0(points, parameters, numPoints);
@@ -11,8 +12,8 @@ public class LICConditions {
             //     return LIC1(points, parameters, numPoints);
             // case 2:
             //     return LIC2(points, parameters, numPoints);
-            // case 3:
-            //     return LIC3(points, parameters, numPoints);
+            case 3:
+                return LIC3(points, parameters.AREA1, numPoints);
             // case 4:
             //     return LIC4(points, parameters, numPoints);
             // case 5:
@@ -40,5 +41,30 @@ public class LICConditions {
         }
     } 
 
+    public static boolean LIC3(Point[] points, double AREA1, int numPoints){
+        if (AREA1 < 0) {
+            throw new IllegalArgumentException("AREA1 must be greater than or equal to 0.");
+        }
 
+        // Need at least 3 points to form a triangle
+        if(numPoints < 3){
+            return false;
+        }
+
+        // Iterate through all sets of 3 consecutive points
+        for(int i = 0; i < numPoints - 2; i++){
+            Point p1 = points[i];
+            Point p2 = points[i+1];
+            Point p3 = points[i+2];
+
+            // Calculate the triangle area
+            double a = 0.5 * Math.abs((p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y)));
+
+            // Compare to area1
+            if(a > AREA1){
+                return true;
+            }
+        }
+        return false;
+    }
 }

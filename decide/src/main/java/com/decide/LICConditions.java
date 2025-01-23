@@ -3,7 +3,7 @@ package com.decide;
 import com.decide.Parameters;
 
 public class LICConditions {
-    public static boolean evaluateLIC(int licIndex, double[][] points, Parameters parameters, int numPoints){
+    public static boolean evaluateLIC(int licIndex, Point[] points, Parameters parameters, int numPoints){
         switch(licIndex){
             // case 0:
             //     return LIC0(points, parameters, numPoints);

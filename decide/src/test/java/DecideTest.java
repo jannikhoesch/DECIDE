@@ -19,4 +19,30 @@ class DecideTest {
 
         System.setOut(originalOut);
     }
+
+    @Test
+    void testLIC1() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outputStream));
+
+        Decide.main(null);
+
+        assertEquals("Hello world!" + System.lineSeparator(), outputStream.toString());
+
+        System.setOut(originalOut);
+    }
+
+    @Test
+    void testLIC3() {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream originalOut = System.out;
+        System.setOut(new PrintStream(outputStream));
+
+        Decide.main(null);
+
+        assertEquals("Hello world!" + System.lineSeparator(), outputStream.toString());
+
+        System.setOut(originalOut);
+    }
 }

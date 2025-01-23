@@ -1,5 +1,7 @@
 package com.decide;
 
+import com.decide.Parameters;
+
 public class LICConditions {
     public static boolean evaluateLIC(int licIndex, double[][] points, Parameters parameters, int numPoints){
         switch(licIndex){

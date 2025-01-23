@@ -5,7 +5,7 @@ public class Parameters {
     public int Q_PTS, QUADS, N_PTS, K_PTS, A_PTS, B_PTS, C_PTS, D_PTS, E_PTS, F_PTS, G_PTS;
 
     public Parameters(double LENGTH1, double RADIUS1, double EPSILON, double AREA1, int Q_PTS, int QUADS,
-                      double DIST, int N_PTS, int K_PTS, int A_PTS, int B_PTS, int C_PTS, int D_PTS, 
+                      double DIST, int N_PTS, int K_PTS, int A_PTS, int B_PTS, int C_PTS, int D_PTS,
                       int E_PTS, int F_PTS, int G_PTS, double LENGTH2, double RADIUS2, double AREA2) {
         this.LENGTH1 = LENGTH1;
         this.RADIUS1 = RADIUS1;
@@ -27,7 +27,5 @@ public class Parameters {
         this.RADIUS2 = RADIUS2;
         this.AREA2 = AREA2;
     }
-
-    public Parameters() {}
 }
 

@@ -40,13 +40,21 @@ public class LICConditions {
         }
     } 
 
+    /**
+     * Checks if a set of three data points separated by C_PTS and D_PTS forms an angle less than PI-EPSILON or
+     * greater than PI+EPSILON
+     * @param points
+     * @param C_PTS
+     * @param D_PTS
+     * @param EPSILON
+     * @param numPoints
+     * @return {boolean}
+     */
     public static boolean LIC9(Point[] points, int C_PTS, int D_PTS, double EPSILON , int numPoints) {
         if (numPoints < 5) {
             return false;
         }
-
         int index = 0;
-
         while (index + C_PTS + D_PTS < numPoints) {
             Point A = points[index];
             Point B = points[index + C_PTS];

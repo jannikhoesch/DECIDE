@@ -14,7 +14,6 @@ public class LICConditionsTest {
         int D_PTS = 2;
         double EPSILON = 0.14;
         int numPoints = 2;
-
         boolean result = LICConditions.LIC9(points, C_PTS, D_PTS, EPSILON, numPoints);
         assertEquals(false, result, "the test should be false");
 
@@ -25,7 +24,6 @@ public class LICConditionsTest {
         int D_PTS2 = 1;
         double EPSILON2 = 0.14;
         int numPoints2 = 6;
-
         boolean result2 = LICConditions.LIC9(points2, C_PTS2, D_PTS2, EPSILON2, numPoints2);
         assertEquals(true, result2, "the test should be true");
 
@@ -36,7 +34,6 @@ public class LICConditionsTest {
         int D_PTS3 = 1;
         double EPSILON3 = 0.14;
         int numPoints3 = 6;
-
         boolean result3 = LICConditions.LIC9(points3, C_PTS3, D_PTS3, EPSILON3, numPoints3);
         assertEquals(false, result3, "the test should be false");
 
@@ -47,7 +44,6 @@ public class LICConditionsTest {
         int D_PTS4 = 1;
         double EPSILON4 = 0.14;
         int numPoints4 = 6;
-
         boolean result4 = LICConditions.LIC9(points4, C_PTS4, D_PTS4, EPSILON4, numPoints4);
         assertEquals(false, result4, "the test should be false");
     }

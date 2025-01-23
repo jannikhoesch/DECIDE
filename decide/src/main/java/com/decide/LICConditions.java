@@ -40,5 +40,19 @@ public class LICConditions {
         }
     } 
 
+    public static boolean LIC1(double[][] points, double length, int numPoints){
+        /*
+        There exists at least one set of two consecutive data points that are a distance greater than
+        the length, LENGTH1, apart. (0 ≤ LENGTH1)
+
+         */
+        for(int i = 0; i < numPoints - 1; i++){
+            // Calculate the euclidean distance
+            double distance = Math.sqrt(Math.pow(points[i][0] - points[i+1][0], 2) + Math.pow(points[i][1] - points[i+1][1], 2)); 
+            if (distance > length) return true;
+        }
+        return false;
+    }
+
 
 }

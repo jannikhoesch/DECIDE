@@ -60,5 +60,42 @@ public class LICConditions {
         return false;
     }
 
+    /**
+     * Checks if there is a set of three consecutive data points that forms a triangle with area greater than AREA1 and
+     * a set that forms a triangle with area less than AREA2
+     * @param points
+     * @param E_PTS
+     * @param F_PTS
+     * @param AREA1
+     * @param AREA2
+     * @param numPoints
+     * @return {boolean}
+     */
+    public static boolean LIC14(Point[] points, int E_PTS, int F_PTS, double AREA1, double AREA2, int numPoints) {
+        if (numPoints < 5) {
+            return false;
+        }
+        int index = 0;
+        boolean cond1 = false;
+        boolean cond2 = false;
+        while (index + E_PTS + F_PTS < numPoints) {
+            Point A = points[index];
+            Point B = points[index + E_PTS];
+            Point C = points[index + E_PTS + F_PTS];
+            double area = Math.abs(0.5*(A.x*(B.y-C.y)-B.x*(C.y-A.y)+C.x*(A.y-B.y)));
+            if (area > AREA1) {
+                cond1 = true;
+            }
+            if (area < AREA2) {
+                cond2 = true;
+            }
+            if (cond1 == true && cond2 == true) {
+                return true;
+            }
+            index++;
+        }
+        return false;
+    }
+
 
 }

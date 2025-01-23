@@ -47,6 +47,7 @@ public class LICConditions {
         the length, LENGTH1, apart. (0 ≤ LENGTH1)
 
          */
+        if (length < 0) return false;
         for(int i = 0; i < numPoints - 1; i++){
             double x_1 = points[i].x;
             double y_1 = points[i].y;

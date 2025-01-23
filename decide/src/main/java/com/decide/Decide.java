@@ -3,6 +3,7 @@ package com.decide;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.Arrays;
 import com.decide.Parameters;
+import com.decide.Point;
 import com.decide.LICConditions;
 
 public class Decide {
@@ -11,8 +12,7 @@ public class Decide {
 
     //Input Variables
     private static int numPoints; // Number of data points
-    private static int[] x; // X coordinates of data points
-    private static int[] y; // Y coordinates of data points
+    private static Point[] points; // Planar data points
     private static Parameters parameters; // Struct holding parameters for LIC’s
     private static int[][] LCM; // Logical Connector Matrix
     private static boolean[] PUV; // Preliminary Unlocking Vector
@@ -29,11 +29,12 @@ public class Decide {
         numPoints = 100;
 
         // Init planar data points
-        x = new int[numPoints];
-        y = new int[numPoints];
+        points = new Point[numPoints];
         for (int i = 0; i < numPoints; i++) {
-            x[i] = ThreadLocalRandom.current().nextInt(-100, 100);
-            y[i] = ThreadLocalRandom.current().nextInt(-100, 100);
+            points[i] = new Point(
+                    ThreadLocalRandom.current().nextInt(-100, 100),
+                    ThreadLocalRandom.current().nextInt(-100, 100)
+            );
         }
 
         // Init parameters struct
@@ -55,8 +56,7 @@ public class Decide {
 
         // For debugging: Print the input
         System.out.println("numPoints: " + numPoints);
-        System.out.println("x: " + Arrays.toString(x));
-        System.out.println("y: " + Arrays.toString(y));
+        System.out.println("points: " + Arrays.toString(points));
         System.out.println("parameters: " + parameters);
         System.out.println("LCM: " + Arrays.deepToString(LCM));
         System.out.println("PUV: " + Arrays.toString(PUV));

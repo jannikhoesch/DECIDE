@@ -54,24 +54,23 @@ public class LICConditions {
         if (numPoints < 5) {
             return false;
         }
-        int index = 0;
-        while (index + C_PTS + D_PTS < numPoints) {
-            Point A = points[index];
-            Point B = points[index + C_PTS];
-            Point C = points[index + C_PTS + D_PTS];
-
-            if ((A.x != B.x || A.y != B.y) && (C.x != B.x || C.y != B.y)) {
-                double[] BA = {A.x-B.x, A.y-B.y};
-                double[] BC = {C.x-B.x, C.y-B.y};
-                double normBA = Math.sqrt(Math.pow(BA[0], 2) + Math.pow(BA[1], 2));
-                double normBC = Math.sqrt(Math.pow(BC[0], 2) + Math.pow(BC[1], 2));
-                double BAdotBC = BA[0]*BC[0] + BA[1]*BC[1];
-                double angle = Math.acos(BAdotBC/(normBA*normBC));
-                if (angle < Math.PI - EPSILON || angle > Math.PI + EPSILON) {
-                    return true;
-                }
+        for (int i = 0; i + C_PTS + D_PTS < numPoints; i++) {
+            Point A = points[i];
+            Point B = points[i + C_PTS];
+            Point C = points[i + C_PTS + D_PTS];
+            if ((A.x == B.x && A.y == B.y) || (C.x == B.x && C.y == B.y)) {
+                continue;
+            } 
+            //calculate the angle with the dot product formula
+            double[] BA = {A.x-B.x, A.y-B.y};
+            double[] BC = {C.x-B.x, C.y-B.y};
+            double normBA = Math.sqrt(Math.pow(BA[0], 2) + Math.pow(BA[1], 2));
+            double normBC = Math.sqrt(Math.pow(BC[0], 2) + Math.pow(BC[1], 2));
+            double BAdotBC = BA[0]*BC[0] + BA[1]*BC[1];
+            double angle = Math.acos(BAdotBC/(normBA*normBC));
+            if (angle < Math.PI - EPSILON || angle > Math.PI + EPSILON) {
+                return true;
             }
-            index++;
         }
         return false;
     }

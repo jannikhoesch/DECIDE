@@ -2,6 +2,7 @@ package com.decide;
 
 import com.decide.Parameters;
 import com.decide.Point;
+import org.junit.Test;
 
 public class LICConditions {
     public static boolean evaluateLIC(int licIndex, Point[] points, Parameters parameters, int numPoints){
@@ -22,8 +23,8 @@ public class LICConditions {
             //     return LIC6(points, parameters, numPoints);
             // case 7:
             //     return LIC7(points, parameters, numPoints);
-            // case 8:
-            //     return LIC8(points, parameters, numPoints);
+            case 8:
+                 return LIC8(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, numPoints);
             // case 9:
             //     return LIC9(points, parameters, numPoints);
             // case 10:
@@ -111,28 +112,33 @@ public class LICConditions {
             if (k >= numPoints) break; // Ensure indices are within bounds
             Point p3 = points[k];
 
-
-            // If points are collinear, they cannot form a circle
-            double determinant = p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y);
-            if (determinant == 0) {
-                return true;
-            }
-
-            // Calculate the distances between the points
-            double distance12 = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
-            double distance23 = Math.sqrt(Math.pow(p3.x - p2.x, 2) + Math.pow(p3.y - p2.y, 2));
-            double distance31 = Math.sqrt(Math.pow(p1.x - p3.x, 2) + Math.pow(p1.y - p3.y, 2));
-
-            // Calculate the circumcircle radius
-            double numerator = distance12 * distance23 * distance31;
-            double denominator = Math.abs(determinant) * 2;
-            double circumcircleRadius = numerator / denominator;
-
             // Check if the circumcircle radius exceeds the given RADIUS1
-            if (circumcircleRadius > RADIUS1) {
+            double radius = radius(p1, p2, p3);
+            if (Double.isNaN(radius) || radius > RADIUS1) {
                 return true;
             }
         }
         return false;
+    }
+
+    public static double radius(Point p1, Point p2, Point p3){
+
+        // If points are collinear, they cannot form a circle
+        double determinant = p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y);
+        if (determinant == 0) {
+            return Double.NaN;
+        }
+
+        // Calculate the distances between the points
+        double distance12 = Math.sqrt(Math.pow(p2.x - p1.x, 2) + Math.pow(p2.y - p1.y, 2));
+        double distance23 = Math.sqrt(Math.pow(p3.x - p2.x, 2) + Math.pow(p3.y - p2.y, 2));
+        double distance31 = Math.sqrt(Math.pow(p1.x - p3.x, 2) + Math.pow(p1.y - p3.y, 2));
+
+        // Calculate the circumcircle radius
+        double numerator = distance12 * distance23 * distance31;
+        double denominator = Math.abs(determinant) * 2;
+        double radius = numerator / denominator;
+
+        return radius;
     }
 }

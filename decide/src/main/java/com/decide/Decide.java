@@ -62,37 +62,6 @@ public class Decide {
         System.out.println("PUV: " + Arrays.toString(PUV));
     }
 
-    public static boolean[][] PUM(boolean[] CMV, int[][] LCM){
-        /*
-         * LCM (Logical Connector Matrix) The LCM describes how individual LIC’s should be logically
-         * combined. For example, the value of LCM[i,j] indicates whether LIC #i should combine
-         * with LIC #j by the logical AND, OR, or not at all, the values correspond to:
-         * 1 = ANDD
-         * 2 = ORR
-         * 777 = not at all
-         */
-        
-        boolean[][] PUM = new boolean[CMV.length][CMV.length];
-
-        for (int i = 0; i < CMV.length; i++){
-            for (int j = 0; j < CMV.length; j++){
-                int operator = LCM[i][j];
-                switch (operator){
-                    case 1: // ANDD
-                        PUM[i][j] = CMV[i] && CMV[j];
-                        break;
-                    case 2: // ORR
-                        PUM[i][j] = CMV[i] || CMV[j];
-                        break;
-                    case 777: // not at all
-                        PUM[i][j] = true;
-                        break;
-                }
-            }
-        }
-        return PUM;
-    }
-
     public static boolean DECIDE() {
         // Compute the values of the CMV, PUM and FUV and determine if the final decision is true or false
         return false;

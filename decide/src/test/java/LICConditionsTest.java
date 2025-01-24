@@ -55,4 +55,31 @@ public class LICConditionsTest {
         numPoints = 5;
         assertFalse(LICConditions.LIC1(points, length, numPoints));
     }
+
+
+        // LIC11:
+        @Test
+        void testLIC11True() {
+            Point[] points = {new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(8, 0), new Point(-3, 10)};
+            Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0, 0, 
+             3, 0, 0, 0);
+            int numPoints = 5;
+            assertTrue(LICConditions.LIC11(points, parameters, numPoints));
+        }
+        
+        
+        @Test
+        void testLIC11False() {
+            // Test Case 1: There is no points i and j where x_j - x_i < 0
+            Point[] points = {new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(28, 0), new Point(10, 10), new Point(100, 100)};
+            Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 0, 
+             0, 4, 0, 0, 0);
+            int numPoints = 6;
+            assertFalse(LICConditions.LIC11(points, parameters, numPoints));
+        }
+    
 }
+
+

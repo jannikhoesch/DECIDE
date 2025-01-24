@@ -1,7 +1,7 @@
 package com.decide;
 
-import com.decide.Parameters;
-import com.decide.Point;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class LICConditions {
     public static boolean evaluateLIC(int licIndex, Point[] points, Parameters parameters, int numPoints){
@@ -14,8 +14,8 @@ public class LICConditions {
             //     return LIC2(points, parameters, numPoints);
             // case 3:
             //     return LIC3(points, parameters, numPoints);
-            // case 4:
-            //     return LIC4(points, parameters, numPoints);
+            //case 4:
+            //    return LIC4(points, parameters.QUADS, parameters.Q_PTS, numPoints);
             // case 5:
             //     return LIC5(points, parameters, numPoints);
             // case 6:
@@ -86,6 +86,46 @@ public class LICConditions {
         return false;
     }
 
+    /**
+     * Checks if a set of consecutive data points lay in more quadrants than QUADS quadrants
+     * @param points
+     * @param QUADS
+     * @param Q_PTS
+     * @param numPoints
+     * @return {boolean}
+     */
+    public static boolean LIC4(Point[] points, int QUADS, int Q_PTS, int numPoints) {
+        for (int index = 0; index + Q_PTS <= numPoints; index++) {
+            int numberOfQuadrants = 0;
+            Dictionary<String, Boolean> quadrants = new Hashtable<>();
+            quadrants.put("q1", false);
+            quadrants.put("q2", false);
+            quadrants.put("q3", false);
+            quadrants.put("q4", false);
+
+            for (int i = index; i < index + Q_PTS; i++){
+                String quadrant = "";
+                if (points[i].x >= 0 && points[i].y >= 0) {
+                    quadrant = "q1";
+                } else if (points[i].x < 0 && points[i].y >= 0) {
+                    quadrant = "q2";
+                } else if (points[i].x <= 0 && points[i].y < 0) {
+                    quadrant = "q3";
+                } else if (points[i].x > 0 && points[i].y < 0) {
+                    quadrant = "q4";
+                }
+                if (quadrants.get(quadrant) == false) {
+                    quadrants.put(quadrant, true);
+                    numberOfQuadrants++;
+                }
+            }
+            if (numberOfQuadrants > QUADS) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean LIC6(Point[] points, Parameters parameters, int numPoints){
         /*
         There exists at least one set of N PTS consecutive data points such that at least one of the
@@ -139,6 +179,7 @@ public class LICConditions {
         }
         return false;
     }
+
     public static boolean LIC11(Point[] points, Parameters parameters, int numPoints){
         /*
          * There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by 
@@ -155,5 +196,5 @@ public class LICConditions {
             if (x_j - x_i < 0) return true;
         }
         return false;
-    }
+    }    
 }

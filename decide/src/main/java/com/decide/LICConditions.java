@@ -69,7 +69,6 @@ public class LICConditions {
         if(numPoints < 3){
             return false;
         }
-
         // Iterate through all sets of 3 consecutive points
         for(int i = 0; i < numPoints - 2; i++){
             Point p1 = points[i];
@@ -87,6 +86,59 @@ public class LICConditions {
         return false;
     }
 
+    public static boolean LIC6(Point[] points, Parameters parameters, int numPoints){
+        /*
+        There exists at least one set of N PTS consecutive data points such that at least one of the
+        points lies a distance greater than DIST from the line joining the first and last of these N PTS
+        points. If the first and last points of these N PTS are identical, then the calculated distance
+        to compare with DIST will be the distance from the coincident point to all other points of
+        the N PTS consecutive points. The condition is not met when NUMPOINTS < 3.
+        (3 ≤N PTS ≤NUMPOINTS), (0 ≤DIST)
+         */
+        int N_PTS = parameters.N_PTS;
+        double DIST = parameters.DIST;
+
+        if (numPoints < 3) return false; // Automatically false in this case;
+
+        if (N_PTS < 3 || N_PTS > numPoints) return false;
+
+        if (DIST < 0) return false;
+        
+        for (int i = 0; i < numPoints; i++){
+            if (i + N_PTS - 1 >= numPoints) return false; // Not enough points left.
+            Point startPoint = points[i];
+            Point endPoint = points[i + N_PTS - 1];
+            if (startPoint.x == endPoint.x && startPoint.y == endPoint.y){ // Same start and end point
+                for(int j = i + 1; j < i + N_PTS - 1; j++){
+                    double distance = startPoint.distance(points[j]);
+                    if (distance > DIST) return true;
+                }
+            }
+
+            for (int j=i+1; j < i + N_PTS - 1; j++){
+                // Check if the point is perpendicular to this line segment
+                double angleStart = Point.angle(points[j], startPoint, endPoint); // gets the angle at the start point
+                double angleEnd = Point.angle(points[j], endPoint, startPoint); // angle at the end point
+
+                boolean perpendicular = false;
+                if (angleStart < Math.PI/2 && angleEnd < Math.PI/2) perpendicular = true;
+
+                double distance = -1;
+                if (!perpendicular) {
+                    double distanceStart = points[j].distance(startPoint);
+                    double distanceEnd = points[j].distance(endPoint);
+                    distance = Math.min(distanceStart, distanceEnd);
+                }
+                else{
+                    // Calculate the perpendicular distance using the formula
+                    distance = points[j].distanceToLine(startPoint, endPoint);
+                }
+                
+                if (distance > DIST) return true;
+            }
+        }
+        return false;
+    }
     public static boolean LIC11(Point[] points, Parameters parameters, int numPoints){
         /*
          * There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by 

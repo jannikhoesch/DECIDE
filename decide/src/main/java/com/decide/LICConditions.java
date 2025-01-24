@@ -71,7 +71,6 @@ public class LICConditions {
          for (int i = 0; i < numPoints; i++){
             
             if (i + G_PTS + 1 >= numPoints) break; // Not enough points left.
-            System.out.println("LOOOP");
             double x_i = points[i].x;
             double x_j = points[i + G_PTS + 1].x;
             if (x_j - x_i < 0) return true;

@@ -286,7 +286,83 @@ public class LICConditionsTest {
     }
 }
 
+@Test
+void testLIC13() {
+        // Test Case 1: Conditions are met (radius > RADIUS1 and radius <= RADIUS2)
+        Point[] pointsCase1 = {
+                new Point(0, 0),
+                new Point(4, 0),
+                new Point(0, 3),
+                new Point(3, 3),
+                new Point(5, 5)
+        };
+        int A_PTS1 = 1;
+        int B_PTS1 = 1;
+        double RADIUS1Case1 = 2.0;
+        double RADIUS2Case1 = 5.0;
+        int numPoints1 = pointsCase1.length;
 
-    
+        assertTrue(
+                LICConditions.LIC13(pointsCase1, A_PTS1, B_PTS1, RADIUS1Case1, RADIUS2Case1, numPoints1),
+                "Expected LIC13 to return true when the conditions (radius > RADIUS1 and radius <= RADIUS2) are met."
+        );
+
+        // Test Case 2: Condition not met (no radius > RADIUS1)
+        Point[] pointsCase2 = {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(0, 1),
+                new Point(1, 1),
+                new Point(2, 2)
+        };
+        int A_PTS2 = 1;
+        int B_PTS2 = 1;
+        double RADIUS1Case2 = 10.0; // Too large to be exceeded
+        double RADIUS2Case2 = 5.0;  // Valid radius limit
+        int numPoints2 = pointsCase2.length;
+
+        assertFalse(
+                LICConditions.LIC13(pointsCase2, A_PTS2, B_PTS2, RADIUS1Case2, RADIUS2Case2, numPoints2),
+                "Expected LIC13 to return false when no circumcircle radius exceeds RADIUS1."
+        );
+
+        // Test Case 3: Condition not met (no radius <= RADIUS2)
+        Point[] pointsCase3 = {
+                new Point(0, 0),
+                new Point(10, 0),
+                new Point(0, 10),
+                new Point(10, 10),
+                new Point(20, 15)
+        };
+        int A_PTS3 = 1;
+        int B_PTS3 = 1;
+        double RADIUS1Case3 = 5.0;  // Valid radius limit
+        double RADIUS2Case3 = 2.0;  // Too small to be satisfied
+        int numPoints3 = pointsCase3.length;
+
+        assertFalse(
+                LICConditions.LIC13(pointsCase3, A_PTS3, B_PTS3, RADIUS1Case3, RADIUS2Case3, numPoints3),
+                "Expected LIC13 to return false when no circumcircle radius is less than or equal to RADIUS2."
+        );
+
+        // Test Case 4: NUMPOINTS < 5
+        Point[] pointsCase4 = {
+                new Point(0, 0),
+                new Point(1, 1),
+                new Point(2, 2),
+                new Point(3, 3)
+        };
+        int A_PTS4 = 1;
+        int B_PTS4 = 1;
+        double RADIUS1Case4 = 1.0;
+        double RADIUS2Case4 = 2.0;
+        int numPoints4 = pointsCase4.length;
+
+        assertFalse(
+                LICConditions.LIC13(pointsCase4, A_PTS4, B_PTS4, RADIUS1Case4, RADIUS2Case4, numPoints4),
+                "Expected LIC13 to return false when NUMPOINTS is less than 5."
+        );
+    }
+}
 
 

@@ -269,4 +269,46 @@ public class LICConditions {
         }
         return false;
     }
+
+    public static  boolean LIC13(Point[] points, int A_PTS, int B_PTS, double RADIUS1, double RADIUS2, int numPoints){
+
+        // Input validation
+        if (numPoints < 5 || A_PTS < 1 || B_PTS < 1 || RADIUS2 < 0) {
+            return false;
+        }
+
+        boolean cond1 = false;
+        boolean cond2 = false;
+
+        // Iterate through all sets of three points
+        for (int i = 0; i < numPoints; i++) {
+
+            // First point
+            Point p1 = points[i];
+
+            // Second point
+            int j = i + A_PTS + 1;
+            Point p2 = points[j];
+
+            // Third point
+            int k = j + B_PTS + 1;
+            if (k >= numPoints) break; // Ensure indices are within bounds
+            Point p3 = points[k];
+
+            // Get radius
+            double radius = Point.circumradius(p1, p2, p3);
+
+            // Update and check conditions
+            if (radius > RADIUS1) {
+                cond1 = true;
+            }
+            if (radius <= RADIUS2) {
+                cond2 = true;
+            }
+            if (cond1 && cond2) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

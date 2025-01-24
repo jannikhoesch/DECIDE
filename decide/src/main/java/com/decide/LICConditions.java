@@ -23,8 +23,8 @@ public class LICConditions {
             //     return LIC6(points, parameters, numPoints);
             // case 7:
             //     return LIC7(points, parameters, numPoints);
-            case 8:
-                 return LIC8(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, numPoints);
+            // case 8:
+            //     return LIC8(points, parameters, numPoints);
             // case 9:
             //     return LIC9(points, parameters, numPoints);
             // case 10:
@@ -87,6 +87,7 @@ public class LICConditions {
         }
         return false;
     }
+
     public static boolean LIC8(Point[] points, int A_PTS, int B_PTS, double RADIUS1, int numPoints){
 
         // Validate parameters

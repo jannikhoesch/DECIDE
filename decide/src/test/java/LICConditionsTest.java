@@ -6,7 +6,6 @@ import com.decide.Point;
 import com.decide.Decide;
 import com.decide.Parameters;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 public class LICConditionsTest {
 

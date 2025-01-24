@@ -59,7 +59,7 @@ public class LICConditions {
         }
         return false;
     }
-
+    
     public static boolean LIC3(Point[] points, double AREA1, int numPoints){
         if (AREA1 < 0) {
             throw new IllegalArgumentException("AREA1 must be greater than or equal to 0.");
@@ -83,6 +83,24 @@ public class LICConditions {
             if(a > AREA1){
                 return true;
             }
+        }
+        return false;
+    }
+
+    public static boolean LIC11(Point[] points, Parameters parameters, int numPoints){
+        /*
+         * There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by 
+         * exactly G PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j ) 
+         * The condition is not met when NUMPOINTS < 3.
+         */
+        if (numPoints < 3) return false;
+        int G_PTS = parameters.G_PTS;
+         for (int i = 0; i < numPoints; i++){
+            
+            if (i + G_PTS + 1 >= numPoints) break; // Not enough points left.
+            double x_i = points[i].x;
+            double x_j = points[i + G_PTS + 1].x;
+            if (x_j - x_i < 0) return true;
         }
         return false;
     }

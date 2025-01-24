@@ -39,7 +39,7 @@ public class Decide {
 
         // Init parameters struct
         parameters = new Parameters(1.0, 1.0, 1.0, 1.0, 1, 1, 1.0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.0, 1.0, 1.0);
-
+ 
         // Init LCM
         LCM = new int[15][15];
         for (int i = 0; i < 15; i++) {

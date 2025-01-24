@@ -253,6 +253,37 @@ public class LICConditionsTest {
         int numPoints = 6;
         assertFalse(LICConditions.LIC11(points, parameters, numPoints));
     }
+
+    @Test
+    void testLIC14() {
+        //we need at least 6 points, so this should be false
+        Point[] points = {new Point(0, 0), new Point(0, 0)};
+        int E_PTS = 2;
+        int F_PTS = 2;
+        double AREA1 = 0.14;
+        double AREA2 = 0.14;
+        int numPoints = 2;
+        assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+
+        //two triangles
+        // {(0, 0), (5, 0), (0, 4)} has area 10
+        // {(0, 0), (2, 0), (0, 3)} has area 3 
+        points = new Point[]{new Point(0, 0), new Point(0, 0), new Point(5, 0), new Point(2, 0), new Point(0, 4), new Point(0, 3)};
+        E_PTS = 2;
+        F_PTS = 2;
+        AREA1 = 9;
+        AREA2 = 4;
+        numPoints = 6;
+        assertTrue(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+        
+        AREA1 = 11;
+        AREA2 = 4;
+        assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+        
+        AREA1 = 9;
+        AREA2 = 2;
+        assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+    }
 }
 
 

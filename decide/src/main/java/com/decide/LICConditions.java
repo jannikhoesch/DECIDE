@@ -1,7 +1,7 @@
 package com.decide;
 
-import com.decide.Parameters;
-import com.decide.Point;
+import java.util.Dictionary;
+import java.util.Hashtable;
 
 public class LICConditions {
     public static boolean evaluateLIC(int licIndex, Point[] points, Parameters parameters, int numPoints){
@@ -14,8 +14,8 @@ public class LICConditions {
             //     return LIC2(points, parameters, numPoints);
             // case 3:
             //     return LIC3(points, parameters, numPoints);
-            // case 4:
-            //     return LIC4(points, parameters, numPoints);
+            //case 4:
+            //    return LIC4(points, parameters.QUADS, parameters.Q_PTS, numPoints);
             // case 5:
             //     return LIC5(points, parameters, numPoints);
             // case 6:
@@ -25,7 +25,7 @@ public class LICConditions {
             // case 8:
             //     return LIC8(points, parameters, numPoints);
             // case 9:
-            //     return LIC9(points, parameters, numPoints);
+            //    return LIC9(Point[] points, int C_PTS, int D_PTS, double EPSILON , int numPoints);
             // case 10:
             //     return LIC10(points, parameters, numPoints);
             // case 11:
@@ -59,7 +59,7 @@ public class LICConditions {
         }
         return false;
     }
-    
+        
     public static boolean LIC3(Point[] points, double AREA1, int numPoints){
         if (AREA1 < 0) {
             throw new IllegalArgumentException("AREA1 must be greater than or equal to 0.");
@@ -80,6 +80,46 @@ public class LICConditions {
 
             // Compare to area1
             if(a > AREA1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if a set of consecutive data points lay in more quadrants than QUADS quadrants
+     * @param points
+     * @param QUADS
+     * @param Q_PTS
+     * @param numPoints
+     * @return {boolean}
+     */
+    public static boolean LIC4(Point[] points, int QUADS, int Q_PTS, int numPoints) {
+        for (int index = 0; index + Q_PTS <= numPoints; index++) {
+            int numberOfQuadrants = 0;
+            Dictionary<String, Boolean> quadrants = new Hashtable<>();
+            quadrants.put("q1", false);
+            quadrants.put("q2", false);
+            quadrants.put("q3", false);
+            quadrants.put("q4", false);
+
+            for (int i = index; i < index + Q_PTS; i++){
+                String quadrant = "";
+                if (points[i].x >= 0 && points[i].y >= 0) {
+                    quadrant = "q1";
+                } else if (points[i].x < 0 && points[i].y >= 0) {
+                    quadrant = "q2";
+                } else if (points[i].x <= 0 && points[i].y < 0) {
+                    quadrant = "q3";
+                } else if (points[i].x > 0 && points[i].y < 0) {
+                    quadrant = "q4";
+                }
+                if (quadrants.get(quadrant) == false) {
+                    quadrants.put(quadrant, true);
+                    numberOfQuadrants++;
+                }
+            }
+            if (numberOfQuadrants > QUADS) {
                 return true;
             }
         }
@@ -139,6 +179,42 @@ public class LICConditions {
         }
         return false;
     }
+
+    /**
+     * Checks if a set of three data points separated by C_PTS and D_PTS forms an angle less than PI-EPSILON or
+     * greater than PI+EPSILON
+     * @param points
+     * @param C_PTS
+     * @param D_PTS
+     * @param EPSILON
+     * @param numPoints
+     * @return {boolean}
+     */
+    public static boolean LIC9(Point[] points, int C_PTS, int D_PTS, double EPSILON , int numPoints) {
+        if (numPoints < 5) {
+            return false;
+        }
+        for (int i = 0; i + C_PTS + D_PTS < numPoints; i++) {
+            Point A = points[i];
+            Point B = points[i + C_PTS];
+            Point C = points[i + C_PTS + D_PTS];
+            if ((A.x == B.x && A.y == B.y) || (C.x == B.x && C.y == B.y)) {
+                continue;
+            } 
+            //calculate the angle with the dot product formula
+            double[] BA = {A.x-B.x, A.y-B.y};
+            double[] BC = {C.x-B.x, C.y-B.y};
+            double normBA = Math.sqrt(Math.pow(BA[0], 2) + Math.pow(BA[1], 2));
+            double normBC = Math.sqrt(Math.pow(BC[0], 2) + Math.pow(BC[1], 2));
+            double BAdotBC = BA[0]*BC[0] + BA[1]*BC[1];
+            double angle = Math.acos(BAdotBC/(normBA*normBC));
+            if (angle < Math.PI - EPSILON || angle > Math.PI + EPSILON) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean LIC11(Point[] points, Parameters parameters, int numPoints){
         /*
          * There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by 
@@ -153,6 +229,43 @@ public class LICConditions {
             double x_i = points[i].x;
             double x_j = points[i + G_PTS + 1].x;
             if (x_j - x_i < 0) return true;
+        }
+        return false;
+    }            
+    
+    /**
+     * Checks if there is a set of three data points seperated by E_PTS and F_PTS that forms a triangle with area greater than AREA1 and
+     * a set that forms a triangle with area less than AREA2
+     * @param points
+     * @param E_PTS
+     * @param F_PTS
+     * @param AREA1
+     * @param AREA2
+     * @param numPoints
+     * @return {boolean}
+     */
+    public static boolean LIC14(Point[] points, int E_PTS, int F_PTS, double AREA1, double AREA2, int numPoints) {
+        if (numPoints < 5) {
+            return false;
+        }
+        int index = 0;
+        boolean cond1 = false;
+        boolean cond2 = false;
+        while (index + E_PTS + F_PTS < numPoints) {
+            Point A = points[index];
+            Point B = points[index + E_PTS];
+            Point C = points[index + E_PTS + F_PTS];
+            double area = Math.abs(0.5*(A.x*(B.y-C.y)-B.x*(C.y-A.y)+C.x*(A.y-B.y)));
+            if (area > AREA1) {
+                cond1 = true;
+            }
+            if (area < AREA2) {
+                cond2 = true;
+            }
+            if (cond1 == true && cond2 == true) {
+                return true;
+            }
+            index++;
         }
         return false;
     }

@@ -113,6 +113,7 @@ public class LICConditions {
     }
 
     public static boolean LIC6(Point[] points, Parameters parameters, int numPoints){
+        // TODO: Refactor
         /*
         There exists at least one set of N PTS consecutive data points such that at least one of the
         points lies a distance greater than DIST from the line joining the first and last of these N PTS
@@ -175,10 +176,14 @@ public class LICConditions {
             throw new IllegalArgumentException("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.");
         }
 
-        for (int i = 0; i < numPoints; i++) {
-            Point[] p = Point.getPoints(points, i, A_PTS, B_PTS);
-            if (p == null) break;
-            double radius = Point.circumradius(p[0], p[1], p[2]);
+        if (numPoints < 5) return false;
+
+        for (int i = 0; i + A_PTS + B_PTS < numPoints; i++) {
+            Point A = points[i];
+            Point B = points[i + A_PTS];
+            Point C = points[i + A_PTS + B_PTS];
+
+            double radius = Point.circumradius(A, B, C);
             if (radius > RADIUS1) return true;
         }
         return false;
@@ -195,23 +200,18 @@ public class LICConditions {
      * @return {boolean}
      */
     public static boolean LIC9(Point[] points, int C_PTS, int D_PTS, double EPSILON , int numPoints) {
-        if (numPoints < 5) {
-            return false;
-        }
+        if (numPoints < 5) return false;
+
         for (int i = 0; i + C_PTS + D_PTS < numPoints; i++) {
             Point A = points[i];
             Point B = points[i + C_PTS];
             Point C = points[i + C_PTS + D_PTS];
+
             if ((A.x == B.x && A.y == B.y) || (C.x == B.x && C.y == B.y)) {
                 continue;
             }
-            //calculate the angle with the dot product formula
-            double[] BA = {A.x-B.x, A.y-B.y};
-            double[] BC = {C.x-B.x, C.y-B.y};
-            double normBA = Math.sqrt(Math.pow(BA[0], 2) + Math.pow(BA[1], 2));
-            double normBC = Math.sqrt(Math.pow(BC[0], 2) + Math.pow(BC[1], 2));
-            double BAdotBC = BA[0]*BC[0] + BA[1]*BC[1];
-            double angle = Math.acos(BAdotBC/(normBA*normBC));
+
+            double angle = Point.angle(A, B, C);
             if (angle < Math.PI - EPSILON || angle > Math.PI + EPSILON) {
                 return true;
             }

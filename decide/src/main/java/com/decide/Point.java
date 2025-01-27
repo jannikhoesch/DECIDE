@@ -39,21 +39,6 @@ public class Point {
         return ab * bc * ac / (4 * area(a, b, c));
     }
 
-    public static Point[] getPoints(Point[] points, int start, int d1, int d2) {
-        int j = start + d1;
-        int k = j + d2;
-        if (j >= points.length || k >= points.length) {
-            return null;
-        }
-
-        Point p1 = points[start];
-        Point p2 = points[j];
-        Point p3 = points[k];
-
-        return new Point[]{p1, p2, p3}; // Return the three points
-    }
-
-
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";

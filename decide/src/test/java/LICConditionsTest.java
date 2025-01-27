@@ -224,7 +224,6 @@ public class LICConditionsTest {
         boolean result = LICConditions.LIC9(points, C_PTS, D_PTS, EPSILON, numPoints);
         assertEquals(false, result, "the test should be false");
 
-
         //the first three points should form an angle of pi/2, so this should be true
         Point[] points2 = {new Point(1, 0), new Point(0, 0), new Point(0, 1), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
         int C_PTS2 = 1;
@@ -501,7 +500,7 @@ public class LICConditionsTest {
                 LICConditions.LIC13(pointsCase4, A_PTS4, B_PTS4, RADIUS1Case4, RADIUS2Case4, numPoints4),
                 "Expected LIC13 to return false when NUMPOINTS is less than 5."
         );
-    }
+}
 }
 
 

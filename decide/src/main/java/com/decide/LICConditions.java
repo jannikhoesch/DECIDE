@@ -80,6 +80,7 @@ public class LICConditions {
      * @return {boolean}
      */
     public static boolean LIC4(Point[] points, int QUADS, int Q_PTS, int numPoints) {
+        // TODO: Refactor
         for (int index = 0; index + Q_PTS <= numPoints; index++) {
             int numberOfQuadrants = 0;
             Dictionary<String, Boolean> quadrants = new Hashtable<>();
@@ -167,7 +168,7 @@ public class LICConditions {
 
     public static boolean LIC8(Point[] points, int A_PTS, int B_PTS, double RADIUS1, int numPoints){
 
-        // Validate parameters
+        // Input validation
         if (A_PTS < 1 || B_PTS < 1) {
             throw new IllegalArgumentException("A_PTS and B_PTS must each be greater than or equal to 1.");
         }
@@ -175,26 +176,11 @@ public class LICConditions {
             throw new IllegalArgumentException("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.");
         }
 
-        // Iterate through all sets of three points
         for (int i = 0; i < numPoints; i++) {
-
-            // First point
-            Point p1 = points[i];
-
-            // Second point
-            int j = i + A_PTS + 1;
-            Point p2 = points[j];
-
-            // Third point
-            int k = j + B_PTS + 1;
-            if (k >= numPoints) break; // Ensure indices are within bounds
-            Point p3 = points[k];
-
-            // Check if the circumcircle radius exceeds the given RADIUS1
-            double radius = Point.circumradius(p1, p2, p3);
-            if (radius > RADIUS1) {
-                return true;
-            }
+            Point[] p = Point.getPoints(points, i, A_PTS, B_PTS);
+            if (p == null) break;
+            double radius = Point.circumradius(p[0], p[1], p[2]);
+            if (radius > RADIUS1) return true;
         }
         return false;
     }

@@ -62,7 +62,16 @@ public class Decide {
         System.out.println("PUV: " + Arrays.toString(PUV));
     }
 
-
+    /**
+     * Generates the Final Unlocking Vector (FUV) by using the Preliminary Unlocking
+     * Vector (PUV) and the Preliminary Unlocking Vector (PUM). 
+     * 
+     * If PUV[i] is false or if all elements in row i of PUM are true, FUV[i] is true
+     * otherwise FUV[i] is false. 
+     * @param PUV
+     * @param PUM
+     * @return {boolean[]}
+     */
     public static boolean[] FUV(boolean[] PUV, boolean[][] PUM) {
         boolean[] FUV = new boolean[PUV.length];
 

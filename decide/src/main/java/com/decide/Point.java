@@ -39,6 +39,13 @@ public class Point {
         return ab * bc * ac / (4 * area(a, b, c));
     }
 
+    public static int quadrant(Point p) {
+        if (p.x >= 0 && p.y >= 0) return 0;
+        if (p.x <= 0 && p.y >= 0) return 1;
+        if (p.x <= 0 && p.y <= 0) return 2;
+        return 3;
+    }
+
     @Override
     public String toString() {
         return "(" + x + ", " + y + ")";

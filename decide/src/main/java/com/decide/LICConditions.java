@@ -3,9 +3,6 @@ package com.decide;
 import com.decide.Parameters;
 import com.decide.Point;
 
-import java.util.Dictionary;
-import java.util.Hashtable;
-
 public class LICConditions {
     public static boolean evaluateLIC(int licIndex, Point[] points, Parameters parameters, int numPoints){
         switch(licIndex){
@@ -80,32 +77,19 @@ public class LICConditions {
      * @return {boolean}
      */
     public static boolean LIC4(Point[] points, int QUADS, int Q_PTS, int numPoints) {
-        // TODO: Refactor
-        for (int index = 0; index + Q_PTS <= numPoints; index++) {
-            int numberOfQuadrants = 0;
-            Dictionary<String, Boolean> quadrants = new Hashtable<>();
-            quadrants.put("q1", false);
-            quadrants.put("q2", false);
-            quadrants.put("q3", false);
-            quadrants.put("q4", false);
+        for (int i = 0; i + Q_PTS <= numPoints; i++) {
+            int count = 0;
+            boolean[] quadrants = new boolean[4];
 
-            for (int i = index; i < index + Q_PTS; i++){
-                String quadrant = "";
-                if (points[i].x >= 0 && points[i].y >= 0) {
-                    quadrant = "q1";
-                } else if (points[i].x < 0 && points[i].y >= 0) {
-                    quadrant = "q2";
-                } else if (points[i].x <= 0 && points[i].y < 0) {
-                    quadrant = "q3";
-                } else if (points[i].x > 0 && points[i].y < 0) {
-                    quadrant = "q4";
-                }
-                if (quadrants.get(quadrant) == false) {
-                    quadrants.put(quadrant, true);
-                    numberOfQuadrants++;
+            for (int j = i; j < i + Q_PTS; j++){
+                Point p = points[j];
+                int q = Point.quadrant(p);
+                if (quadrants[q] == false) {
+                    quadrants[q] = true;
+                    count++;
                 }
             }
-            if (numberOfQuadrants > QUADS) {
+            if (count > QUADS) {
                 return true;
             }
         }

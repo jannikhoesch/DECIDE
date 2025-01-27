@@ -1,13 +1,11 @@
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.decide.LICConditions;
 import com.decide.Point;
+import com.decide.Decide;
 import com.decide.Parameters;
+
 
 public class LICConditionsTest {
     // LIC1:
@@ -134,29 +132,29 @@ public class LICConditionsTest {
          5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints1 = 4;
         assertTrue(LICConditions.LIC6(points1, parameters1, numPoints1));
-        
+
         // Test Case 2: First and last point of N_PTS are the same
         Point[] points2 = {new Point(0, 0), new Point(4, 3), new Point(0, 0), new Point(0, 4)};
-        Parameters parameters2 = new Parameters(0, 0, 0, 0, 0, 0, 
+        Parameters parameters2 = new Parameters(0, 0, 0, 0, 0, 0,
         2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints2 = 4;
         assertTrue(LICConditions.LIC6(points2, parameters2, numPoints2));
-        
-        
+
+
         // Test Case 3: Points form a vertical line
         Point[] points3 = {new Point(0, 0), new Point(20, 4), new Point(0, 8), new Point(0, 12)};
-        Parameters parameters3 = new Parameters(0, 0, 0, 0, 0, 0, 
+        Parameters parameters3 = new Parameters(0, 0, 0, 0, 0, 0,
         10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints3 = 4;
         assertTrue(LICConditions.LIC6(points3, parameters3, numPoints3));
-        
+
         // Test Case 4: Line segment has derivative 0
         Point[] points4 = {new Point(0, 0), new Point(1, 5), new Point(10, 0), new Point(0, 0)};
-        Parameters parameters4 = new Parameters(0, 0, 0, 0, 0, 0, 
+        Parameters parameters4 = new Parameters(0, 0, 0, 0, 0, 0,
         7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints4 = 4;
         assertTrue(LICConditions.LIC6(points4, parameters4, numPoints4));
-        
+
     }
     @Test
     void testLIC6False() {
@@ -166,28 +164,28 @@ public class LICConditionsTest {
          30, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints1 = 4;
         assertFalse(LICConditions.LIC6(points1, parameters1, numPoints1));
-        
+
         // Test Case 2: First and last point of N_PTS are the same
         Point[] points2 = {new Point(0, 0), new Point(1, 1), new Point(0, 0), new Point(0, 1)};
-        Parameters parameters2 = new Parameters(0, 0, 0, 0, 0, 0, 
+        Parameters parameters2 = new Parameters(0, 0, 0, 0, 0, 0,
         10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints2 = 4;
         assertFalse(LICConditions.LIC6(points2, parameters2, numPoints2));
-        
+
         // Test Case 3: Points form a vertical line
         Point[] points3 = {new Point(0, 0), new Point(0, 4), new Point(0, 8), new Point(0, 12)};
-        Parameters parameters3 = new Parameters(0, 0, 0, 0, 0, 0, 
+        Parameters parameters3 = new Parameters(0, 0, 0, 0, 0, 0,
         10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints3 = 4;
         assertFalse(LICConditions.LIC6(points3, parameters3, numPoints3));
 
         // Test Case 4: Line segment has derivative 0
         Point[] points4 = {new Point(0, 0), new Point(1, 5), new Point(10, 0), new Point(0, 0)};
-        Parameters parameters4 = new Parameters(0, 0, 0, 0, 0, 0, 
+        Parameters parameters4 = new Parameters(0, 0, 0, 0, 0, 0,
         11, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints4 = 4;
         assertFalse(LICConditions.LIC6(points4, parameters4, numPoints4));
-        
+
     }
 
     @Test
@@ -236,22 +234,139 @@ public class LICConditionsTest {
     void testLIC11True() {
         Point[] points = {new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(8, 0), new Point(-3, 10)};
         Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 
+            0, 0, 0, 0, 0, 0, 0, 0, 0,
             3, 0, 0, 0);
         int numPoints = 5;
         assertTrue(LICConditions.LIC11(points, parameters, numPoints));
     }
-    
-    
+
+
     @Test
     void testLIC11False() {
         // Test Case 1: There is no points i and j where x_j - x_i < 0
         Point[] points = {new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(28, 0), new Point(10, 10), new Point(100, 100)};
         Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 
+            0, 0, 0, 0, 0, 0, 0, 0,
             0, 4, 0, 0, 0);
         int numPoints = 6;
         assertFalse(LICConditions.LIC11(points, parameters, numPoints));
+    }
+
+    @Test
+    void testLIC8() {
+        // Test Case 1: Points satisfy the condition
+        Point[] pointsCase1 = {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 1),
+                new Point(3, 0),
+                new Point(4, 0)
+        };
+        int A_PTS1 = 1;
+        int B_PTS1 = 1;
+        double RADIUS1Case1 = 1.0; // The three points will have a circumcircle radius > 1.0
+        int numPoints1 = pointsCase1.length;
+
+        assertTrue(
+                LICConditions.LIC8(pointsCase1, A_PTS1, B_PTS1, RADIUS1Case1, numPoints1),
+                "Expected LIC8 to return true for points that cannot be contained in a circle of radius 1.0"
+        );
+
+        // Test Case 2: Points do not satisfy the condition
+        Point[] pointsCase2 = {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(0, 1),
+                new Point(1, 1),
+                new Point(0.5, 0.5)
+        };
+        int A_PTS2 = 1;
+        int B_PTS2 = 1;
+        double RADIUS1Case2 = 2.0; // All points can be contained within a circle of radius 2.0
+        int numPoints2 = pointsCase2.length;
+
+        assertFalse(
+                LICConditions.LIC8(pointsCase2, A_PTS2, B_PTS2, RADIUS1Case2, numPoints2),
+                "Expected LIC8 to return false for points that can be contained in a circle of radius 2.0"
+        );
+
+        // Test Case 3: NUMPOINTS < 5 -> A_PTS + B_PTS > NUMPOINTS - 3
+        Point[] pointsCase3 = {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(0, 1),
+                new Point(1, 1)
+        };
+        int A_PTS3 = 1;
+        int B_PTS3 = 1;
+        double RADIUS1Case3 = 1.0;
+        int numPoints3 = pointsCase3.length;
+
+        Exception exception = assertThrows(
+                IllegalArgumentException.class,
+                () -> LICConditions.LIC8(pointsCase3, A_PTS3, B_PTS3, RADIUS1Case3, numPoints3),
+                "Expected IllegalArgumentException to be thrown for A_PTS + B_PTS > NUMPOINTS - 3"
+        );
+        assertEquals("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.", exception.getMessage());
+
+
+        // Test Case 4: Invalid A_PTS or B_PTS values
+        Point[] pointsCase4 = {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(0, 1),
+                new Point(1, 1),
+                new Point(2, 2)
+        };
+        int A_PTS4 = 0; // Invalid value
+        int B_PTS4 = 1;
+        double RADIUS1Case4 = 1.0;
+        int numPoints4 = pointsCase4.length;
+
+        Exception exception1 = assertThrows(
+                IllegalArgumentException.class,
+                () -> LICConditions.LIC8(pointsCase4, A_PTS4, B_PTS4, RADIUS1Case4, numPoints4),
+                "Expected IllegalArgumentException to be thrown for A_PTS < 1"
+        );
+        assertEquals("A_PTS and B_PTS must each be greater than or equal to 1.", exception1.getMessage());
+
+        // Test Case 5: A_PTS + B_PTS > NUMPOINTS - 3
+        Point[] pointsCase5 = {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(0, 1),
+                new Point(1, 1),
+                new Point(2, 2)
+        };
+        int A_PTS5 = 2;
+        int B_PTS5 = 2; // Invalid as A_PTS + B_PTS > NUMPOINTS - 3
+        double RADIUS1Case5 = 1.0;
+        int numPoints5 = pointsCase5.length;
+
+        Exception exception2 = assertThrows(
+                IllegalArgumentException.class,
+                () -> LICConditions.LIC8(pointsCase5, A_PTS5, B_PTS5, RADIUS1Case5, numPoints5),
+                "Expected IllegalArgumentException to be thrown for A_PTS + B_PTS > NUMPOINTS - 3"
+        );
+        assertEquals("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.", exception2.getMessage());
+
+        // Test Case 6: Points are collinear -> satisfy the condition
+        Point[] pointsCase6 = {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(3, 0),
+                new Point(4, 0)
+        };
+        int A_PTS6 = 1;
+        int B_PTS6 = 1;
+        double RADIUS1Case6 = 10.0;
+        int numPoints6 = pointsCase6.length;
+
+        assertTrue(
+                LICConditions.LIC8(pointsCase6, A_PTS6, B_PTS6, RADIUS1Case6, numPoints6),
+                "Expected LIC8 to return true for collinear points that cannot be contained in a circle"
+        );
     }
 
     @Test
@@ -267,7 +382,7 @@ public class LICConditionsTest {
 
         //two triangles
         // {(0, 0), (5, 0), (0, 4)} has area 10
-        // {(0, 0), (2, 0), (0, 3)} has area 3 
+        // {(0, 0), (2, 0), (0, 3)} has area 3
         points = new Point[]{new Point(0, 0), new Point(0, 0), new Point(5, 0), new Point(2, 0), new Point(0, 4), new Point(0, 3)};
         E_PTS = 2;
         F_PTS = 2;
@@ -275,19 +390,18 @@ public class LICConditionsTest {
         AREA2 = 4;
         numPoints = 6;
         assertTrue(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
-        
+
         AREA1 = 11;
         AREA2 = 4;
         assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
-        
+
         AREA1 = 9;
         AREA2 = 2;
         assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
     }
-}
 
-@Test
-void testLIC13() {
+    @Test
+    void testLIC13() {
         // Test Case 1: Conditions are met (radius > RADIUS1 and radius <= RADIUS2)
         Point[] pointsCase1 = {
                 new Point(0, 0),

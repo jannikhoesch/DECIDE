@@ -1,5 +1,8 @@
 package com.decide;
 
+import com.decide.Parameters;
+import com.decide.Point;
+
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -14,8 +17,8 @@ public class LICConditions {
             //     return LIC2(points, parameters, numPoints);
             // case 3:
             //     return LIC3(points, parameters, numPoints);
-            //case 4:
-            //    return LIC4(points, parameters.QUADS, parameters.Q_PTS, numPoints);
+            // case 4:
+            //     return LIC4(points, parameters, numPoints);
             // case 5:
             //     return LIC5(points, parameters, numPoints);
             // case 6:
@@ -25,7 +28,7 @@ public class LICConditions {
             // case 8:
             //     return LIC8(points, parameters, numPoints);
             // case 9:
-            //    return LIC9(Point[] points, int C_PTS, int D_PTS, double EPSILON , int numPoints);
+            //     return LIC9(points, parameters, numPoints);
             // case 10:
             //     return LIC10(points, parameters, numPoints);
             // case 11:
@@ -59,7 +62,7 @@ public class LICConditions {
         }
         return false;
     }
-        
+
     public static boolean LIC3(Point[] points, double AREA1, int numPoints){
         if (AREA1 < 0) {
             throw new IllegalArgumentException("AREA1 must be greater than or equal to 0.");
@@ -69,6 +72,7 @@ public class LICConditions {
         if(numPoints < 3){
             return false;
         }
+
         // Iterate through all sets of 3 consecutive points
         for(int i = 0; i < numPoints - 2; i++){
             Point p1 = points[i];
@@ -143,7 +147,7 @@ public class LICConditions {
         if (N_PTS < 3 || N_PTS > numPoints) return false;
 
         if (DIST < 0) return false;
-        
+
         for (int i = 0; i < numPoints; i++){
             if (i + N_PTS - 1 >= numPoints) return false; // Not enough points left.
             Point startPoint = points[i];
@@ -173,7 +177,7 @@ public class LICConditions {
                     // Calculate the perpendicular distance using the formula
                     distance = points[j].distanceToLine(startPoint, endPoint);
                 }
-                
+
                 if (distance > DIST) return true;
             }
         }
@@ -200,7 +204,7 @@ public class LICConditions {
             Point C = points[i + C_PTS + D_PTS];
             if ((A.x == B.x && A.y == B.y) || (C.x == B.x && C.y == B.y)) {
                 continue;
-            } 
+            }
             //calculate the angle with the dot product formula
             double[] BA = {A.x-B.x, A.y-B.y};
             double[] BC = {C.x-B.x, C.y-B.y};
@@ -217,22 +221,22 @@ public class LICConditions {
 
     public static boolean LIC11(Point[] points, Parameters parameters, int numPoints){
         /*
-         * There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by 
-         * exactly G PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j ) 
+         * There exists at least one set of two data points, (X[i],Y[i]) and (X[j],Y[j]), separated by
+         * exactly G PTS consecutive intervening points, such that X[j] - X[i] < 0. (where i < j )
          * The condition is not met when NUMPOINTS < 3.
          */
         if (numPoints < 3) return false;
         int G_PTS = parameters.G_PTS;
          for (int i = 0; i < numPoints; i++){
-            
+
             if (i + G_PTS + 1 >= numPoints) break; // Not enough points left.
             double x_i = points[i].x;
             double x_j = points[i + G_PTS + 1].x;
             if (x_j - x_i < 0) return true;
         }
         return false;
-    }            
-    
+    }
+
     /**
      * Checks if there is a set of three data points seperated by E_PTS and F_PTS that forms a triangle with area greater than AREA1 and
      * a set that forms a triangle with area less than AREA2
@@ -306,6 +310,40 @@ public class LICConditions {
                 cond2 = true;
             }
             if (cond1 && cond2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean LIC8(Point[] points, int A_PTS, int B_PTS, double RADIUS1, int numPoints){
+
+        // Validate parameters
+        if (A_PTS < 1 || B_PTS < 1) {
+            throw new IllegalArgumentException("A_PTS and B_PTS must each be greater than or equal to 1.");
+        }
+        if (A_PTS + B_PTS > numPoints - 3) {
+            throw new IllegalArgumentException("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.");
+        }
+
+        // Iterate through all sets of three points
+        for (int i = 0; i < numPoints; i++) {
+
+            // First point
+            Point p1 = points[i];
+
+            // Second point
+            int j = i + A_PTS + 1;
+            Point p2 = points[j];
+
+            // Third point
+            int k = j + B_PTS + 1;
+            if (k >= numPoints) break; // Ensure indices are within bounds
+            Point p3 = points[k];
+
+            // Check if the circumcircle radius exceeds the given RADIUS1
+            double radius = Point.circumradius(p1, p2, p3);
+            if (radius > RADIUS1) {
                 return true;
             }
         }

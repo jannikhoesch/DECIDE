@@ -84,7 +84,7 @@ public class Decide {
                     case 2: // ORR
                         PUM[i][j] = CMV[i] || CMV[j];
                         break;
-                    case 777: // not at all
+                    case 3: // not at all
                         PUM[i][j] = true;
                         break;
                 }

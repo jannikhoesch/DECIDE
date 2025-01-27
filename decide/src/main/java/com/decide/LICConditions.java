@@ -184,6 +184,40 @@ public class LICConditions {
         return false;
     }
 
+    public static boolean LIC8(Point[] points, int A_PTS, int B_PTS, double RADIUS1, int numPoints){
+
+        // Validate parameters
+        if (A_PTS < 1 || B_PTS < 1) {
+            throw new IllegalArgumentException("A_PTS and B_PTS must each be greater than or equal to 1.");
+        }
+        if (A_PTS + B_PTS > numPoints - 3) {
+            throw new IllegalArgumentException("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.");
+        }
+
+        // Iterate through all sets of three points
+        for (int i = 0; i < numPoints; i++) {
+
+            // First point
+            Point p1 = points[i];
+
+            // Second point
+            int j = i + A_PTS + 1;
+            Point p2 = points[j];
+
+            // Third point
+            int k = j + B_PTS + 1;
+            if (k >= numPoints) break; // Ensure indices are within bounds
+            Point p3 = points[k];
+
+            // Check if the circumcircle radius exceeds the given RADIUS1
+            double radius = Point.circumradius(p1, p2, p3);
+            if (radius > RADIUS1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Checks if a set of three data points separated by C_PTS and D_PTS forms an angle less than PI-EPSILON or
      * greater than PI+EPSILON
@@ -237,43 +271,6 @@ public class LICConditions {
         return false;
     }
 
-    /**
-     * Checks if there is a set of three data points seperated by E_PTS and F_PTS that forms a triangle with area greater than AREA1 and
-     * a set that forms a triangle with area less than AREA2
-     * @param points
-     * @param E_PTS
-     * @param F_PTS
-     * @param AREA1
-     * @param AREA2
-     * @param numPoints
-     * @return {boolean}
-     */
-    public static boolean LIC14(Point[] points, int E_PTS, int F_PTS, double AREA1, double AREA2, int numPoints) {
-        if (numPoints < 5) {
-            return false;
-        }
-        int index = 0;
-        boolean cond1 = false;
-        boolean cond2 = false;
-        while (index + E_PTS + F_PTS < numPoints) {
-            Point A = points[index];
-            Point B = points[index + E_PTS];
-            Point C = points[index + E_PTS + F_PTS];
-            double area = Math.abs(0.5*(A.x*(B.y-C.y)-B.x*(C.y-A.y)+C.x*(A.y-B.y)));
-            if (area > AREA1) {
-                cond1 = true;
-            }
-            if (area < AREA2) {
-                cond2 = true;
-            }
-            if (cond1 == true && cond2 == true) {
-                return true;
-            }
-            index++;
-        }
-        return false;
-    }
-
     public static  boolean LIC13(Point[] points, int A_PTS, int B_PTS, double RADIUS1, double RADIUS2, int numPoints){
 
         // Input validation
@@ -316,36 +313,39 @@ public class LICConditions {
         return false;
     }
 
-    public static boolean LIC8(Point[] points, int A_PTS, int B_PTS, double RADIUS1, int numPoints){
-
-        // Validate parameters
-        if (A_PTS < 1 || B_PTS < 1) {
-            throw new IllegalArgumentException("A_PTS and B_PTS must each be greater than or equal to 1.");
+    /**
+     * Checks if there is a set of three data points seperated by E_PTS and F_PTS that forms a triangle with area greater than AREA1 and
+     * a set that forms a triangle with area less than AREA2
+     * @param points
+     * @param E_PTS
+     * @param F_PTS
+     * @param AREA1
+     * @param AREA2
+     * @param numPoints
+     * @return {boolean}
+     */
+    public static boolean LIC14(Point[] points, int E_PTS, int F_PTS, double AREA1, double AREA2, int numPoints) {
+        if (numPoints < 5) {
+            return false;
         }
-        if (A_PTS + B_PTS > numPoints - 3) {
-            throw new IllegalArgumentException("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.");
-        }
-
-        // Iterate through all sets of three points
-        for (int i = 0; i < numPoints; i++) {
-
-            // First point
-            Point p1 = points[i];
-
-            // Second point
-            int j = i + A_PTS + 1;
-            Point p2 = points[j];
-
-            // Third point
-            int k = j + B_PTS + 1;
-            if (k >= numPoints) break; // Ensure indices are within bounds
-            Point p3 = points[k];
-
-            // Check if the circumcircle radius exceeds the given RADIUS1
-            double radius = Point.circumradius(p1, p2, p3);
-            if (radius > RADIUS1) {
+        int index = 0;
+        boolean cond1 = false;
+        boolean cond2 = false;
+        while (index + E_PTS + F_PTS < numPoints) {
+            Point A = points[index];
+            Point B = points[index + E_PTS];
+            Point C = points[index + E_PTS + F_PTS];
+            double area = Math.abs(0.5*(A.x*(B.y-C.y)-B.x*(C.y-A.y)+C.x*(A.y-B.y)));
+            if (area > AREA1) {
+                cond1 = true;
+            }
+            if (area < AREA2) {
+                cond2 = true;
+            }
+            if (cond1 == true && cond2 == true) {
                 return true;
             }
+            index++;
         }
         return false;
     }

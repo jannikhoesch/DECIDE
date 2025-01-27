@@ -50,14 +50,10 @@ public class LICConditions {
         the length, LENGTH1, apart. (0 ≤ LENGTH1)
 
          */
-        if (length < 0) return false;
+        if (length < 0) return false; // Input validation
+
         for(int i = 0; i < numPoints - 1; i++){
-            double x_1 = points[i].x;
-            double y_1 = points[i].y;
-            double x_2 = points[i+1].x;
-            double y_2 = points[i+1].y;
-            // Calculate the euclidean distance
-            double distance = Math.sqrt(Math.pow(x_1 - x_2, 2) + Math.pow(y_1 - y_2, 2));
+            double distance = points[i].distance(points[i+1]);
             if (distance > length) return true;
         }
         return false;

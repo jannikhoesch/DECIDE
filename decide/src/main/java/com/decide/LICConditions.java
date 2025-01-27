@@ -239,42 +239,24 @@ public class LICConditions {
 
     public static  boolean LIC13(Point[] points, int A_PTS, int B_PTS, double RADIUS1, double RADIUS2, int numPoints){
 
-        // Input validation
-        if (numPoints < 5 || A_PTS < 1 || B_PTS < 1 || RADIUS2 < 0) {
+        if (RADIUS2 < 0) { // Input validation
             return false;
         }
+
+        if (numPoints < 5) return false;
 
         boolean cond1 = false;
         boolean cond2 = false;
 
-        // Iterate through all sets of three points
-        for (int i = 0; i < numPoints; i++) {
+        for (int i = 0; i + A_PTS + B_PTS < numPoints; i++) {
+            Point A = points[i];
+            Point B = points[i + A_PTS];
+            Point C = points[i + A_PTS + B_PTS];
 
-            // First point
-            Point p1 = points[i];
-
-            // Second point
-            int j = i + A_PTS + 1;
-            Point p2 = points[j];
-
-            // Third point
-            int k = j + B_PTS + 1;
-            if (k >= numPoints) break; // Ensure indices are within bounds
-            Point p3 = points[k];
-
-            // Get radius
-            double radius = Point.circumradius(p1, p2, p3);
-
-            // Update and check conditions
-            if (radius > RADIUS1) {
-                cond1 = true;
-            }
-            if (radius <= RADIUS2) {
-                cond2 = true;
-            }
-            if (cond1 && cond2) {
-                return true;
-            }
+            double radius = Point.circumradius(A, B, C);
+            if (radius > RADIUS1) cond1 = true;
+            if (radius <= RADIUS2) cond2 = true;
+            if (cond1 && cond2) return true;
         }
         return false;
     }

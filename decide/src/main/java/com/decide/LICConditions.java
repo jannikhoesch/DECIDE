@@ -273,27 +273,20 @@ public class LICConditions {
      * @return {boolean}
      */
     public static boolean LIC14(Point[] points, int E_PTS, int F_PTS, double AREA1, double AREA2, int numPoints) {
-        if (numPoints < 5) {
-            return false;
-        }
-        int index = 0;
+        if (numPoints < 5) return false;
+
         boolean cond1 = false;
         boolean cond2 = false;
-        while (index + E_PTS + F_PTS < numPoints) {
-            Point A = points[index];
-            Point B = points[index + E_PTS];
-            Point C = points[index + E_PTS + F_PTS];
-            double area = Math.abs(0.5*(A.x*(B.y-C.y)-B.x*(C.y-A.y)+C.x*(A.y-B.y)));
-            if (area > AREA1) {
-                cond1 = true;
-            }
-            if (area < AREA2) {
-                cond2 = true;
-            }
-            if (cond1 == true && cond2 == true) {
-                return true;
-            }
-            index++;
+
+        for (int i = 0; i + E_PTS + F_PTS < numPoints; i++) {
+            Point A = points[i];
+            Point B = points[i + E_PTS];
+            Point C = points[i + E_PTS + F_PTS];
+
+            double area = Point.area(A, B, C);
+            if (area > AREA1) cond1 = true;
+            if (area < AREA2) cond2 = true;
+            if (cond1 && cond2) return true;
         }
         return false;
     }

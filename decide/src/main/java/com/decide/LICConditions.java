@@ -167,7 +167,6 @@ public class LICConditions {
     }
 
     public static boolean LIC8(Point[] points, int A_PTS, int B_PTS, double RADIUS1, int numPoints){
-
         // Input validation
         if (A_PTS < 1 || B_PTS < 1) {
             throw new IllegalArgumentException("A_PTS and B_PTS must each be greater than or equal to 1.");

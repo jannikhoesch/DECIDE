@@ -140,7 +140,6 @@ public class LICConditionsTest {
         int numPoints2 = 4;
         assertTrue(LICConditions.LIC6(points2, parameters2, numPoints2));
 
-
         // Test Case 3: Points form a vertical line
         Point[] points3 = {new Point(0, 0), new Point(20, 4), new Point(0, 8), new Point(0, 12)};
         Parameters parameters3 = new Parameters(0, 0, 0, 0, 0, 0,
@@ -154,8 +153,8 @@ public class LICConditionsTest {
         7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints4 = 4;
         assertTrue(LICConditions.LIC6(points4, parameters4, numPoints4));
-
     }
+
     @Test
     void testLIC6False() {
         // Test Case 1: Points with the condition satisfied and perpendicular

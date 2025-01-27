@@ -97,7 +97,6 @@ public class LICConditions {
     }
 
     public static boolean LIC6(Point[] points, Parameters parameters, int numPoints){
-        // TODO: Refactor
         /*
         There exists at least one set of N PTS consecutive data points such that at least one of the
         points lies a distance greater than DIST from the line joining the first and last of these N PTS
@@ -109,42 +108,24 @@ public class LICConditions {
         int N_PTS = parameters.N_PTS;
         double DIST = parameters.DIST;
 
-        if (numPoints < 3) return false; // Automatically false in this case;
+        if (N_PTS < 3 || N_PTS > numPoints) return false; // Input validation
+        if (DIST < 0) return false; // Input validation
 
-        if (N_PTS < 3 || N_PTS > numPoints) return false;
+        if (numPoints < 3) return false;
 
-        if (DIST < 0) return false;
+        for (int i = 0; i + N_PTS <= numPoints; i++){
+            Point A = points[i];
+            Point B = points[i + N_PTS - 1];
 
-        for (int i = 0; i < numPoints; i++){
-            if (i + N_PTS - 1 >= numPoints) return false; // Not enough points left.
-            Point startPoint = points[i];
-            Point endPoint = points[i + N_PTS - 1];
-            if (startPoint.x == endPoint.x && startPoint.y == endPoint.y){ // Same start and end point
-                for(int j = i + 1; j < i + N_PTS - 1; j++){
-                    double distance = startPoint.distance(points[j]);
-                    if (distance > DIST) return true;
+            for (int j = i + 1; j < i + N_PTS - 1; j++){
+                Point p = points[j];
+                double distance;
+
+                if (A.x == B.x && A.y == B.y) {
+                    distance = p.distance(A);
+                } else {
+                    distance = p.distanceToLine(A, B);
                 }
-            }
-
-            for (int j=i+1; j < i + N_PTS - 1; j++){
-                // Check if the point is perpendicular to this line segment
-                double angleStart = Point.angle(points[j], startPoint, endPoint); // gets the angle at the start point
-                double angleEnd = Point.angle(points[j], endPoint, startPoint); // angle at the end point
-
-                boolean perpendicular = false;
-                if (angleStart < Math.PI/2 && angleEnd < Math.PI/2) perpendicular = true;
-
-                double distance = -1;
-                if (!perpendicular) {
-                    double distanceStart = points[j].distance(startPoint);
-                    double distanceEnd = points[j].distance(endPoint);
-                    distance = Math.min(distanceStart, distanceEnd);
-                }
-                else{
-                    // Calculate the perpendicular distance using the formula
-                    distance = points[j].distanceToLine(startPoint, endPoint);
-                }
-
                 if (distance > DIST) return true;
             }
         }

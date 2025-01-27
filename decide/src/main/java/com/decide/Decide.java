@@ -66,10 +66,10 @@ public class Decide {
         /*
          * LCM (Logical Connector Matrix) The LCM describes how individual LIC’s should be logically
          * combined. For example, the value of LCM[i,j] indicates whether LIC #i should combine
-         * with LIC #j by the logical AND, OR, or not at all, the values correspond to:
+         * with LIC #j by the logical AND, OR, or NOTUSED, the values correspond to:
          * 1 = ANDD
          * 2 = ORR
-         * 777 = not at all
+         * 3 = NOTUSED
          */
         
         boolean[][] PUM = new boolean[CMV.length][CMV.length];
@@ -84,7 +84,7 @@ public class Decide {
                     case 2: // ORR
                         PUM[i][j] = CMV[i] || CMV[j];
                         break;
-                    case 777: // not at all
+                    case 3: // NOTUSED
                         PUM[i][j] = true;
                         break;
                 }

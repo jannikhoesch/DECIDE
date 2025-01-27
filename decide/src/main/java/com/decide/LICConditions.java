@@ -226,13 +226,13 @@ public class LICConditions {
          * The condition is not met when NUMPOINTS < 3.
          */
         if (numPoints < 3) return false;
-        int G_PTS = parameters.G_PTS;
-         for (int i = 0; i < numPoints; i++){
 
-            if (i + G_PTS + 1 >= numPoints) break; // Not enough points left.
-            double x_i = points[i].x;
-            double x_j = points[i + G_PTS + 1].x;
-            if (x_j - x_i < 0) return true;
+        int G_PTS = parameters.G_PTS;
+        for (int i = 0; i  + G_PTS < numPoints; i++){
+            Point A = points[i];
+            Point B = points[i + G_PTS];
+
+            if (B.x - A.x < 0) return true;
         }
         return false;
     }

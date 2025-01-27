@@ -62,6 +62,26 @@ public class Decide {
         System.out.println("PUV: " + Arrays.toString(PUV));
     }
 
+
+    public static boolean[] FUV(boolean[] PUV, boolean[][] PUM) {
+        boolean[] FUV = new boolean[PUV.length];
+
+        for (int i = 0; i < PUV.length; i++) {
+            if (PUV[i] == false) {
+                FUV[i] = true;
+            } else {
+                FUV[i] = true;
+                for (int j = 0; j < PUM[i].length; j++) {
+                    if (PUM[i][j] == false) {
+                        FUV[i] = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return FUV;
+    }
+
     public static boolean DECIDE() {
         // Compute the values of the CMV, PUM and FUV and determine if the final decision is true or false
         return false;

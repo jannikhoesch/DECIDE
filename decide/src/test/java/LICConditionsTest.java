@@ -393,6 +393,70 @@ public class LICConditionsTest {
         }
 
         @Test
+        void testLIC10True() {
+                Point[] points = new Point[] {
+                                new Point(0, 0),
+                                new Point(1, 0),
+                                new Point(2, 2),
+                                new Point(3, 0),
+                                new Point(4, 3),
+                                new Point(5, 0)
+                };
+                int E_PTS = 1;
+                int F_PTS = 1;
+                double AREA1 = 0.5; // A triangle should exceed this area
+                int numPoints = points.length;
+
+                assertTrue(LICConditions.LIC10(points, E_PTS, F_PTS, AREA1, numPoints));
+        }
+
+        @Test
+        void testLIC10False() {
+                // Case 1: Area is too large
+                Point[] points1 = new Point[] {
+                                new Point(0, 0),
+                                new Point(1, 0),
+                                new Point(2, 1),
+                                new Point(3, 0),
+                                new Point(4, 1),
+                                new Point(5, 0)
+                };
+                int E_PTS1 = 1;
+                int F_PTS1 = 1;
+                double AREA1_1 = 5.0;
+                int numPoints1 = points1.length;
+                assertFalse(LICConditions.LIC10(points1, E_PTS1, F_PTS1, AREA1_1, numPoints1));
+
+                // Case 2: Not enough points
+                Point[] points2 = new Point[] {
+                                new Point(0, 0),
+                                new Point(1, 1),
+                                new Point(2, 2),
+                                new Point(3, 3)
+                };
+                int E_PTS2 = 1;
+                int F_PTS2 = 1;
+                double AREA1_2 = 1.0;
+                int numPoints2 = points2.length;
+                assertFalse(LICConditions.LIC10(points2, E_PTS2, F_PTS2, AREA1_2, numPoints2));
+
+                // Case 3: Invalid E_PTS value
+                Point[] points3 = new Point[] {
+                                new Point(0, 0),
+                                new Point(1, 0),
+                                new Point(2, 2),
+                                new Point(3, 0),
+                                new Point(4, 3),
+                                new Point(5, 0)
+                };
+                int E_PTS3 = 0; // Invalid value
+                int F_PTS3 = 1;
+                double AREA1_3 = 1.5;
+                int numPoints3 = points3.length;
+                assertFalse(LICConditions.LIC10(points3, E_PTS3, F_PTS3, AREA1_3, numPoints3));
+        }
+
+        @Test
         void testLIC11True() {
                 Point[] points = { new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(8, 0),
                                 new Point(-3, 10) };

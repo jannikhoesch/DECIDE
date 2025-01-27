@@ -250,6 +250,43 @@ public class LICConditions {
         return false;
     }
 
+    /**
+     * Determines if there exists a set of three points separated by exactly E_PTS
+     * and F_PTS
+     * consecutive intervening points, respectively, that form a triangle with an
+     * area greater
+     * than AREA1.
+     *
+     * @param points    An array of Point objects representing the coordinates of
+     *                  the points.
+     * @param E_PTS     The number of consecutive intervening points between the
+     *                  first and second points.
+     * @param F_PTS     The number of consecutive intervening points between the
+     *                  second and third points.
+     * @param AREA1     The area threshold that the triangle's area must exceed.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists a set of three points that form a triangle with
+     *         an area greater than AREA1, false otherwise.
+     */
+    public static boolean LIC10(Point[] points, int E_PTS, int F_PTS, double AREA1, int numPoints) {
+        if (numPoints < 5 || E_PTS < 1 || F_PTS < 1 || (E_PTS + F_PTS > numPoints - 3)) {
+            return false;
+        }
+
+        for (int i = 0; i + E_PTS + F_PTS + 2 < numPoints; i++) {
+            Point p1 = points[i];
+            Point p2 = points[i + E_PTS + 1];
+            Point p3 = points[i + E_PTS + F_PTS + 2];
+            double area = Point.area(p1, p2, p3);
+
+            if (area > AREA1) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean LIC11(Point[] points, Parameters parameters, int numPoints) {
         /*
          * There exists at least one set of two data points, (X[i],Y[i]) and

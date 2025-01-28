@@ -33,7 +33,6 @@ public class LICConditionsTest {
         assertFalse(LICConditions.LIC0(points2, length1, numPoints1));
     }
     
-    // LIC1:
     @Test
     void testLIC1True() {
         Point[] points = {new Point(0, 0), new Point(10, 0), new Point(1, 2), new Point(2, 3)};
@@ -148,7 +147,7 @@ public class LICConditionsTest {
         boolean result3 = LICConditions.LIC4(points3, QUADS, Q_PTS, numPoints);
         assertEquals(true, result3, "the test should be true");
     }
-    // LIC6:
+
     @Test
     void testLIC6True() {
         // Test Case 1: Points with the condition satisfied and perpendicular
@@ -165,7 +164,6 @@ public class LICConditionsTest {
         int numPoints2 = 4;
         assertTrue(LICConditions.LIC6(points2, parameters2, numPoints2));
 
-
         // Test Case 3: Points form a vertical line
         Point[] points3 = {new Point(0, 0), new Point(20, 4), new Point(0, 8), new Point(0, 12)};
         Parameters parameters3 = new Parameters(0, 0, 0, 0, 0, 0,
@@ -179,8 +177,8 @@ public class LICConditionsTest {
         7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints4 = 4;
         assertTrue(LICConditions.LIC6(points4, parameters4, numPoints4));
-
     }
+
     @Test
     void testLIC6False() {
         // Test Case 1: Points with the condition satisfied and perpendicular
@@ -210,70 +208,6 @@ public class LICConditionsTest {
         11, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         int numPoints4 = 4;
         assertFalse(LICConditions.LIC6(points4, parameters4, numPoints4));
-
-    }
-
-    @Test
-    void testLIC9() {
-        //we need at least 6 points, so this should be false
-        Point[] points = {new Point(0, 0), new Point(0, 0)};
-        int C_PTS = 2;
-        int D_PTS = 2;
-        double EPSILON = 0.14;
-        int numPoints = 2;
-        boolean result = LICConditions.LIC9(points, C_PTS, D_PTS, EPSILON, numPoints);
-        assertEquals(false, result, "the test should be false");
-
-        //the first three points should form an angle of pi/2, so this should be true
-        Point[] points2 = {new Point(1, 0), new Point(0, 0), new Point(0, 1), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
-        int C_PTS2 = 1;
-        int D_PTS2 = 1;
-        double EPSILON2 = 0.14;
-        int numPoints2 = 6;
-        boolean result2 = LICConditions.LIC9(points2, C_PTS2, D_PTS2, EPSILON2, numPoints2);
-        assertEquals(true, result2, "the test should be true");
-
-
-        //the 3rd point is on the vertex, and no other combination should give an angle either, so this should be false
-        Point[] points3 = {new Point(1, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
-        int C_PTS3 = 1;
-        int D_PTS3 = 1;
-        double EPSILON3 = 0.14;
-        int numPoints3 = 6;
-        boolean result3 = LICConditions.LIC9(points3, C_PTS3, D_PTS3, EPSILON3, numPoints3);
-        assertEquals(false, result3, "the test should be false");
-
-
-        //the 3 first points are on a straight line so this should be false
-        Point[] points4 = {new Point(1, 0), new Point(0, 0), new Point(-1, 0), new Point(-1, 0), new Point(0, 0), new Point(0, 0)};
-        int C_PTS4 = 1;
-        int D_PTS4 = 1;
-        double EPSILON4 = 0.14;
-        int numPoints4 = 6;
-        boolean result4 = LICConditions.LIC9(points4, C_PTS4, D_PTS4, EPSILON4, numPoints4);
-        assertEquals(false, result4, "the test should be false");
-    }
-    // LIC11:
-    @Test
-    void testLIC11True() {
-        Point[] points = {new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(8, 0), new Point(-3, 10)};
-        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0,
-            3, 0, 0, 0);
-        int numPoints = 5;
-        assertTrue(LICConditions.LIC11(points, parameters, numPoints));
-    }
-
-
-    @Test
-    void testLIC11False() {
-        // Test Case 1: There is no points i and j where x_j - x_i < 0
-        Point[] points = {new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(28, 0), new Point(10, 10), new Point(100, 100)};
-        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-            0, 4, 0, 0, 0);
-        int numPoints = 6;
-        assertFalse(LICConditions.LIC11(points, parameters, numPoints));
     }
 
     @Test
@@ -394,34 +328,66 @@ public class LICConditionsTest {
     }
 
     @Test
-    void testLIC14() {
+    void testLIC9() {
         //we need at least 6 points, so this should be false
         Point[] points = {new Point(0, 0), new Point(0, 0)};
-        int E_PTS = 2;
-        int F_PTS = 2;
-        double AREA1 = 0.14;
-        double AREA2 = 0.14;
+        int C_PTS = 2;
+        int D_PTS = 2;
+        double EPSILON = 0.14;
         int numPoints = 2;
-        assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+        boolean result = LICConditions.LIC9(points, C_PTS, D_PTS, EPSILON, numPoints);
+        assertEquals(false, result, "the test should be false");
 
-        //two triangles
-        // {(0, 0), (5, 0), (0, 4)} has area 10
-        // {(0, 0), (2, 0), (0, 3)} has area 3
-        points = new Point[]{new Point(0, 0), new Point(0, 0), new Point(5, 0), new Point(2, 0), new Point(0, 4), new Point(0, 3)};
-        E_PTS = 2;
-        F_PTS = 2;
-        AREA1 = 9;
-        AREA2 = 4;
-        numPoints = 6;
-        assertTrue(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
 
-        AREA1 = 11;
-        AREA2 = 4;
-        assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+        //the first three points should form an angle of pi/2, so this should be true
+        Point[] points2 = {new Point(1, 0), new Point(0, 0), new Point(0, 1), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
+        int C_PTS2 = 1;
+        int D_PTS2 = 1;
+        double EPSILON2 = 0.14;
+        int numPoints2 = 6;
+        boolean result2 = LICConditions.LIC9(points2, C_PTS2, D_PTS2, EPSILON2, numPoints2);
+        assertEquals(true, result2, "the test should be true");
 
-        AREA1 = 9;
-        AREA2 = 2;
-        assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+
+        //the 3rd point is on the vertex, and no other combination should give an angle either, so this should be false
+        Point[] points3 = {new Point(1, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0), new Point(0, 0)};
+        int C_PTS3 = 1;
+        int D_PTS3 = 1;
+        double EPSILON3 = 0.14;
+        int numPoints3 = 6;
+        boolean result3 = LICConditions.LIC9(points3, C_PTS3, D_PTS3, EPSILON3, numPoints3);
+        assertEquals(false, result3, "the test should be false");
+
+
+        //the 3 first points are on a straight line so this should be false
+        Point[] points4 = {new Point(1, 0), new Point(0, 0), new Point(-1, 0), new Point(-1, 0), new Point(0, 0), new Point(0, 0)};
+        int C_PTS4 = 1;
+        int D_PTS4 = 1;
+        double EPSILON4 = 0.14;
+        int numPoints4 = 6;
+        boolean result4 = LICConditions.LIC9(points4, C_PTS4, D_PTS4, EPSILON4, numPoints4);
+        assertEquals(false, result4, "the test should be false");
+    }
+
+    @Test
+    void testLIC11True() {
+        Point[] points = {new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(8, 0), new Point(-3, 10)};
+        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0,
+            3, 0, 0, 0);
+        int numPoints = 5;
+        assertTrue(LICConditions.LIC11(points, parameters, numPoints));
+    }
+
+    @Test
+    void testLIC11False() {
+        // Test Case 1: There is no points i and j where x_j - x_i < 0
+        Point[] points = {new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(28, 0), new Point(10, 10), new Point(100, 100)};
+        Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0,
+            0, 4, 0, 0, 0);
+        int numPoints = 6;
+        assertFalse(LICConditions.LIC11(points, parameters, numPoints));
     }
 
     @Test
@@ -500,7 +466,38 @@ public class LICConditionsTest {
                 LICConditions.LIC13(pointsCase4, A_PTS4, B_PTS4, RADIUS1Case4, RADIUS2Case4, numPoints4),
                 "Expected LIC13 to return false when NUMPOINTS is less than 5."
         );
-}
+    }
+
+    @Test
+    void testLIC14() {
+        //we need at least 6 points, so this should be false
+        Point[] points = {new Point(0, 0), new Point(0, 0)};
+        int E_PTS = 2;
+        int F_PTS = 2;
+        double AREA1 = 0.14;
+        double AREA2 = 0.14;
+        int numPoints = 2;
+        assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+
+        //two triangles
+        // {(0, 0), (5, 0), (0, 4)} has area 10
+        // {(0, 0), (2, 0), (0, 3)} has area 3
+        points = new Point[]{new Point(0, 0), new Point(0, 0), new Point(5, 0), new Point(2, 0), new Point(0, 4), new Point(0, 3)};
+        E_PTS = 2;
+        F_PTS = 2;
+        AREA1 = 9;
+        AREA2 = 4;
+        numPoints = 6;
+        assertTrue(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+
+        AREA1 = 11;
+        AREA2 = 4;
+        assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+
+        AREA1 = 9;
+        AREA2 = 2;
+        assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
+    }
 }
 
 

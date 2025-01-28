@@ -1,10 +1,7 @@
 package com.decide;
 
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.Arrays;
-import com.decide.Parameters;
-import com.decide.Point;
-import com.decide.LICConditions;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Decide {
     //Constants
@@ -91,6 +88,21 @@ public class Decide {
             }
         }
         return PUM;
+    }
+
+    /**
+     * Makes the final launch decision based on the Final Unlocking Vector (FUV). 
+     * The decision to launch requires all elements in FUV to be true.
+     * @param FUV
+     * @return {boolean}
+     */
+    public static boolean LAUNCH(boolean[] FUV) {
+        for (int i = 0; i < FUV.length; i++) {
+            if (FUV[i] == false) {
+                return false; // No launch
+            }
+        }
+        return true; // Launch
     }
 
     public static boolean input_valid(Parameters p, int NUMPOINTS){

@@ -123,20 +123,18 @@ public class Decide {
         PUM = PUM(CMV, LCM);
 
         // 2.3 Calculate FUV
-        //FUV = FUV(PUM, PUV);
+        FUV = FUV(PUV, PUM);
 
         // 2.4 Decide launch
-        //LAUNCH = LAUNCH(FUV);
+        LAUNCH = LAUNCH(FUV);
 
         return LAUNCH;
     }
 
     public static void main(String[] args) {
         init();
-        DECIDE();
-
-        // Print the output
-        System.out.println("Hello world!");
+        boolean result = DECIDE();
+        System.out.println("Final launch decision: " + result);
     }
 
 }

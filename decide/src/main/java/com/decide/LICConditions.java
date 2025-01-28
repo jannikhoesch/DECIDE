@@ -41,6 +41,25 @@ public class LICConditions {
         }
     } 
 
+    /**
+     * Determines whether there exists at least one pair of consecutive points in the given array
+     * such that the distance between them is greater than a specified length.
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param LENGTH1   The length to compare the distance against. Must be non-negative.
+     * @param numPoints The number of points in the array.
+     * @return          True if there exists at least one pair of consecutive points with a distance
+     *                  greater than LENGTH1, otherwise false.
+     */
+    public static boolean LIC0(Point[] points, double LENGTH1, int numPoints) {
+        if (LENGTH1 < 0) return false;
+        for (int i = 0; i < numPoints - 1; i++) {
+            double distance = points[i].distance(points[i + 1]);
+            if (distance > LENGTH1) return true;
+        }
+        return false;
+    }
+
     public static boolean LIC1(Point[] points, double length, int numPoints){
         /*
         There exists at least one set of two consecutive data points that are a distance greater than

@@ -10,6 +10,30 @@ import com.decide.Parameters;
 public class LICConditionsTest {
 
     @Test
+    void testLIC0True() {
+        // Test Case 1: Distance between consecutive points is greater than LENGTH1
+        Point[] points1 = {new Point(0, 0), new Point(10, 0), new Point(1, 2)};
+        double length1 = 5;
+        int numPoints1 = points1.length;
+        assertTrue(LICConditions.LIC0(points1, length1, numPoints1));
+    }
+
+    @Test
+    void testLIC0False() {
+        // Test Case 1: Distance between consecutive points is less than LENGTH1
+        Point[] points1 = {new Point(0, 0), new Point(1, 1), new Point(2, 2)};
+        double length1 = 5;
+        int numPoints1 = points1.length;
+        assertFalse(LICConditions.LIC0(points1, length1, numPoints1));
+
+        // Test Case 2: LENGTH1 is negative
+        Point[] points2 = {new Point(0, 0), new Point(3, 4), new Point(6, 8)};
+        length1 = -1;
+        numPoints1 = points2.length;
+        assertFalse(LICConditions.LIC0(points2, length1, numPoints1));
+    }
+    
+    @Test
     void testLIC1True() {
         Point[] points = {new Point(0, 0), new Point(10, 0), new Point(1, 2), new Point(2, 3)};
         double length = 5;
@@ -123,7 +147,7 @@ public class LICConditionsTest {
         boolean result3 = LICConditions.LIC4(points3, QUADS, Q_PTS, numPoints);
         assertEquals(true, result3, "the test should be true");
     }
-    // LIC6:
+
     @Test
     void testLIC6True() {
         // Test Case 1: Points with the condition satisfied and perpendicular

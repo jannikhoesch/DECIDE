@@ -11,27 +11,27 @@ public class LICConditions {
             case 1:
                 return LIC1(points, parameters.RADIUS1, numPoints);
             case 2:
-                return LIC2(points, parameters.EPSILON, numPoints);
+                //return LIC2(points, parameters.EPSILON, numPoints);
             case 3:
                 return LIC3(points, parameters.AREA1, numPoints);
             case 4:
                 return LIC4(points, parameters.QUADS, parameters.Q_PTS, numPoints);
             case 5:
-                return LIC5(points, numPoints);
+                //return LIC5(points, numPoints);
             case 6:
                 return LIC6(points, parameters.DIST, parameters.N_PTS, numPoints);
             case 7:
-                return LIC7(points, parameters.LENGTH1, parameters.K_PTS, numPoints);
+                //return LIC7(points, parameters.LENGTH1, parameters.K_PTS, numPoints);
             case 8:
                 return LIC8(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, numPoints);
             case 9:
                 return LIC9(points, parameters.C_PTS, parameters.D_PTS, parameters.EPSILON, numPoints);
             case 10:
-                return LIC10(points, parameters.E_PTS, parameters.F_PTS, parameters.AREA1, numPoints);
+                //return LIC10(points, parameters.E_PTS, parameters.F_PTS, parameters.AREA1, numPoints);
             case 11:
                 return LIC11(points, parameters.G_PTS, numPoints);
             case 12:
-                return LIC12(points, parameters.K_PTS, parameters.LENGTH1, parameters.LENGTH2, numPoints);
+                //return LIC12(points, parameters.K_PTS, parameters.LENGTH1, parameters.LENGTH2, numPoints);
             case 13:
                 return LIC13(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, parameters.RADIUS2, numPoints);
             case 14:

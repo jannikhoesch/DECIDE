@@ -11,7 +11,7 @@ public class LICConditions {
             case 1:
                 return LIC1(points, parameters.LENGTH1, numPoints);
             case 2:
-                return LIC2(points, parameters.RADIUS1, numPoints);
+                //return LIC2(points, parameters.RADIUS1, numPoints);
             case 3:
                 return LIC3(points, parameters.AREA1, numPoints);
             case 4:
@@ -21,7 +21,7 @@ public class LICConditions {
             case 6:
                 return LIC6(points, parameters.N_PTS, parameters.DIST, numPoints);
             case 7:
-                return LIC7(points, parameters.LENGTH1, parameters.LENGTH2, numPoints);
+                //return LIC7(points, parameters.LENGTH1, parameters.LENGTH2, numPoints);
             case 8:
                 return LIC8(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, numPoints);
             case 9:
@@ -31,7 +31,7 @@ public class LICConditions {
             case 11:
                 return LIC11(points, parameters.G_PTS, numPoints);
             case 12:
-                return LIC12(points, parameters.LENGTH1, parameters.LENGTH2, numPoints);
+                //return LIC12(points, parameters.LENGTH1, parameters.LENGTH2, numPoints);
             case 13:
                 return LIC13(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, parameters.RADIUS2, numPoints);
             case 14:

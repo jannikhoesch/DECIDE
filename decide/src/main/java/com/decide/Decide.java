@@ -24,7 +24,7 @@ public class Decide {
     private static boolean LAUNCH; // Launch decision
 
 
-    public static void init(){
+    public static Decide init(){
 
         // Initialize the input variables
         numPoints = 100;
@@ -61,6 +61,8 @@ public class Decide {
         System.out.println("parameters: " + parameters);
         System.out.println("LCM: " + Arrays.deepToString(LCM));
         System.out.println("PUV: " + Arrays.toString(PUV));
+
+        return new Decide();
     }
 
     public static boolean[][] PUM(boolean[] CMV, int[][] LCM){
@@ -123,17 +125,17 @@ public class Decide {
         PUM = PUM(CMV, LCM);
 
         // 2.3 Calculate FUV
-        FUV = FUV(PUV, PUM);
+        //FUV = FUV(PUV, PUM);
 
         // 2.4 Decide launch
-        LAUNCH = LAUNCH(FUV);
+        //LAUNCH = LAUNCH(FUV);
 
         return LAUNCH;
     }
 
     public static void main(String[] args) {
-        init();
-        boolean result = DECIDE();
+        Decide decide = init();
+        boolean result = decide.DECIDE();
         System.out.println("Final launch decision: " + result);
     }
 

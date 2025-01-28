@@ -13,9 +13,9 @@ import com.decide.Point;
 class DecideTest {
     @Test
     void testDecideLaunchDecision() {
-        Decide.init();
-        boolean launchDecision = Decide.DECIDE();
-        assertTrue(launchDecision);
+        Decide decide = Decide.init();
+        boolean launch = Decide.DECIDE();
+        assertTrue(launch);
         // assertFalse(launchDecision);
     }
 }

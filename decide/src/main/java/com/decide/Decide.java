@@ -93,6 +93,25 @@ public class Decide {
         return PUM;
     }
 
+    public static boolean input_valid(Parameters p, int NUMPOINTS){
+        if (p.LENGTH1 >= 0 && // LIC0
+            p.RADIUS1 >= 0 && // LIC1
+            p.EPSILON >= 0 && p.EPSILON < Math.PI  && // LIC2
+            p.AREA1 >= 0   && // LIC3
+            2 <= p.Q_PTS   && p.Q_PTS <= NUMPOINTS && 1 <= p.QUADS && p.QUADS <= 3 && // LIC4
+            3 <= p.N_PTS   && p.N_PTS <= NUMPOINTS && p.DIST >= 0 && // LIC6 (no check for LIC5)
+            1 <= p.K_PTS   && p.K_PTS <= NUMPOINTS - 2 && // LIC7
+            p.A_PTS >= 1   && p.B_PTS >= 1 && p.A_PTS + p.B_PTS <= NUMPOINTS - 3 &&//LIC8
+            p.C_PTS <= 1   && p.D_PTS <= 1 && p.C_PTS + p.D_PTS <= NUMPOINTS - 3 && //LIC9
+            p.E_PTS <= 1   && p.F_PTS <= 1 && p.E_PTS + p.F_PTS <= NUMPOINTS - 3 && //LIC10
+            1 <= p.G_PTS   && p.G_PTS <= NUMPOINTS -2 && //LIC11
+            p.LENGTH2 >= 0 && //LIC12
+            p.RADIUS2 >= 0 && //LIC13
+            p.AREA2 >= 0 //LIC14
+            ) return true;
+        return false;
+    }
+
     public static boolean DECIDE() {
         // Compute the values of the CMV, PUM and FUV and determine if the final decision is true or false
         return false;

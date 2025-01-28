@@ -51,6 +51,15 @@ public class PointTest {
     }
 
     @Test
+    public void testQuadrant() {
+        assertEquals(0, Point.quadrant(new Point(1, 1)));
+        assertEquals(1, Point.quadrant(new Point(-1, 1)));
+        assertEquals(2, Point.quadrant(new Point(-1, -1)));
+        assertEquals(3, Point.quadrant(new Point(1, -1)));
+        assertEquals(0, Point.quadrant(new Point(0, 0)));
+    }
+
+    @Test
     public void testToString() {
         Point p = new Point(1, 2);
         assertEquals("(1.0, 2.0)", p.toString());

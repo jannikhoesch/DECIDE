@@ -1,10 +1,7 @@
 package com.decide;
 
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.Arrays;
-import com.decide.Parameters;
-import com.decide.Point;
-import com.decide.LICConditions;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Decide {
     //Constants
@@ -62,6 +59,37 @@ public class Decide {
         System.out.println("PUV: " + Arrays.toString(PUV));
     }
 
+    public static boolean[][] PUM(boolean[] CMV, int[][] LCM){
+        /*
+         * LCM (Logical Connector Matrix) The LCM describes how individual LIC’s should be logically
+         * combined. For example, the value of LCM[i,j] indicates whether LIC #i should combine
+         * with LIC #j by the logical AND, OR, or NOTUSED, the values correspond to:
+         * 1 = ANDD
+         * 2 = ORR
+         * 3 = NOTUSED
+         */
+        
+        boolean[][] PUM = new boolean[CMV.length][CMV.length];
+
+        for (int i = 0; i < CMV.length; i++){
+            for (int j = 0; j < CMV.length; j++){
+                int operator = LCM[i][j];
+                switch (operator){
+                    case 1: // ANDD
+                        PUM[i][j] = CMV[i] && CMV[j];
+                        break;
+                    case 2: // ORR
+                        PUM[i][j] = CMV[i] || CMV[j];
+                        break;
+                    case 3: // NOTUSED
+                        PUM[i][j] = true;
+                        break;
+                }
+            }
+        }
+        return PUM;
+    }
+
     /**
      * Generates the Final Unlocking Vector (FUV) by using the Preliminary Unlocking
      * Vector (PUV) and the Preliminary Unlocking Vector (PUM). 
@@ -89,6 +117,40 @@ public class Decide {
             }
         }
         return FUV;
+    }
+    
+    /**
+     * Makes the final launch decision based on the Final Unlocking Vector (FUV). 
+     * The decision to launch requires all elements in FUV to be true.
+     * @param FUV
+     * @return {boolean}
+     */
+    public static boolean LAUNCH(boolean[] FUV) {
+        for (int i = 0; i < FUV.length; i++) {
+            if (FUV[i] == false) {
+                return false; // No launch
+            }
+        }
+        return true; // Launch
+    }
+
+    public static boolean input_valid(Parameters p, int NUMPOINTS){
+        if (p.LENGTH1 >= 0 && // LIC0
+            p.RADIUS1 >= 0 && // LIC1
+            p.EPSILON >= 0 && p.EPSILON < Math.PI  && // LIC2
+            p.AREA1 >= 0   && // LIC3
+            2 <= p.Q_PTS   && p.Q_PTS <= NUMPOINTS && 1 <= p.QUADS && p.QUADS <= 3 && // LIC4
+            3 <= p.N_PTS   && p.N_PTS <= NUMPOINTS && p.DIST >= 0 && // LIC6 (no check for LIC5)
+            1 <= p.K_PTS   && p.K_PTS <= NUMPOINTS - 2 && // LIC7
+            p.A_PTS >= 1   && p.B_PTS >= 1 && p.A_PTS + p.B_PTS <= NUMPOINTS - 3 &&//LIC8
+            p.C_PTS <= 1   && p.D_PTS <= 1 && p.C_PTS + p.D_PTS <= NUMPOINTS - 3 && //LIC9
+            p.E_PTS <= 1   && p.F_PTS <= 1 && p.E_PTS + p.F_PTS <= NUMPOINTS - 3 && //LIC10
+            1 <= p.G_PTS   && p.G_PTS <= NUMPOINTS -2 && //LIC11
+            p.LENGTH2 >= 0 && //LIC12
+            p.RADIUS2 >= 0 && //LIC13
+            p.AREA2 >= 0 //LIC14
+            ) return true;
+        return false;
     }
 
     public static boolean DECIDE() {

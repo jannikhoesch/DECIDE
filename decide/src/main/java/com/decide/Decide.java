@@ -21,6 +21,7 @@ public class Decide {
     private static boolean[] CMV = new boolean[licNumber]; // Conditions Met Vector
     private static boolean[][] PUM = new boolean[licNumber][licNumber]; // Preliminary Unlocking Matrix
     private static boolean[] FUV = new boolean[licNumber]; // Final Unlocking Vector
+    private static boolean LAUNCH; // Launch decision
 
 
     public static void init(){
@@ -94,16 +95,26 @@ public class Decide {
     }
 
     public static boolean DECIDE() {
-        // Compute the values of the CMV, PUM and FUV and determine if the final decision is true or false
-        return false;
+        // 2.1 Calculate CMV
+        for (int i = 0; i < licNumber; i++) {
+            CMV[i] = LICConditions.evaluateLIC(i, points, parameters, numPoints);
+        }
+
+        // 2.2 Calculate PUM
+        PUM = PUM(CMV, LCM);
+
+        // 2.3 Calculate FUV
+
+        // 2.4 Decide launch
+
+        return LAUNCH;
     }
 
     public static void main(String[] args) {
         init();
-        DECIDE();
+        boolean result = DECIDE();
 
         // Print the output
-        System.out.println("Hello world!");
+        System.out.println("Final launch decision: " + result);
     }
-
 }

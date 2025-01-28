@@ -66,15 +66,14 @@ public class LICConditions {
     }
 
     /**
-     * There exists at least one set of two consecutive data points that are a
-     * distance greater than the length, LENGTH1, apart. (0 ≤ LENGTH1)
+     *  There exists at least one set of three consecutive data points that cannot all be contained
+     *  within or on a circle of radius RADIUS1.
      *
      * @param points    An array of Point objects representing the coordinates.
      * @param RADIUS1    The radius to compare the circumradius to, it must be positive.
      * @param numPoints The number of points in the array.
-     * @return True if there exists at least one pair of consecutive points with a
-     *         distance
-     *         greater than length, otherwise false.
+     * @return True if there exists at least one set of three consecutive points that 
+     *         cannot be contained within a circle of radius RADIUS1.
      */
     public static boolean LIC1(Point[] points, double RADIUS1, int numPoints) {
         for (int i = 0; i < numPoints - 2; i++){

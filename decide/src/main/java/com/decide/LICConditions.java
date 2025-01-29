@@ -83,11 +83,8 @@ public class LICConditions {
             double circumradius = Point.circumradius(p1, p2, p3);
             if (circumradius > RADIUS1) {
                 if (Double.isInfinite(circumradius)) { // The points lie on a line, can't use circumradius.
-                    double d12 = p1.distance(p2);
-                    double d13 = p1.distance(p3);
-                    double d23 = p2.distance(p3);
-                    double maxDist = Math.max(d12, Math.max(d13, d23));
-                    if (maxDist > RADIUS1 * 2){
+                    double radius = Point.circleLineSegment(p1, p2, p3);
+                    if (radius > RADIUS1){
                         return true;
                     }
                 }

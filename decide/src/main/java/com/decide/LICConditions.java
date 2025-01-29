@@ -1,8 +1,5 @@
 package com.decide;
 
-import com.decide.Parameters;
-import com.decide.Point;
-
 public class LICConditions {
     public static boolean evaluateLIC(int licIndex, Point[] points, Parameters parameters, int numPoints) {
         switch (licIndex) {
@@ -31,7 +28,7 @@ public class LICConditions {
             case 11:
                 return LIC11(points, parameters.G_PTS, numPoints);
             case 12:
-                //return LIC12(points, parameters.LENGTH1, parameters.LENGTH2, numPoints);
+                return LIC12(points, parameters.K_PTS, parameters.LENGTH1, parameters.LENGTH2, numPoints);
             case 13:
                 return LIC13(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, parameters.RADIUS2, numPoints);
             case 14:
@@ -352,6 +349,44 @@ public class LICConditions {
 
             if (B.x - A.x < 0)
                 return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines if there exists at least one set of two data points, separated by 
+     * exactly K_PTS consecutive intervening points, which are a distance greater than LENGTH1
+     * and one set of two data points that  are a distance less than LENGTH2. 
+     * The condition is not met when NUMPOINTS < 3. 
+     * @param points    An array of Point objects representing the coordinates.
+     * @param K_PTS     The number of consecutive intervening points between two data points that form a set
+     * @param LENGTH1   The first length to compare the distance against. Must be non-negative.
+     * @param LENGTH2   The second length to compare the distance against. Must be non-negative.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one set of two data points that form a distance longer than LENGTH1
+     *         and one data set smaller than LENGTH2, otherwise false.
+     */
+    public static boolean LIC12(Point[] points, int K_PTS, double LENGTH1, double LENGTH2, int numPoints) {
+        if (numPoints < 3) {
+            return false;
+        }
+
+        boolean cond1 = false;
+        boolean cond2 = false;
+
+        for (int i = 0; i + K_PTS < numPoints; i++) {
+            Point A = points[i];
+            Point B =  points[i + K_PTS];
+            double distance = A.distance(B);
+            if (distance > LENGTH1) {
+                cond1 = true;
+            }
+            if (distance < LENGTH2) {
+                cond2 = true;
+            }
+            if (cond1 == true && cond2 == true) {
+                return true;
+            }
         }
         return false;
     }

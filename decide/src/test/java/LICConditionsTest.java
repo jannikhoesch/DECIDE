@@ -500,6 +500,32 @@ public class LICConditionsTest {
         }
 
         @Test
+        void testLIC12True() {
+                Point[] points = {new Point(0, 0), new Point(1.1, 0), new Point(0, 0), new Point(0.9, 0)};
+                int K_PTS = 1;
+                double LENGTH1 = 1;
+                double LENGTH2 = 1;
+                int numPoints = 4;
+                assertTrue(LICConditions.LIC12(points, K_PTS, LENGTH1, LENGTH2, numPoints));
+        }
+
+        @Test
+        void testLIC12False() {
+                // Test Case 1: too few points
+                Point[] points = {new Point(0, 0), new Point(1.1, 0)};
+                int K_PTS = 1;
+                double LENGTH1 = 1;
+                double LENGTH2 = 1;
+                int numPoints = 2;
+                assertFalse(LICConditions.LIC12(points, K_PTS, LENGTH1, LENGTH2, numPoints));
+
+                // Test Case 2: the longest distance is 1 which is not strictly bigger than LENGTH1 (=1). 
+                Point[] points2 = {new Point(0, 0), new Point(1, 0), new Point(0, 0), new Point(0.9, 0)};
+                numPoints = 4;
+                assertFalse(LICConditions.LIC12(points2, K_PTS, LENGTH1, LENGTH2, numPoints));
+        }
+
+        @Test
         void testLIC13() {
                 // Test Case 1: Conditions are met (radius > RADIUS1 and radius <= RADIUS2)
                 Point[] pointsCase1 = {

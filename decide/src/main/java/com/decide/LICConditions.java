@@ -279,8 +279,15 @@ public class LICConditions {
             Point C = points[i + A_PTS + B_PTS];
 
             double radius = Point.circumradius(A, B, C);
-            if (radius > RADIUS1)
-                return true;
+            if (radius > RADIUS1) {
+                if (Double.isInfinite(radius)) {
+                    radius = Point.circleLineSegment(A, B, C);
+                    if (radius > RADIUS1){
+                        return true;
+                    }
+                }
+                else return true;
+            }
         }
         return false;
     }
@@ -421,9 +428,17 @@ public class LICConditions {
 
             double radius = Point.circumradius(A, B, C);
             if (radius > RADIUS1)
-                cond1 = true;
+                if (Double.isInfinite(radius)) {
+                    radius = Point.circleLineSegment(A, B, C);
+                    if (radius > RADIUS1) cond1 = true;
+                }
+                else cond1 = true;
             if (radius <= RADIUS2)
-                cond2 = true;
+                if (Double.isInfinite(radius)) {
+                    radius = Point.circleLineSegment(A, B, C);
+                    if (radius <= RADIUS2) cond2 = true;
+                }
+                else cond2 = true;
             if (cond1 && cond2)
                 return true;
         }

@@ -355,7 +355,7 @@ public class LICConditionsTest {
                                 "Expected IllegalArgumentException to be thrown for A_PTS + B_PTS > NUMPOINTS - 3");
                 assertEquals("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.", exception2.getMessage());
 
-                // Test Case 6: Points are collinear -> satisfy the condition
+                // Test Case 6: Points are on a line and can be contained in circle with radius 10
                 Point[] pointsCase6 = {
                                 new Point(0, 0),
                                 new Point(1, 0),
@@ -368,9 +368,9 @@ public class LICConditionsTest {
                 double RADIUS1Case6 = 10.0;
                 int numPoints6 = pointsCase6.length;
 
-                assertTrue(
+                assertFalse(
                                 LICConditions.LIC8(pointsCase6, A_PTS6, B_PTS6, RADIUS1Case6, numPoints6),
-                                "Expected LIC8 to return true for collinear points that cannot be contained in a circle");
+                                "Expected LIC8 to return false for collinear points that can be contained in a circle");
         }
 
         @Test

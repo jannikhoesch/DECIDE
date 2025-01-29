@@ -80,6 +80,54 @@ public class LICConditionsTest {
         }
 
         @Test
+        void testLIC2True() {
+                // Test Case 1: Points form an angle less than PI - EPSILON
+                Point[] points1 = { new Point(0, 0), new Point(1, 1), new Point(2, 3) };
+                double epsilon1 = 0.1;
+                int numPoints1 = points1.length;
+                assertTrue(LICConditions.LIC2(points1, epsilon1, numPoints1));
+
+                // Test Case 2: Points form an angle greater than PI + EPSILON
+                Point[] points2 = { new Point(0, 0), new Point(1, 1), new Point(2, 1) };
+                double epsilon2 = 0.1;
+                int numPoints2 = points2.length;
+                assertTrue(LICConditions.LIC2(points2, epsilon2, numPoints2));
+        }
+
+        @Test
+        void testLIC2False() {
+                // Test Case 1: Points form an angle equal to PI
+                Point[] points1 = { new Point(0, 0), new Point(1, 0), new Point(2, 0) };
+                double epsilon1 = 0.1;
+                int numPoints1 = points1.length;
+                assertFalse(LICConditions.LIC2(points1, epsilon1, numPoints1));
+
+                // Test Case 2: Less than 3 points provided
+                Point[] points2 = { new Point(0, 0), new Point(1, 1) };
+                double epsilon2 = 0.1;
+                int numPoints2 = points2.length;
+                assertFalse(LICConditions.LIC2(points2, epsilon2, numPoints2));
+
+                // Test Case 3: EPSILON is negative
+                Point[] points3 = { new Point(0, 0), new Point(1, 1), new Point(2, 0) };
+                double epsilon3 = -0.1;
+                int numPoints3 = points3.length;
+                Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+                        LICConditions.LIC2(points3, epsilon3, numPoints3);
+                });
+                assertEquals("EPSILON must be in the range [0, PI).", exception.getMessage());
+
+                // Test Case 4: EPSILON is greater than or equal to PI
+                Point[] points4 = { new Point(0, 0), new Point(1, 1), new Point(2, 0) };
+                double epsilon4 = Math.PI;
+                int numPoints4 = points4.length;
+                Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
+                        LICConditions.LIC2(points4, epsilon4, numPoints4);
+                });
+                assertEquals("EPSILON must be in the range [0, PI).", exception2.getMessage());
+        }
+
+        @Test
         void testLIC3() {
                 // Case 1: An area greater than AREA1 exists
                 Point[] points1 = {

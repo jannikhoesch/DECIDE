@@ -90,6 +90,45 @@ public class LICConditions {
     }
 
     /**
+     * Determines whether there exists at least one set of three consecutive data points
+     * which form an angle such that angle < (PI−EPSILON) or angle > (PI + EPSILON).
+     * The second of the three consecutive points is always the vertex of the angle.
+     * If either the first point or the last point (or both) coincides with the vertex,
+     * the angle is undefined and the LIC is not satisfied by those three points.
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param RADIUS1   The radius to compare against.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one set of three consecutive points that form an angle
+     *         such that angle < (PI−EPSILON) or angle > (PI + EPSILON), otherwise false.
+     */
+    public static boolean LIC2(Point[] points, double EPSILON, int numPoints) {
+        if (EPSILON < 0 || EPSILON >= Math.PI) {
+            throw new IllegalArgumentException("EPSILON must be in the range [0, PI).");
+        }
+
+        if (numPoints < 3) {
+            return false;
+        }
+
+        for (int i = 0; i < numPoints - 2; i++) {
+            Point A = points[i];
+            Point B = points[i + 1];
+            Point C = points[i + 2];
+
+            if ((A.x == B.x && A.y == B.y) || (C.x == B.x && C.y == B.y)) {
+                continue;
+            }
+
+            double angle = Point.angle(A, B, C);
+            if (angle < Math.PI - EPSILON || angle > Math.PI + EPSILON) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Determines whether there exists at least one set of three consecutive points
      * that form a triangle with an area greater than a specified value.
      *

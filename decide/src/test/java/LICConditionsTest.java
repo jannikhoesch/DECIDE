@@ -179,62 +179,62 @@ public class LICConditionsTest {
         void testLIC6True() {
                 // Test Case 1: Points with the condition satisfied and perpendicular
                 Point[] points1 = { new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(8, 0) };
-                Parameters parameters1 = new Parameters(0, 0, 0, 0, 0, 0,
-                                5, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                double dist1 = 5;
+                int N_PTS1 = 3;
                 int numPoints1 = 4;
-                assertTrue(LICConditions.LIC6(points1, parameters1, numPoints1));
+                assertTrue(LICConditions.LIC6(points1, N_PTS1, dist1, numPoints1));
 
                 // Test Case 2: First and last point of N_PTS are the same
                 Point[] points2 = { new Point(0, 0), new Point(4, 3), new Point(0, 0), new Point(0, 4) };
-                Parameters parameters2 = new Parameters(0, 0, 0, 0, 0, 0,
-                                2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                double dist2 = 2;
+                int N_PTS2 = 3;
                 int numPoints2 = 4;
-                assertTrue(LICConditions.LIC6(points2, parameters2, numPoints2));
+                assertTrue(LICConditions.LIC6(points2, N_PTS2, dist2, numPoints2));
 
                 // Test Case 3: Points form a vertical line
                 Point[] points3 = { new Point(0, 0), new Point(20, 4), new Point(0, 8), new Point(0, 12) };
-                Parameters parameters3 = new Parameters(0, 0, 0, 0, 0, 0,
-                                10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                double dist3 = 10;
+                int N_PTS3 = 3;
                 int numPoints3 = 4;
-                assertTrue(LICConditions.LIC6(points3, parameters3, numPoints3));
+                assertTrue(LICConditions.LIC6(points3, N_PTS3, dist3, numPoints3));
 
                 // Test Case 4: Line segment has derivative 0
                 Point[] points4 = { new Point(0, 0), new Point(1, 5), new Point(10, 0), new Point(0, 0) };
-                Parameters parameters4 = new Parameters(0, 0, 0, 0, 0, 0,
-                                7, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                double dist4 = 7;
+                int N_PTS4 = 4;
                 int numPoints4 = 4;
-                assertTrue(LICConditions.LIC6(points4, parameters4, numPoints4));
+                assertTrue(LICConditions.LIC6(points4, N_PTS4, dist4, numPoints4));
         }
 
         @Test
         void testLIC6False() {
                 // Test Case 1: Points with the condition satisfied and perpendicular
                 Point[] points1 = { new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(8, 0) };
-                Parameters parameters1 = new Parameters(0, 0, 0, 0, 0, 0,
-                                30, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                double dist1 = 30;
+                int N_PTS1 = 4;
                 int numPoints1 = 4;
-                assertFalse(LICConditions.LIC6(points1, parameters1, numPoints1));
+                assertFalse(LICConditions.LIC6(points1, N_PTS1, dist1, numPoints1));
 
                 // Test Case 2: First and last point of N_PTS are the same
                 Point[] points2 = { new Point(0, 0), new Point(1, 1), new Point(0, 0), new Point(0, 1) };
-                Parameters parameters2 = new Parameters(0, 0, 0, 0, 0, 0,
-                                10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                double dist2 = 2;
+                int N_PTS2 = 3;
                 int numPoints2 = 4;
-                assertFalse(LICConditions.LIC6(points2, parameters2, numPoints2));
+                assertFalse(LICConditions.LIC6(points2, N_PTS2, dist2, numPoints2));
 
                 // Test Case 3: Points form a vertical line
                 Point[] points3 = { new Point(0, 0), new Point(0, 4), new Point(0, 8), new Point(0, 12) };
-                Parameters parameters3 = new Parameters(0, 0, 0, 0, 0, 0,
-                                10, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                double dist3 = 10;
+                int N_PTS3 = 3;
                 int numPoints3 = 4;
-                assertFalse(LICConditions.LIC6(points3, parameters3, numPoints3));
+                assertFalse(LICConditions.LIC6(points3, N_PTS3, dist3, numPoints3));
 
                 // Test Case 4: Line segment has derivative 0
                 Point[] points4 = { new Point(0, 0), new Point(1, 5), new Point(10, 0), new Point(0, 0) };
-                Parameters parameters4 = new Parameters(0, 0, 0, 0, 0, 0,
-                                11, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+                double dist4 = 11;
+                int N_PTS4 = 4;
                 int numPoints4 = 4;
-                assertFalse(LICConditions.LIC6(points4, parameters4, numPoints4));
+                assertFalse(LICConditions.LIC6(points4, N_PTS4, dist4, numPoints4));
         }
 
         @Test
@@ -458,11 +458,9 @@ public class LICConditionsTest {
         void testLIC11True() {
                 Point[] points = { new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(8, 0),
                                 new Point(-3, 10) };
-                Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0, 0,
-                                3, 0, 0, 0);
+                int G_PTS = 3;
                 int numPoints = 5;
-                assertTrue(LICConditions.LIC11(points, parameters, numPoints));
+                assertTrue(LICConditions.LIC11(points, G_PTS, numPoints));
         }
 
         @Test
@@ -470,11 +468,9 @@ public class LICConditionsTest {
                 // Test Case 1: There is no points i and j where x_j - x_i < 0
                 Point[] points = { new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(28, 0),
                                 new Point(10, 10), new Point(100, 100) };
-                Parameters parameters = new Parameters(0, 0, 0, 0, 0, 0,
-                                0, 0, 0, 0, 0, 0, 0, 0,
-                                0, 4, 0, 0, 0);
+                int G_PTS = 4;
                 int numPoints = 6;
-                assertFalse(LICConditions.LIC11(points, parameters, numPoints));
+                assertFalse(LICConditions.LIC11(points, G_PTS, numPoints));
         }
 
         @Test

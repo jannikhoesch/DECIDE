@@ -73,25 +73,55 @@ Especially in the beginning, most group members who had not worked with Git befo
 Using the **Essence Standard Checklist**, we currently consider ourselves to be in the **“In Place”** state since using the tools is working properly, but we are still not entirely used to working with Git in this way yet, which causes some problems to arise from time to time. We believe, however, that more practice will optimize our way of working and that we are on a good path to reaching an efficient workflow.  
 
 
-## Task Distribution  
+## Task Distribution & Reflections  
 
 ### **Harald**  
-- LIC 1, LIC 6, LIC 11  
-- PUM method  
-- LIC Input validation  
-- Point method `circleLineSegment`  
+- **Tasks:**  
+  - LIC 1, LIC 6, LIC 11  
+  - PUM method  
+  - LIC Input validation  
+  - Point helper method `circleLineSegment`  
+
+- **Reflection:**  
+  I feel like, while the programming was quite simple, I’m very proud of the teamwork the group has shown. We’ve worked well together and helped each other out, which is what this assignment is really about. We’ve delegated work effectively, and even though one group member dropped the course one day before the presentation, we solved those issues anyway.  
+
+  Personally, I’m also happy to have improved my Git skills since I had only used Git for very simple version control before, without proper pull requests and code reviews.
+
+---
 
 ### **Jannik**  
-- LIC 3, LIC 8, LIC 13  
-- Refactoring of LIC methods  
-- `DECIDE` method  
+- **Tasks:**  
+  - LIC 3, LIC 8, LIC 13  
+  - Refactoring of LIC methods  
+  - `DECIDE` method  
+
+- **Reflection:**  
+  In the beginning, this assignment was quite challenging because I had not worked with Git a lot. After some days, the process of creating issues, branches, and pull requests became clearer, and I am glad to have learned the proper use of Git in a group project.  
+
+  I think that the team has worked together very well, and the final result is remarkable.
+
+---
 
 ### **Amanda**  
-- LIC 4, LIC 9, LIC 14  
-- `FUV` method  
-- `LAUNCH` method  
+- **Tasks:**  
+  - LIC 4, LIC 7, LIC 9, LIC 12, LIC 14  
+  - `FUV` method  
+  - `LAUNCH` method  
+
+- **Reflection:**  
+  I had never used Git before and found it a bit overwhelming at first. However, after just a week, I feel much more comfortable using it, which is good since it is such a useful tool.  
+
+  I am also very happy with the teamwork since everyone has been helpful, collaborative, and contributed to the project.
+
+---
 
 ### **Zyad**  
-- LIC 0, LIC 2, LIC 5, LIC 10  
-- Documentation  
-- Point helper methods  
+- **Tasks:**  
+  - LIC 0, LIC 2, LIC 5, LIC 10  
+  - Documentation  
+  - Point helper methods  
+
+- **Reflection:**  
+  While I’ve used Git in projects before, I wasn’t accustomed to using issues and linking them with pull requests in a rigorous manner. This project opened my eyes to the issue tracking capabilities of GitHub, and I’m thankful that, as a group, we worked really well together and collaborated deeply.  
+
+  Had it not been the case, the GitHub repository wouldn’t have been this clean.

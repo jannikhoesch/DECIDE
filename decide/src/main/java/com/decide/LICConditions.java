@@ -63,25 +63,30 @@ public class LICConditions {
     }
 
     /**
-     * There exists at least one set of two consecutive data points that are a
-     * distance greater than the length, LENGTH1, apart. (0 ≤ LENGTH1)
+     *  There exists at least one set of three consecutive data points that cannot all be contained
+     *  within or on a circle of radius RADIUS1.
      *
      * @param points    An array of Point objects representing the coordinates.
-     * @param length    The length to compare the distance against. Must be
-     *                  non-negative.
+     * @param RADIUS1    The radius to compare the circumradius to, it must be positive.
      * @param numPoints The number of points in the array.
-     * @return True if there exists at least one pair of consecutive points with a
-     *         distance
-     *         greater than length, otherwise false.
+     * @return True if there exists at least one set of three consecutive points that 
+     *         cannot be contained within a circle of radius RADIUS1.
      */
-    public static boolean LIC1(Point[] points, double length, int numPoints) {
-        if (length < 0)
-            return false;
-
-        for (int i = 0; i < numPoints - 1; i++) {
-            double distance = points[i].distance(points[i + 1]);
-            if (distance > length)
-                return true;
+    public static boolean LIC1(Point[] points, double RADIUS1, int numPoints) {
+        for (int i = 0; i < numPoints - 2; i++){
+            Point p1 = points[i];
+            Point p2 = points[i+1];
+            Point p3 = points[i+2];
+            double circumradius = Point.circumradius(p1, p2, p3);
+            if (circumradius > RADIUS1) {
+                if (Double.isInfinite(circumradius)) { // The points lie on a line, can't use circumradius.
+                    double radius = Point.circleLineSegment(p1, p2, p3);
+                    if (radius > RADIUS1){
+                        return true;
+                    }
+                }
+                else return true;
+            }
         }
         return false;
     }

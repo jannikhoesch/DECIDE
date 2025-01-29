@@ -3,6 +3,10 @@ package com.decide;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.decide.LICConditions;
+import com.decide.Parameters;
+import com.decide.Point;
+
 public class Decide {
     //Constants
     private static final int licNumber = 15;
@@ -166,16 +170,20 @@ public class Decide {
         PUM = PUM(CMV, LCM);
 
         // 2.3 Calculate FUV
-        //FUV = FUV(PUV, PUM);
+        FUV = FUV(PUV, PUM);
 
         // 2.4 Decide launch
-        //LAUNCH = LAUNCH(FUV);
+        LAUNCH = LAUNCH(FUV);
 
         return LAUNCH;
     }
 
     public static void main(String[] args) {
         Decide decide = init();
+        if(!input_valid(decide.parameters, decide.numPoints)){
+            System.out.println("Invalid input parameters");
+            return;
+        }
         boolean result = decide.DECIDE();
         System.out.println("Final launch decision: " + result);
     }

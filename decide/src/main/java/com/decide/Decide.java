@@ -141,24 +141,32 @@ public class Decide {
         return true; // Launch
     }
 
-    public static boolean input_valid(Parameters p, int NUMPOINTS){
-        if (p.LENGTH1 >= 0 && // LIC0
-            p.RADIUS1 >= 0 && // LIC1
-            p.EPSILON >= 0 && p.EPSILON < Math.PI  && // LIC2
-            p.AREA1 >= 0   && // LIC3
-            2 <= p.Q_PTS   && p.Q_PTS <= NUMPOINTS && 1 <= p.QUADS && p.QUADS <= 3 && // LIC4
-            3 <= p.N_PTS   && p.N_PTS <= NUMPOINTS && p.DIST >= 0 && // LIC6 (no check for LIC5)
-            1 <= p.K_PTS   && p.K_PTS <= NUMPOINTS - 2 && // LIC7
-            p.A_PTS >= 1   && p.B_PTS >= 1 && p.A_PTS + p.B_PTS <= NUMPOINTS - 3 &&//LIC8
-            p.C_PTS <= 1   && p.D_PTS <= 1 && p.C_PTS + p.D_PTS <= NUMPOINTS - 3 && //LIC9
-            p.E_PTS <= 1   && p.F_PTS <= 1 && p.E_PTS + p.F_PTS <= NUMPOINTS - 3 && //LIC10
-            1 <= p.G_PTS   && p.G_PTS <= NUMPOINTS -2 && //LIC11
-            p.LENGTH2 >= 0 && //LIC12
-            p.RADIUS2 >= 0 && //LIC13
-            p.AREA2 >= 0 //LIC14
-            ) return true;
-        return false;
+    public static boolean input_valid(Parameters p, int NUMPOINTS) {
+        if (p.LENGTH1 < 0) throw new IllegalArgumentException("Invalid input for LIC0: LENGTH1 must be >= 0");
+        if (p.RADIUS1 < 0) throw new IllegalArgumentException("Invalid input for LIC1: RADIUS1 must be >= 0");
+        if (p.EPSILON < 0 || p.EPSILON >= Math.PI) throw new IllegalArgumentException("Invalid input for LIC2: 0 <= EPSILON < π");
+        if (p.AREA1 < 0) throw new IllegalArgumentException("Invalid input for LIC3: AREA1 must be >= 0");
+        if (p.Q_PTS < 2 || p.Q_PTS > NUMPOINTS || p.QUADS < 1 || p.QUADS > 3) 
+            throw new IllegalArgumentException("Invalid input for LIC4: 2 <= Q_PTS <= NUMPOINTS and 1 <= QUADS <= 3");
+        if (p.N_PTS < 3 || p.N_PTS > NUMPOINTS || p.DIST < 0) 
+            throw new IllegalArgumentException("Invalid input for LIC6: 3 <= N_PTS <= NUMPOINTS and DIST must be >= 0");
+        if (p.K_PTS < 1 || p.K_PTS > NUMPOINTS - 2) 
+            throw new IllegalArgumentException("Invalid input for LIC7: 1 <= K_PTS <= NUMPOINTS - 2");
+        if (p.A_PTS < 1 || p.B_PTS < 1 || p.A_PTS + p.B_PTS > NUMPOINTS - 3) 
+            throw new IllegalArgumentException("Invalid input for LIC8: 1 <= A_PTS, B_PTS and A_PTS + B_PTS <= NUMPOINTS - 3");
+        if (p.C_PTS < 1 || p.D_PTS < 1 || p.C_PTS + p.D_PTS > NUMPOINTS - 3) 
+            throw new IllegalArgumentException("Invalid input for LIC9: 1 <= C_PTS, D_PTS and C_PTS + D_PTS <= NUMPOINTS - 3");
+        if (p.E_PTS < 1 || p.F_PTS < 1 || p.E_PTS + p.F_PTS > NUMPOINTS - 3) 
+            throw new IllegalArgumentException("Invalid input for LIC10: 1 <= E_PTS, F_PTS and E_PTS + F_PTS <= NUMPOINTS - 3");
+        if (p.G_PTS < 1 || p.G_PTS > NUMPOINTS - 2) 
+            throw new IllegalArgumentException("Invalid input for LIC11: 1 <= G_PTS <= NUMPOINTS - 2");
+        if (p.LENGTH2 < 0) throw new IllegalArgumentException("Invalid input for LIC12: LENGTH2 must be >= 0");
+        if (p.RADIUS2 < 0) throw new IllegalArgumentException("Invalid input for LIC13: RADIUS2 must be >= 0");
+        if (p.AREA2 < 0) throw new IllegalArgumentException("Invalid input for LIC14: AREA2 must be >= 0");
+        
+        return true;
     }
+    
 
     public static boolean DECIDE() {
         // 2.1 Calculate CMV

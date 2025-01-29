@@ -174,8 +174,7 @@ public class LICConditions {
      */
 
     public static boolean LIC6(Point[] points, int N_PTS, double DIST, int numPoints) {
-        if (numPoints < 3)
-            return false;
+        if (numPoints < 3) return false;
 
         for (int i = 0; i + N_PTS <= numPoints; i++) {
             Point A = points[i];
@@ -214,8 +213,7 @@ public class LICConditions {
      *         triangle with a circumradius greater than RADIUS1, otherwise false.
      */
     public static boolean LIC8(Point[] points, int A_PTS, int B_PTS, double RADIUS1, int numPoints) {
-        if (numPoints < 5)
-            return false;
+        if (numPoints < 5) return false;
 
         for (int i = 0; i + A_PTS + B_PTS < numPoints; i++) {
             Point A = points[i];
@@ -245,8 +243,7 @@ public class LICConditions {
      *         false.
      */
     public static boolean LIC9(Point[] points, int C_PTS, int D_PTS, double EPSILON, int numPoints) {
-        if (numPoints < 5)
-            return false;
+        if (numPoints < 5) return false;
 
         for (int i = 0; i + C_PTS + D_PTS < numPoints; i++) {
             Point A = points[i];
@@ -283,9 +280,7 @@ public class LICConditions {
      *         an area greater than AREA1, otherwise false.
      */
     public static boolean LIC10(Point[] points, int E_PTS, int F_PTS, double AREA1, int numPoints) {
-        if (numPoints < 5) {
-            return false;
-        }
+        if (numPoints < 5) return false;
 
         for (int i = 0; i + E_PTS + F_PTS + 2 < numPoints; i++) {
             Point p1 = points[i];
@@ -314,8 +309,7 @@ public class LICConditions {
      *         < 0, otherwise false.
      */
     public static boolean LIC11(Point[] points, int G_PTS, int numPoints) {
-        if (numPoints < 3)
-            return false;
+        if (numPoints < 3) return false;
 
         for (int i = 0; i + G_PTS < numPoints; i++) {
             Point A = points[i];
@@ -347,8 +341,7 @@ public class LICConditions {
      *         a circumradius less than or equal to RADIUS2, otherwise false.
      */
     public static boolean LIC13(Point[] points, int A_PTS, int B_PTS, double RADIUS1, double RADIUS2, int numPoints) {
-        if (numPoints < 5)
-            return false;
+        if (numPoints < 5) return false;
 
         boolean cond1 = false;
         boolean cond2 = false;
@@ -387,8 +380,7 @@ public class LICConditions {
      *         triangle with an area less than AREA2, otherwise false.
      */
     public static boolean LIC14(Point[] points, int E_PTS, int F_PTS, double AREA1, double AREA2, int numPoints) {
-        if (numPoints < 5)
-            return false;
+        if (numPoints < 5) return false;
 
         boolean cond1 = false;
         boolean cond2 = false;

@@ -38,13 +38,22 @@ public class Point {
         double ac = a.distance(c);
         return ab * bc * ac / (4 * area(a, b, c));
     }
-
+    
+    public static double circleLineSegment(Point a, Point b, Point c){
+        // Returns the radius of a circle surrounding all three dots on the line.
+        double d_ab = a.distance(b);
+        double d_ac = a.distance(c);
+        double d_bc = b.distance(c);
+        double maxDist = Math.max(d_ab, Math.max(d_ac, d_bc));
+        return maxDist / 2;
+    }
     public static int quadrant(Point p) {
         if (p.x >= 0 && p.y >= 0) return 0;
         if (p.x <= 0 && p.y >= 0) return 1;
         if (p.x <= 0 && p.y <= 0) return 2;
         return 3;
     }
+
 
     @Override
     public String toString() {

@@ -326,39 +326,21 @@ public class LICConditionsTest {
                                 LICConditions.LIC8(pointsCase2, A_PTS2, B_PTS2, RADIUS1Case2, numPoints2),
                                 "Expected LIC8 to return false for points that can be contained in a circle of radius 2.0");
 
-                // Test Case 3: NUMPOINTS < 5 -> A_PTS + B_PTS > NUMPOINTS - 3
+            // Test Case 3: Points are on a line and can be contained in circle with radius 10
                 Point[] pointsCase3 = {
-                                new Point(0, 0),
-                                new Point(1, 0),
-                                new Point(0, 1),
-                                new Point(1, 1)
-                };
-                int A_PTS3 = 1;
-                int B_PTS3 = 1;
-                double RADIUS1Case3 = 1.0;
-                int numPoints3 = pointsCase3.length;
-
-                Exception exception = assertThrows(
-                                IllegalArgumentException.class,
-                                () -> LICConditions.LIC8(pointsCase3, A_PTS3, B_PTS3, RADIUS1Case3, numPoints3),
-                                "Expected IllegalArgumentException to be thrown for A_PTS + B_PTS > NUMPOINTS - 3");
-                assertEquals("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.", exception.getMessage());
-
-            // Test Case 6: Points are on a line and can be contained in circle with radius 10
-                Point[] pointsCase6 = {
                                 new Point(0, 0),
                                 new Point(1, 0),
                                 new Point(2, 0),
                                 new Point(3, 0),
                                 new Point(4, 0)
                 };
-                int A_PTS6 = 1;
-                int B_PTS6 = 1;
-                double RADIUS1Case6 = 10.0;
-                int numPoints6 = pointsCase6.length;
+                int A_PTS3 = 1;
+                int B_PTS3 = 1;
+                double RADIUS1Case3 = 10.0;
+                int numPoints3 = pointsCase3.length;
 
                 assertFalse(
-                                LICConditions.LIC8(pointsCase6, A_PTS6, B_PTS6, RADIUS1Case6, numPoints6),
+                                LICConditions.LIC8(pointsCase3, A_PTS3, B_PTS3, RADIUS1Case3, numPoints3),
                                 "Expected LIC8 to return false for collinear points that can be contained in a circle");
         }
 

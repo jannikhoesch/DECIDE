@@ -3,6 +3,10 @@ package com.decide;
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
+import com.decide.LICConditions;
+import com.decide.Parameters;
+import com.decide.Point;
+
 public class Decide {
     //Constants
     private static final int licNumber = 15;
@@ -18,9 +22,10 @@ public class Decide {
     private static boolean[] CMV = new boolean[licNumber]; // Conditions Met Vector
     private static boolean[][] PUM = new boolean[licNumber][licNumber]; // Preliminary Unlocking Matrix
     private static boolean[] FUV = new boolean[licNumber]; // Final Unlocking Vector
+    private static boolean LAUNCH; // Launch decision
 
 
-    public static void init(){
+    public static Decide init(){
 
         // Initialize the input variables
         numPoints = 100;
@@ -57,6 +62,8 @@ public class Decide {
         System.out.println("parameters: " + parameters);
         System.out.println("LCM: " + Arrays.deepToString(LCM));
         System.out.println("PUV: " + Arrays.toString(PUV));
+
+        return new Decide();
     }
 
     public static boolean[][] PUM(boolean[] CMV, int[][] LCM){
@@ -154,16 +161,31 @@ public class Decide {
     }
 
     public static boolean DECIDE() {
-        // Compute the values of the CMV, PUM and FUV and determine if the final decision is true or false
-        return false;
+        // 2.1 Calculate CMV
+        for (int i = 0; i < licNumber; i++) {
+            CMV[i] = LICConditions.evaluateLIC(i, points, parameters, numPoints);
+        }
+
+        // 2.2 Calculate PUM
+        PUM = PUM(CMV, LCM);
+
+        // 2.3 Calculate FUV
+        FUV = FUV(PUV, PUM);
+
+        // 2.4 Decide launch
+        LAUNCH = LAUNCH(FUV);
+
+        return LAUNCH;
     }
 
     public static void main(String[] args) {
-        init();
-        DECIDE();
-
-        // Print the output
-        System.out.println("Hello world!");
+        Decide decide = init();
+        if(!input_valid(decide.parameters, decide.numPoints)){
+            System.out.println("Invalid input parameters");
+            return;
+        }
+        boolean result = decide.DECIDE();
+        System.out.println("Final launch decision: " + result);
     }
 
 }

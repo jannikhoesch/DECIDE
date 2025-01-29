@@ -7,6 +7,9 @@ import com.decide.LICConditions;
 import com.decide.Parameters;
 import com.decide.Point;
 
+import com.decide.Point;
+import com.decide.Parameters;
+
 public class Decide {
     //Constants
     private static final int licNumber = 15;
@@ -40,8 +43,28 @@ public class Decide {
         }
 
         // Init parameters struct
-        parameters = new Parameters(1.0, 1.0, 1.0, 1.0, 1, 1, 1.0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.0, 1.0, 1.0);
- 
+        parameters = new Parameters(
+            ThreadLocalRandom.current().nextDouble(0.0, 10.0), // LENGTH1
+            ThreadLocalRandom.current().nextDouble(0.0, 10.0), // RADIUS1
+            ThreadLocalRandom.current().nextDouble(0.0, Math.PI), // EPSILON
+            ThreadLocalRandom.current().nextDouble(0.0, 10.0), // AREA1
+            ThreadLocalRandom.current().nextInt(2, numPoints + 1), // Q_PTS
+            ThreadLocalRandom.current().nextInt(1, 4), // QUADS
+            ThreadLocalRandom.current().nextDouble(0.0, 100.0), // DIST
+            ThreadLocalRandom.current().nextInt(3, numPoints + 1), // N_PTS
+            ThreadLocalRandom.current().nextInt(1, numPoints - 1), // K_PTS
+            ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // A_PTS
+            ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // B_PTS
+            ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // C_PTS
+            ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // D_PTS
+            ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // E_PTS
+            ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // F_PTS
+            ThreadLocalRandom.current().nextInt(1, numPoints - 1), // G_PTS
+            ThreadLocalRandom.current().nextDouble(0.0, 10.0), // LENGTH2
+            ThreadLocalRandom.current().nextDouble(0.0, 10.0), // RADIUS2
+            ThreadLocalRandom.current().nextDouble(0.0, 10.0) // AREA2
+        );
+
         // Init LCM
         LCM = new int[15][15];
         for (int i = 0; i < 15; i++) {
@@ -60,6 +83,25 @@ public class Decide {
         System.out.println("numPoints: " + numPoints);
         System.out.println("points: " + Arrays.toString(points));
         System.out.println("parameters: " + parameters);
+        System.out.println("parameters.LENGTH1: " + parameters.LENGTH1);
+        System.out.println("parameters.RADIUS1: " + parameters.RADIUS1);
+        System.out.println("parameters.EPSILON: " + parameters.EPSILON);
+        System.out.println("parameters.AREA1: " + parameters.AREA1);
+        System.out.println("parameters.Q_PTS: " + parameters.Q_PTS);
+        System.out.println("parameters.QUADS: " + parameters.QUADS);
+        System.out.println("parameters.DIST: " + parameters.DIST);
+        System.out.println("parameters.N_PTS: " + parameters.N_PTS);
+        System.out.println("parameters.K_PTS: " + parameters.K_PTS);
+        System.out.println("parameters.A_PTS: " + parameters.A_PTS);
+        System.out.println("parameters.B_PTS: " + parameters.B_PTS);
+        System.out.println("parameters.C_PTS: " + parameters.C_PTS);
+        System.out.println("parameters.D_PTS: " + parameters.D_PTS);
+        System.out.println("parameters.E_PTS: " + parameters.E_PTS);
+        System.out.println("parameters.F_PTS: " + parameters.F_PTS);
+        System.out.println("parameters.G_PTS: " + parameters.G_PTS);
+        System.out.println("parameters.LENGTH2: " + parameters.LENGTH2);
+        System.out.println("parameters.RADIUS2: " + parameters.RADIUS2);
+        System.out.println("parameters.AREA2: " + parameters.AREA2);
         System.out.println("LCM: " + Arrays.deepToString(LCM));
         System.out.println("PUV: " + Arrays.toString(PUV));
 
@@ -150,8 +192,8 @@ public class Decide {
             3 <= p.N_PTS   && p.N_PTS <= NUMPOINTS && p.DIST >= 0 && // LIC6 (no check for LIC5)
             1 <= p.K_PTS   && p.K_PTS <= NUMPOINTS - 2 && // LIC7
             p.A_PTS >= 1   && p.B_PTS >= 1 && p.A_PTS + p.B_PTS <= NUMPOINTS - 3 &&//LIC8
-            p.C_PTS <= 1   && p.D_PTS <= 1 && p.C_PTS + p.D_PTS <= NUMPOINTS - 3 && //LIC9
-            p.E_PTS <= 1   && p.F_PTS <= 1 && p.E_PTS + p.F_PTS <= NUMPOINTS - 3 && //LIC10
+            p.C_PTS >= 1   && p.D_PTS >= 1 && p.C_PTS + p.D_PTS <= NUMPOINTS - 3 && //LIC9
+            p.E_PTS >= 1   && p.F_PTS >= 1 && p.E_PTS + p.F_PTS <= NUMPOINTS - 3 && //LIC10
             1 <= p.G_PTS   && p.G_PTS <= NUMPOINTS -2 && //LIC11
             p.LENGTH2 >= 0 && //LIC12
             p.RADIUS2 >= 0 && //LIC13

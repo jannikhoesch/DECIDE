@@ -11,7 +11,7 @@ public class LICConditions {
             case 1:
                 return LIC1(points, parameters.LENGTH1, numPoints);
             case 2:
-                //return LIC2(points, parameters.RADIUS1, numPoints);
+                return LIC2(points, parameters.RADIUS1, numPoints);
             case 3:
                 return LIC3(points, parameters.AREA1, numPoints);
             case 4:

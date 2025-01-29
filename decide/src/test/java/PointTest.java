@@ -64,4 +64,12 @@ public class PointTest {
         Point p = new Point(1, 2);
         assertEquals("(1.0, 2.0)", p.toString());
     }
+
+    @Test
+    public void testCircleLineSegment(){
+        Point p1 = new Point (0, 0);
+        Point p2 = new Point (1, 0);
+        Point p3 = new Point (2, 0);
+        assertEquals(1, Point.circleLineSegment(p1, p2, p3));
+    }
 }

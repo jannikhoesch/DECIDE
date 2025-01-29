@@ -21,7 +21,7 @@ public class LICConditions {
             case 6:
                 return LIC6(points, parameters.N_PTS, parameters.DIST, numPoints);
             case 7:
-                //return LIC7(points, parameters.LENGTH1, parameters.LENGTH2, numPoints);
+                return LIC7(points, parameters.K_PTS, parameters.LENGTH1, numPoints);
             case 8:
                 return LIC8(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, numPoints);
             case 9:
@@ -197,6 +197,34 @@ public class LICConditions {
     }
 
     /**
+     * Determines if there exists at least one set of two data points, separated by
+     * exactly K_PTS consecutive intervening points, which are a distance greater than 
+     * LENGTH1. The condition is not met when NUMPOINTS < 3. 
+     * @param points    An array of Point objects representing the coordinates.
+     * @param K_PTS     The number of consecutive intervening points between two 
+     *                  data points that form a set
+     * @param LENGTH1   The length to compare the distance against. Must be non-negative.
+     * @param numPoints The number of points in the array.
+     * @return  True if there exists at least one set of two data points that form a distance 
+     *          longer than LENGTH1, otherwise false.
+     */
+    public static boolean LIC7(Point[] points, int K_PTS, double LENGTH1, int numPoints) {
+        if (numPoints < 3) {
+            return false;
+        }
+
+        for (int i = 0; i + K_PTS < numPoints; i++) {
+            Point A = points[i];
+            Point B =  points[i + K_PTS];
+            double distance = A.distance(B);
+            if (distance > LENGTH1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Determines whether there exists at least one set of three points separated by
      * A_PTS and B_PTS
      * consecutive intervening points, respectively, that form a triangle with a
@@ -221,8 +249,15 @@ public class LICConditions {
             Point C = points[i + A_PTS + B_PTS];
 
             double radius = Point.circumradius(A, B, C);
-            if (radius > RADIUS1)
-                return true;
+            if (radius > RADIUS1) {
+                if (Double.isInfinite(radius)) {
+                    radius = Point.circleLineSegment(A, B, C);
+                    if (radius > RADIUS1){
+                        return true;
+                    }
+                }
+                else return true;
+            }
         }
         return false;
     }
@@ -353,9 +388,17 @@ public class LICConditions {
 
             double radius = Point.circumradius(A, B, C);
             if (radius > RADIUS1)
-                cond1 = true;
+                if (Double.isInfinite(radius)) {
+                    radius = Point.circleLineSegment(A, B, C);
+                    if (radius > RADIUS1) cond1 = true;
+                }
+                else cond1 = true;
             if (radius <= RADIUS2)
-                cond2 = true;
+                if (Double.isInfinite(radius)) {
+                    radius = Point.circleLineSegment(A, B, C);
+                    if (radius <= RADIUS2) cond2 = true;
+                }
+                else cond2 = true;
             if (cond1 && cond2)
                 return true;
         }

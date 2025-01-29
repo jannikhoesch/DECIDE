@@ -62,4 +62,36 @@ This will run all tests under `test/java/` to verify correctness.
 5. Push to the branch (`git push origin feature-branch`)
 6. Open a Pull Request
 
+---
 
+## Way of Working  
+
+We used our first meeting to agree upon our way of working, which we have written down in the first assignment report **“Meet your group”**. Then we started distributing the workload by creating Git issues together and assigning them evenly. Each group member was responsible for finishing their tasks in their own time.  
+
+Especially in the beginning, most group members who had not worked with Git before in a similar project setting had challenges getting used to it. During the first week, after some experience, the problems decreased, and we started working efficiently both as a team and with our own tasks.  
+
+Using the **Essence Standard Checklist**, we currently consider ourselves to be in the **“In Place”** state since using the tools is working properly, but we are still not entirely used to working with Git in this way yet, which causes some problems to arise from time to time. We believe, however, that more practice will optimize our way of working and that we are on a good path to reaching an efficient workflow.  
+
+
+## Task Distribution  
+
+### **Harald**  
+- LIC 1, LIC 6, LIC 11  
+- PUM method  
+- LIC Input validation  
+- Point method `circleLineSegment`  
+
+### **Jannik**  
+- LIC 3, LIC 8, LIC 13  
+- Refactoring of LIC methods  
+- `DECIDE` method  
+
+### **Amanda**  
+- LIC 4, LIC 9, LIC 14  
+- `FUV` method  
+- `LAUNCH` method  
+
+### **Zyad**  
+- LIC 0, LIC 2, LIC 5, LIC 10  
+- Documentation  
+- Point helper methods  

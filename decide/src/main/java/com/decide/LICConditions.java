@@ -1,5 +1,8 @@
 package com.decide;
 
+import com.decide.Parameters;
+import com.decide.Point;
+
 public class LICConditions {
     public static boolean evaluateLIC(int licIndex, Point[] points, Parameters parameters, int numPoints) {
         switch (licIndex) {
@@ -52,8 +55,6 @@ public class LICConditions {
      *         greater than LENGTH1, otherwise false.
      */
     public static boolean LIC0(Point[] points, double LENGTH1, int numPoints) {
-        if (LENGTH1 < 0)
-            return false;
         for (int i = 0; i < numPoints - 1; i++) {
             double distance = points[i].distance(points[i + 1]);
             if (distance > LENGTH1)
@@ -69,7 +70,7 @@ public class LICConditions {
      * @param points    An array of Point objects representing the coordinates.
      * @param RADIUS1    The radius to compare the circumradius to, it must be positive.
      * @param numPoints The number of points in the array.
-     * @return True if there exists at least one set of three consecutive points that 
+     * @return True if there exists at least one set of three consecutive points that
      *         cannot be contained within a circle of radius RADIUS1.
      */
     public static boolean LIC1(Point[] points, double RADIUS1, int numPoints) {
@@ -142,10 +143,6 @@ public class LICConditions {
      *         false.
      */
     public static boolean LIC3(Point[] points, double AREA1, int numPoints) {
-        if (AREA1 < 0) {
-            throw new IllegalArgumentException("AREA1 must be greater than or equal to 0.");
-        }
-
         for (int i = 0; i < numPoints - 2; i++) {
             double area = Point.area(points[i], points[i + 1], points[i + 2]);
             if (area > AREA1)
@@ -204,7 +201,6 @@ public class LICConditions {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -229,14 +225,7 @@ public class LICConditions {
      */
 
     public static boolean LIC6(Point[] points, int N_PTS, double DIST, int numPoints) {
-
-        if (N_PTS < 3 || N_PTS > numPoints)
-            return false;
-        if (DIST < 0)
-            return false;
-
-        if (numPoints < 3)
-            return false;
+        if (numPoints < 3) return false;
 
         for (int i = 0; i + N_PTS <= numPoints; i++) {
             Point A = points[i];
@@ -303,16 +292,7 @@ public class LICConditions {
      *         triangle with a circumradius greater than RADIUS1, otherwise false.
      */
     public static boolean LIC8(Point[] points, int A_PTS, int B_PTS, double RADIUS1, int numPoints) {
-
-        if (A_PTS < 1 || B_PTS < 1) {
-            throw new IllegalArgumentException("A_PTS and B_PTS must each be greater than or equal to 1.");
-        }
-        if (A_PTS + B_PTS > numPoints - 3) {
-            throw new IllegalArgumentException("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.");
-        }
-
-        if (numPoints < 5)
-            return false;
+        if (numPoints < 5) return false;
 
         for (int i = 0; i + A_PTS + B_PTS < numPoints; i++) {
             Point A = points[i];
@@ -349,8 +329,7 @@ public class LICConditions {
      *         false.
      */
     public static boolean LIC9(Point[] points, int C_PTS, int D_PTS, double EPSILON, int numPoints) {
-        if (numPoints < 5)
-            return false;
+        if (numPoints < 5) return false;
 
         for (int i = 0; i + C_PTS + D_PTS < numPoints; i++) {
             Point A = points[i];
@@ -387,9 +366,7 @@ public class LICConditions {
      *         an area greater than AREA1, otherwise false.
      */
     public static boolean LIC10(Point[] points, int E_PTS, int F_PTS, double AREA1, int numPoints) {
-        if (numPoints < 5 || E_PTS < 1 || F_PTS < 1 || (E_PTS + F_PTS > numPoints - 3)) {
-            return false;
-        }
+        if (numPoints < 5) return false;
 
         for (int i = 0; i + E_PTS + F_PTS + 2 < numPoints; i++) {
             Point p1 = points[i];
@@ -401,7 +378,6 @@ public class LICConditions {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -419,8 +395,7 @@ public class LICConditions {
      *         < 0, otherwise false.
      */
     public static boolean LIC11(Point[] points, int G_PTS, int numPoints) {
-        if (numPoints < 3)
-            return false;
+        if (numPoints < 3) return false;
 
         for (int i = 0; i + G_PTS < numPoints; i++) {
             Point A = points[i];
@@ -433,10 +408,10 @@ public class LICConditions {
     }
 
     /**
-     * Determines if there exists at least one set of two data points, separated by 
+     * Determines if there exists at least one set of two data points, separated by
      * exactly K_PTS consecutive intervening points, which are a distance greater than LENGTH1
-     * and one set of two data points that  are a distance less than LENGTH2. 
-     * The condition is not met when NUMPOINTS < 3. 
+     * and one set of two data points that  are a distance less than LENGTH2.
+     * The condition is not met when NUMPOINTS < 3.
      * @param points    An array of Point objects representing the coordinates.
      * @param K_PTS     The number of consecutive intervening points between two data points that form a set
      * @param LENGTH1   The first length to compare the distance against. Must be non-negative.
@@ -490,12 +465,7 @@ public class LICConditions {
      *         a circumradius less than or equal to RADIUS2, otherwise false.
      */
     public static boolean LIC13(Point[] points, int A_PTS, int B_PTS, double RADIUS1, double RADIUS2, int numPoints) {
-        if (RADIUS2 < 0) {
-            return false;
-        }
-
-        if (numPoints < 5)
-            return false;
+        if (numPoints < 5) return false;
 
         boolean cond1 = false;
         boolean cond2 = false;
@@ -542,8 +512,7 @@ public class LICConditions {
      *         triangle with an area less than AREA2, otherwise false.
      */
     public static boolean LIC14(Point[] points, int E_PTS, int F_PTS, double AREA1, double AREA2, int numPoints) {
-        if (numPoints < 5)
-            return false;
+        if (numPoints < 5) return false;
 
         boolean cond1 = false;
         boolean cond2 = false;

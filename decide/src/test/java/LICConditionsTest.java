@@ -24,12 +24,6 @@ public class LICConditionsTest {
                 double length1 = 5;
                 int numPoints1 = points1.length;
                 assertFalse(LICConditions.LIC0(points1, length1, numPoints1));
-
-                // Test Case 2: LENGTH1 is negative
-                Point[] points2 = { new Point(0, 0), new Point(3, 4), new Point(6, 8) };
-                length1 = -1;
-                numPoints1 = points2.length;
-                assertFalse(LICConditions.LIC0(points2, length1, numPoints1));
         }
 
         @Test
@@ -154,17 +148,6 @@ public class LICConditionsTest {
                 };
                 assertFalse(LICConditions.LIC3(points3, 5.0, points3.length),
                                 "Expected LIC3 to return false when fewer than 3 points are provided");
-
-                // Case 4: Negative AREA1 should throw an exception
-                Point[] points4 = {
-                                new Point(0, 0),
-                                new Point(4, 0),
-                                new Point(0, 3)
-                };
-                Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-                        LICConditions.LIC3(points4, -1.0, points4.length);
-                });
-                assertEquals("AREA1 must be greater than or equal to 0.", exception.getMessage());
         }
 
         @Test
@@ -205,7 +188,6 @@ public class LICConditionsTest {
                                 new Point(3, 3)
                 };
                 int numPoints = points.length;
-
                 assertTrue(LICConditions.LIC5(points, numPoints));
         }
 
@@ -218,7 +200,6 @@ public class LICConditionsTest {
                                 new Point(3, 3)
                 };
                 int numPoints = points.length;
-
                 assertFalse(LICConditions.LIC5(points, numPoints));
         }
 
@@ -303,7 +284,7 @@ public class LICConditionsTest {
                 int numPoints = 2;
                 assertFalse(LICConditions.LIC7(points, K_PTS, LENGTH1, numPoints));
 
-                // Test Case 2: the longest distance is 1 which is not strictly bigger than LENGTH1 (=1). 
+                // Test Case 2: the longest distance is 1 which is not strictly bigger than LENGTH1 (=1).
                 Point[] points2 = {new Point(0, 0), new Point(1, 0), new Point(0, 0), new Point(0, 0)};
                 numPoints = 4;
                 assertFalse(LICConditions.LIC7(points2, K_PTS, LENGTH1, numPoints));
@@ -338,7 +319,7 @@ public class LICConditionsTest {
                 };
                 int A_PTS2 = 1;
                 int B_PTS2 = 1;
-                double RADIUS1Case2 = 2.0; // All points can be contained within a circle of radius 2.0
+                double RADIUS1Case2 = 2.0;
                 int numPoints2 = pointsCase2.length;
 
                 assertFalse(
@@ -363,45 +344,7 @@ public class LICConditionsTest {
                                 "Expected IllegalArgumentException to be thrown for A_PTS + B_PTS > NUMPOINTS - 3");
                 assertEquals("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.", exception.getMessage());
 
-                // Test Case 4: Invalid A_PTS or B_PTS values
-                Point[] pointsCase4 = {
-                                new Point(0, 0),
-                                new Point(1, 0),
-                                new Point(0, 1),
-                                new Point(1, 1),
-                                new Point(2, 2)
-                };
-                int A_PTS4 = 0; // Invalid value
-                int B_PTS4 = 1;
-                double RADIUS1Case4 = 1.0;
-                int numPoints4 = pointsCase4.length;
-
-                Exception exception1 = assertThrows(
-                                IllegalArgumentException.class,
-                                () -> LICConditions.LIC8(pointsCase4, A_PTS4, B_PTS4, RADIUS1Case4, numPoints4),
-                                "Expected IllegalArgumentException to be thrown for A_PTS < 1");
-                assertEquals("A_PTS and B_PTS must each be greater than or equal to 1.", exception1.getMessage());
-
-                // Test Case 5: A_PTS + B_PTS > NUMPOINTS - 3
-                Point[] pointsCase5 = {
-                                new Point(0, 0),
-                                new Point(1, 0),
-                                new Point(0, 1),
-                                new Point(1, 1),
-                                new Point(2, 2)
-                };
-                int A_PTS5 = 2;
-                int B_PTS5 = 2; // Invalid as A_PTS + B_PTS > NUMPOINTS - 3
-                double RADIUS1Case5 = 1.0;
-                int numPoints5 = pointsCase5.length;
-
-                Exception exception2 = assertThrows(
-                                IllegalArgumentException.class,
-                                () -> LICConditions.LIC8(pointsCase5, A_PTS5, B_PTS5, RADIUS1Case5, numPoints5),
-                                "Expected IllegalArgumentException to be thrown for A_PTS + B_PTS > NUMPOINTS - 3");
-                assertEquals("A_PTS + B_PTS must be less than or equal to NUMPOINTS - 3.", exception2.getMessage());
-
-                // Test Case 6: Points are on a line and can be contained in circle with radius 10
+            // Test Case 6: Points are on a line and can be contained in circle with radius 10
                 Point[] pointsCase6 = {
                                 new Point(0, 0),
                                 new Point(1, 0),
@@ -509,21 +452,6 @@ public class LICConditionsTest {
                 double AREA1_2 = 1.0;
                 int numPoints2 = points2.length;
                 assertFalse(LICConditions.LIC10(points2, E_PTS2, F_PTS2, AREA1_2, numPoints2));
-
-                // Case 3: Invalid E_PTS value
-                Point[] points3 = new Point[] {
-                                new Point(0, 0),
-                                new Point(1, 0),
-                                new Point(2, 2),
-                                new Point(3, 0),
-                                new Point(4, 3),
-                                new Point(5, 0)
-                };
-                int E_PTS3 = 0; // Invalid value
-                int F_PTS3 = 1;
-                double AREA1_3 = 1.5;
-                int numPoints3 = points3.length;
-                assertFalse(LICConditions.LIC10(points3, E_PTS3, F_PTS3, AREA1_3, numPoints3));
         }
 
         @Test

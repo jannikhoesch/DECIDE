@@ -12,11 +12,11 @@ public class Decide {
     private static final int licNumber = 15;
 
     //Input Variables
-    private static int numPoints; // Number of data points
-    private static Point[] points; // Planar data points
-    private static Parameters parameters; // Struct holding parameters for LIC’s
-    private static int[][] LCM; // Logical Connector Matrix
-    private static boolean[] PUV; // Preliminary Unlocking Vector
+    public static int numPoints; // Number of data points
+    public static Point[] points; // Planar data points
+    public static Parameters parameters; // Struct holding parameters for LIC’s
+    public static int[][] LCM; // Logical Connector Matrix
+    public static boolean[] PUV; // Preliminary Unlocking Vector
 
     //Output Variables
     private static boolean[] CMV = new boolean[licNumber]; // Conditions Met Vector
@@ -25,10 +25,11 @@ public class Decide {
     private static boolean LAUNCH; // Launch decision
 
 
-    public static Decide init(){
+    public static Decide init(int n){
 
         // Initialize the input variables
-        numPoints = 100;
+        if (n < 2 || n > 100) return null;
+        numPoints = n;
 
         // Init planar data points
         points = new Point[numPoints];
@@ -225,7 +226,7 @@ public class Decide {
     }
 
     public static void main(String[] args) {
-        Decide decide = init();
+        Decide decide = init(100);
         if(!input_valid(decide.parameters, decide.numPoints)){
             System.out.println("Invalid input parameters");
             return;

@@ -27,50 +27,96 @@ public class LICConditionsTest {
         }
 
         @Test
-        void testLIC1True() {
-                Point[] points = { new Point(0, 0), new Point(10, 0), new Point(1, 2), new Point(2, 3) };
-                double length = 5;
-                int numPoints = 4;
-                assertTrue(LICConditions.LIC1(points, length, numPoints));
+    void testLIC1True() {
+        // Test case: At least one set of three consecutive points cannot fit in a circle of RADIUS1
+        Point[] points = {
+            new Point(0, 0),
+            new Point(4, 0),
+            new Point(0, 4),
+            new Point(1, 1)
+        };
+        double RADIUS1 = 1.5; // Smaller than the circumradius of the triangle formed by the first three points
+        int numPoints = points.length;
 
-                points = new Point[] { new Point(0, 0), new Point(10, 0), new Point(2, 1) };
-                length = 8;
-                numPoints = 3;
-                assertTrue(LICConditions.LIC1(points, length, numPoints));
+        boolean result = LICConditions.LIC1(points, RADIUS1, numPoints);
+        assertTrue(result, "Expected LIC1 to return true when a triplet exceeds the circle radius.");
+    }
 
-                points = new Point[] { new Point(0, 0), new Point(7, 1), new Point(3, 4) };
-                length = 6;
-                numPoints = 3;
-                assertTrue(LICConditions.LIC1(points, length, numPoints));
+    @Test
+    void testLIC1False() {
+        // Test case: All sets of three consecutive points can fit in a circle of RADIUS1
+        Point[] points = {
+            new Point(0, 0),
+            new Point(1, 0),
+            new Point(0, 1),
+            new Point(0.5, 0.5)
+        };
+        double RADIUS1 = 5.0; // Large enough to contain the circumcircle of any triplet
+        int numPoints = points.length;
 
-                points = new Point[] { new Point(0, 0), new Point(20, 0), new Point(30, 0) };
-                length = 15;
-                numPoints = 3;
-                assertTrue(LICConditions.LIC1(points, length, numPoints));
+        boolean result = LICConditions.LIC1(points, RADIUS1, numPoints); 
+        assertFalse(result, "Expected LIC1 to return false when all triplets fit within the circle radius and lie on a line");
+
+        Point[] points1 = {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(0.5, 0.5),
+                new Point(0.5, -0.5),
+                new Point(1.5, 0)
+            };
+            RADIUS1 = 5.0; // Large enough to contain the circumcircle of any triplet
+            numPoints = points1.length;
+    
+            boolean result1 = LICConditions.LIC1(points1, RADIUS1, numPoints); 
+            assertFalse(result1, "Expected LIC1 to return false when all triplets fit within the circle radius");
+    }
+
+        @Test
+        void testLIC2True() {
+                // Test Case 1: Points form an angle less than PI - EPSILON
+                Point[] points1 = { new Point(0, 0), new Point(1, 1), new Point(2, 3) };
+                double epsilon1 = 0.1;
+                int numPoints1 = points1.length;
+                assertTrue(LICConditions.LIC2(points1, epsilon1, numPoints1));
+
+                // Test Case 2: Points form an angle greater than PI + EPSILON
+                Point[] points2 = { new Point(0, 0), new Point(1, 1), new Point(2, 1) };
+                double epsilon2 = 0.1;
+                int numPoints2 = points2.length;
+                assertTrue(LICConditions.LIC2(points2, epsilon2, numPoints2));
         }
 
         @Test
-        void testLIC1False() {
-                Point[] points = { new Point(0, 0), new Point(1, 0), new Point(1, 2), new Point(2, 3) };
-                double length = 5;
-                int numPoints = 4;
-                assertFalse(LICConditions.LIC1(points, length, numPoints));
+        void testLIC2False() {
+                // Test Case 1: Points form an angle equal to PI
+                Point[] points1 = { new Point(0, 0), new Point(1, 0), new Point(2, 0) };
+                double epsilon1 = 0.1;
+                int numPoints1 = points1.length;
+                assertFalse(LICConditions.LIC2(points1, epsilon1, numPoints1));
 
-                points = new Point[] { new Point(0, 0), new Point(2, 2), new Point(4, 4) };
-                length = 3;
-                numPoints = 3;
-                assertFalse(LICConditions.LIC1(points, length, numPoints));
+                // Test Case 2: Less than 3 points provided
+                Point[] points2 = { new Point(0, 0), new Point(1, 1) };
+                double epsilon2 = 0.1;
+                int numPoints2 = points2.length;
+                assertFalse(LICConditions.LIC2(points2, epsilon2, numPoints2));
 
-                points = new Point[] { new Point(0, 0), new Point(1, 1), new Point(2, 2) };
-                length = 1.5;
-                numPoints = 3;
-                assertFalse(LICConditions.LIC1(points, length, numPoints));
+                // Test Case 3: EPSILON is negative
+                Point[] points3 = { new Point(0, 0), new Point(1, 1), new Point(2, 0) };
+                double epsilon3 = -0.1;
+                int numPoints3 = points3.length;
+                Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+                        LICConditions.LIC2(points3, epsilon3, numPoints3);
+                });
+                assertEquals("EPSILON must be in the range [0, PI).", exception.getMessage());
 
-                points = new Point[] { new Point(0, 0), new Point(1, 0), new Point(1, 1), new Point(2, 1),
-                                new Point(2, 2) };
-                length = 4;
-                numPoints = 5;
-                assertFalse(LICConditions.LIC1(points, length, numPoints));
+                // Test Case 4: EPSILON is greater than or equal to PI
+                Point[] points4 = { new Point(0, 0), new Point(1, 1), new Point(2, 0) };
+                double epsilon4 = Math.PI;
+                int numPoints4 = points4.length;
+                Exception exception2 = assertThrows(IllegalArgumentException.class, () -> {
+                        LICConditions.LIC2(points4, epsilon4, numPoints4);
+                });
+                assertEquals("EPSILON must be in the range [0, PI).", exception2.getMessage());
         }
 
         @Test
@@ -425,6 +471,32 @@ public class LICConditionsTest {
                 int G_PTS = 4;
                 int numPoints = 6;
                 assertFalse(LICConditions.LIC11(points, G_PTS, numPoints));
+        }
+
+        @Test
+        void testLIC12True() {
+                Point[] points = {new Point(0, 0), new Point(1.1, 0), new Point(0, 0), new Point(0.9, 0)};
+                int K_PTS = 1;
+                double LENGTH1 = 1;
+                double LENGTH2 = 1;
+                int numPoints = 4;
+                assertTrue(LICConditions.LIC12(points, K_PTS, LENGTH1, LENGTH2, numPoints));
+        }
+
+        @Test
+        void testLIC12False() {
+                // Test Case 1: too few points
+                Point[] points = {new Point(0, 0), new Point(1.1, 0)};
+                int K_PTS = 1;
+                double LENGTH1 = 1;
+                double LENGTH2 = 1;
+                int numPoints = 2;
+                assertFalse(LICConditions.LIC12(points, K_PTS, LENGTH1, LENGTH2, numPoints));
+
+                // Test Case 2: the longest distance is 1 which is not strictly bigger than LENGTH1 (=1). 
+                Point[] points2 = {new Point(0, 0), new Point(1, 0), new Point(0, 0), new Point(0.9, 0)};
+                numPoints = 4;
+                assertFalse(LICConditions.LIC12(points2, K_PTS, LENGTH1, LENGTH2, numPoints));
         }
 
         @Test

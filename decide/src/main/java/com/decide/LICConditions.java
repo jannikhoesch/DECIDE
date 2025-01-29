@@ -31,7 +31,7 @@ public class LICConditions {
             case 11:
                 return LIC11(points, parameters.G_PTS, numPoints);
             case 12:
-                //return LIC12(points, parameters.LENGTH1, parameters.LENGTH2, numPoints);
+                return LIC12(points, parameters.K_PTS, parameters.LENGTH1, parameters.LENGTH2, numPoints);
             case 13:
                 return LIC13(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, parameters.RADIUS2, numPoints);
             case 14:
@@ -64,22 +64,69 @@ public class LICConditions {
     }
 
     /**
-     * There exists at least one set of two consecutive data points that are a
-     * distance greater than the length, LENGTH1, apart. (0 ≤ LENGTH1)
+     *  There exists at least one set of three consecutive data points that cannot all be contained
+     *  within or on a circle of radius RADIUS1.
      *
      * @param points    An array of Point objects representing the coordinates.
-     * @param length    The length to compare the distance against. Must be
-     *                  non-negative.
+     * @param RADIUS1    The radius to compare the circumradius to, it must be positive.
      * @param numPoints The number of points in the array.
-     * @return True if there exists at least one pair of consecutive points with a
-     *         distance
-     *         greater than length, otherwise false.
+     * @return True if there exists at least one set of three consecutive points that
+     *         cannot be contained within a circle of radius RADIUS1.
      */
-    public static boolean LIC1(Point[] points, double length, int numPoints) {
-        for (int i = 0; i < numPoints - 1; i++) {
-            double distance = points[i].distance(points[i + 1]);
-            if (distance > length)
+    public static boolean LIC1(Point[] points, double RADIUS1, int numPoints) {
+        for (int i = 0; i < numPoints - 2; i++){
+            Point p1 = points[i];
+            Point p2 = points[i+1];
+            Point p3 = points[i+2];
+            double circumradius = Point.circumradius(p1, p2, p3);
+            if (circumradius > RADIUS1) {
+                if (Double.isInfinite(circumradius)) { // The points lie on a line, can't use circumradius.
+                    double radius = Point.circleLineSegment(p1, p2, p3);
+                    if (radius > RADIUS1){
+                        return true;
+                    }
+                }
+                else return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Determines whether there exists at least one set of three consecutive data points
+     * which form an angle such that angle < (PI−EPSILON) or angle > (PI + EPSILON).
+     * The second of the three consecutive points is always the vertex of the angle.
+     * If either the first point or the last point (or both) coincides with the vertex,
+     * the angle is undefined and the LIC is not satisfied by those three points.
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param RADIUS1   The radius to compare against.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one set of three consecutive points that form an angle
+     *         such that angle < (PI−EPSILON) or angle > (PI + EPSILON), otherwise false.
+     */
+    public static boolean LIC2(Point[] points, double EPSILON, int numPoints) {
+        if (EPSILON < 0 || EPSILON >= Math.PI) {
+            throw new IllegalArgumentException("EPSILON must be in the range [0, PI).");
+        }
+
+        if (numPoints < 3) {
+            return false;
+        }
+
+        for (int i = 0; i < numPoints - 2; i++) {
+            Point A = points[i];
+            Point B = points[i + 1];
+            Point C = points[i + 2];
+
+            if ((A.x == B.x && A.y == B.y) || (C.x == B.x && C.y == B.y)) {
+                continue;
+            }
+
+            double angle = Point.angle(A, B, C);
+            if (angle < Math.PI - EPSILON || angle > Math.PI + EPSILON) {
                 return true;
+            }
         }
         return false;
     }
@@ -145,6 +192,10 @@ public class LICConditions {
      * @return True if there exists at least one such pair, false otherwise.
      */
     public static boolean LIC5(Point[] points, int numPoints) {
+        if (numPoints < 2) {
+            return false;
+        }
+
         for (int i = 0; i < numPoints - 1; i++) {
             if (points[i + 1].x - points[i].x < 0) {
                 return true;
@@ -352,6 +403,44 @@ public class LICConditions {
 
             if (B.x - A.x < 0)
                 return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines if there exists at least one set of two data points, separated by
+     * exactly K_PTS consecutive intervening points, which are a distance greater than LENGTH1
+     * and one set of two data points that  are a distance less than LENGTH2.
+     * The condition is not met when NUMPOINTS < 3.
+     * @param points    An array of Point objects representing the coordinates.
+     * @param K_PTS     The number of consecutive intervening points between two data points that form a set
+     * @param LENGTH1   The first length to compare the distance against. Must be non-negative.
+     * @param LENGTH2   The second length to compare the distance against. Must be non-negative.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one set of two data points that form a distance longer than LENGTH1
+     *         and one data set smaller than LENGTH2, otherwise false.
+     */
+    public static boolean LIC12(Point[] points, int K_PTS, double LENGTH1, double LENGTH2, int numPoints) {
+        if (numPoints < 3) {
+            return false;
+        }
+
+        boolean cond1 = false;
+        boolean cond2 = false;
+
+        for (int i = 0; i + K_PTS < numPoints; i++) {
+            Point A = points[i];
+            Point B =  points[i + K_PTS];
+            double distance = A.distance(B);
+            if (distance > LENGTH1) {
+                cond1 = true;
+            }
+            if (distance < LENGTH2) {
+                cond2 = true;
+            }
+            if (cond1 == true && cond2 == true) {
+                return true;
+            }
         }
         return false;
     }

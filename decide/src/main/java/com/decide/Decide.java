@@ -12,11 +12,11 @@ public class Decide {
     private static final int licNumber = 15;
 
     //Input Variables
-    private static int numPoints; // Number of data points
-    private static Point[] points; // Planar data points
-    private static Parameters parameters; // Struct holding parameters for LIC’s
-    private static int[][] LCM; // Logical Connector Matrix
-    private static boolean[] PUV; // Preliminary Unlocking Vector
+    public static int numPoints; // Number of data points
+    public static Point[] points; // Planar data points
+    public static Parameters parameters; // Struct holding parameters for LIC’s
+    public static int[][] LCM; // Logical Connector Matrix
+    public static boolean[] PUV; // Preliminary Unlocking Vector
 
     //Output Variables
     private static boolean[] CMV = new boolean[licNumber]; // Conditions Met Vector
@@ -25,45 +25,12 @@ public class Decide {
     private static boolean LAUNCH; // Launch decision
 
 
-    public static Decide init(){
-
-        // Initialize the input variables
-        numPoints = 100;
-
-        // Init planar data points
-        points = new Point[numPoints];
-        for (int i = 0; i < numPoints; i++) {
-            points[i] = new Point(
-                    ThreadLocalRandom.current().nextInt(-100, 100),
-                    ThreadLocalRandom.current().nextInt(-100, 100)
-            );
-        }
-
-        // Init parameters struct
-        parameters = new Parameters(1.0, 1.0, 1.0, 1.0, 1, 1, 1.0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1.0, 1.0, 1.0);
- 
-        // Init LCM
-        LCM = new int[15][15];
-        for (int i = 0; i < 15; i++) {
-            for (int j = 0; j <= i; j++) { // Fill lower triangle only
-                LCM[i][j] = LCM[j][i] = ThreadLocalRandom.current().nextInt(3);
-            }
-        }
-
-        // Init PUV
-        PUV = new boolean[15];
-        for (int i = 0; i < PUV.length; i++) {
-            PUV[i] = ThreadLocalRandom.current().nextBoolean();
-        }
-
-        // For debugging: Print the input
-        System.out.println("numPoints: " + numPoints);
-        System.out.println("points: " + Arrays.toString(points));
-        System.out.println("parameters: " + parameters);
-        System.out.println("LCM: " + Arrays.deepToString(LCM));
-        System.out.println("PUV: " + Arrays.toString(PUV));
-
-        return new Decide();
+    public Decide(int numPoints, Point[] points, Parameters parameters, int[][] LCM, boolean[] PUV){
+        Decide.numPoints = numPoints;
+        Decide.points = points;
+        Decide.parameters = parameters;
+        Decide.LCM = LCM;
+        Decide.PUV = PUV;
     }
 
     public static boolean[][] PUM(boolean[] CMV, int[][] LCM){
@@ -142,33 +109,35 @@ public class Decide {
     }
 
     public static boolean input_valid(Parameters p, int NUMPOINTS) {
+        if (NUMPOINTS < 2 || NUMPOINTS > 100) throw new IllegalArgumentException("Invalid input: NUMPOINTS must be >= 3 and <= 100");
         if (p.LENGTH1 < 0) throw new IllegalArgumentException("Invalid input for LIC0: LENGTH1 must be >= 0");
         if (p.RADIUS1 < 0) throw new IllegalArgumentException("Invalid input for LIC1: RADIUS1 must be >= 0");
         if (p.EPSILON < 0 || p.EPSILON >= Math.PI) throw new IllegalArgumentException("Invalid input for LIC2: 0 <= EPSILON < π");
         if (p.AREA1 < 0) throw new IllegalArgumentException("Invalid input for LIC3: AREA1 must be >= 0");
-        if (p.Q_PTS < 2 || p.Q_PTS > NUMPOINTS || p.QUADS < 1 || p.QUADS > 3) 
+        if (p.Q_PTS < 2 || p.Q_PTS > NUMPOINTS || p.QUADS < 1 || p.QUADS > 3)
             throw new IllegalArgumentException("Invalid input for LIC4: 2 <= Q_PTS <= NUMPOINTS and 1 <= QUADS <= 3");
-        if (p.N_PTS < 3 || p.N_PTS > NUMPOINTS || p.DIST < 0) 
+        if (p.N_PTS < 3 || p.N_PTS > NUMPOINTS || p.DIST < 0)
             throw new IllegalArgumentException("Invalid input for LIC6: 3 <= N_PTS <= NUMPOINTS and DIST must be >= 0");
-        if (p.K_PTS < 1 || p.K_PTS > NUMPOINTS - 2) 
+        if (p.K_PTS < 1 || p.K_PTS > NUMPOINTS - 2)
             throw new IllegalArgumentException("Invalid input for LIC7: 1 <= K_PTS <= NUMPOINTS - 2");
-        if (p.A_PTS < 1 || p.B_PTS < 1 || p.A_PTS + p.B_PTS > NUMPOINTS - 3) 
+        if (p.A_PTS < 1 || p.B_PTS < 1 || p.A_PTS + p.B_PTS > NUMPOINTS - 3)
             throw new IllegalArgumentException("Invalid input for LIC8: 1 <= A_PTS, B_PTS and A_PTS + B_PTS <= NUMPOINTS - 3");
-        if (p.C_PTS < 1 || p.D_PTS < 1 || p.C_PTS + p.D_PTS > NUMPOINTS - 3) 
+        if (p.C_PTS < 1 || p.D_PTS < 1 || p.C_PTS + p.D_PTS > NUMPOINTS - 3)
             throw new IllegalArgumentException("Invalid input for LIC9: 1 <= C_PTS, D_PTS and C_PTS + D_PTS <= NUMPOINTS - 3");
-        if (p.E_PTS < 1 || p.F_PTS < 1 || p.E_PTS + p.F_PTS > NUMPOINTS - 3) 
+        if (p.E_PTS < 1 || p.F_PTS < 1 || p.E_PTS + p.F_PTS > NUMPOINTS - 3)
             throw new IllegalArgumentException("Invalid input for LIC10: 1 <= E_PTS, F_PTS and E_PTS + F_PTS <= NUMPOINTS - 3");
-        if (p.G_PTS < 1 || p.G_PTS > NUMPOINTS - 2) 
+        if (p.G_PTS < 1 || p.G_PTS > NUMPOINTS - 2)
             throw new IllegalArgumentException("Invalid input for LIC11: 1 <= G_PTS <= NUMPOINTS - 2");
         if (p.LENGTH2 < 0) throw new IllegalArgumentException("Invalid input for LIC12: LENGTH2 must be >= 0");
         if (p.RADIUS2 < 0) throw new IllegalArgumentException("Invalid input for LIC13: RADIUS2 must be >= 0");
         if (p.AREA2 < 0) throw new IllegalArgumentException("Invalid input for LIC14: AREA2 must be >= 0");
-        
+
         return true;
     }
-    
 
     public static boolean DECIDE() {
+        input_valid(parameters, numPoints);
+
         // 2.1 Calculate CMV
         for (int i = 0; i < licNumber; i++) {
             CMV[i] = LICConditions.evaluateLIC(i, points, parameters, numPoints);
@@ -187,13 +156,60 @@ public class Decide {
     }
 
     public static void main(String[] args) {
-        Decide decide = init();
-        if(!input_valid(decide.parameters, decide.numPoints)){
-            System.out.println("Invalid input parameters");
-            return;
+
+        // Run decide with random input values
+
+        // Initialize the input variables
+        numPoints = ThreadLocalRandom.current().nextInt(2, 101);
+
+        // Init planar data points
+        points = new Point[numPoints];
+        for (int i = 0; i < numPoints; i++) {
+            points[i] = new Point(
+                    ThreadLocalRandom.current().nextInt(-10, 10),
+                    ThreadLocalRandom.current().nextInt(-10, 10)
+            );
         }
+
+        // Init parameters struct
+        parameters = new Parameters(
+                ThreadLocalRandom.current().nextDouble(0.0, 3.0), // LENGTH1
+                ThreadLocalRandom.current().nextDouble(0.0, 3.0), // RADIUS1
+                ThreadLocalRandom.current().nextDouble(0.0, Math.PI), // EPSILON
+                ThreadLocalRandom.current().nextDouble(0.0, 3.0), // AREA1
+                ThreadLocalRandom.current().nextInt(2, numPoints + 1), // Q_PTS
+                ThreadLocalRandom.current().nextInt(1, 4), // QUADS
+                ThreadLocalRandom.current().nextDouble(0.0, 100.0), // DIST
+                ThreadLocalRandom.current().nextInt(3, numPoints + 1), // N_PTS
+                ThreadLocalRandom.current().nextInt(1, numPoints - 1), // K_PTS
+                ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // A_PTS
+                ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // B_PTS
+                ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // C_PTS
+                ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // D_PTS
+                ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // E_PTS
+                ThreadLocalRandom.current().nextInt(1, (numPoints-1)/2), // F_PTS
+                ThreadLocalRandom.current().nextInt(1, numPoints - 1), // G_PTS
+                ThreadLocalRandom.current().nextDouble(0.0, 3.0), // LENGTH2
+                ThreadLocalRandom.current().nextDouble(0.0, 3.0), // RADIUS2
+                ThreadLocalRandom.current().nextDouble(0.0, 3.0) // AREA2
+        );
+
+        // Init LCM
+        LCM = new int[15][15];
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j <= i; j++) { // Fill lower triangle only
+                LCM[i][j] = LCM[j][i] = ThreadLocalRandom.current().nextInt(3);
+            }
+        }
+
+        // Init PUV
+        PUV = new boolean[15];
+        for (int i = 0; i < PUV.length; i++) {
+            PUV[i] = ThreadLocalRandom.current().nextBoolean();
+        }
+
+        Decide decide = new Decide(numPoints, points, parameters, LCM, PUV);
         boolean result = decide.DECIDE();
         System.out.println("Final launch decision: " + result);
     }
-
 }

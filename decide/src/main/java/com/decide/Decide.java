@@ -1,10 +1,7 @@
 package com.decide;
 
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.Arrays;
-import com.decide.Parameters;
-import com.decide.Point;
-import com.decide.LICConditions;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Decide {
     //Constants
@@ -94,6 +91,50 @@ public class Decide {
             }
         }
         return PUM;
+    }
+
+    /**
+     * Generates the Final Unlocking Vector (FUV) by using the Preliminary Unlocking
+     * Vector (PUV) and the Preliminary Unlocking Vector (PUM). 
+     * 
+     * If PUV[i] is false or if all elements in row i of PUM are true, FUV[i] is true
+     * otherwise FUV[i] is false. 
+     * @param PUV
+     * @param PUM
+     * @return {boolean[]}
+     */
+    public static boolean[] FUV(boolean[] PUV, boolean[][] PUM) {
+        boolean[] FUV = new boolean[PUV.length];
+
+        for (int i = 0; i < PUV.length; i++) {
+            if (PUV[i] == false) {
+                FUV[i] = true;
+            } else {
+                FUV[i] = true;
+                for (int j = 0; j < PUM[i].length; j++) {
+                    if (PUM[i][j] == false) {
+                        FUV[i] = false;
+                        break;
+                    }
+                }
+            }
+        }
+        return FUV;
+    }
+    
+    /**
+     * Makes the final launch decision based on the Final Unlocking Vector (FUV). 
+     * The decision to launch requires all elements in FUV to be true.
+     * @param FUV
+     * @return {boolean}
+     */
+    public static boolean LAUNCH(boolean[] FUV) {
+        for (int i = 0; i < FUV.length; i++) {
+            if (FUV[i] == false) {
+                return false; // No launch
+            }
+        }
+        return true; // Launch
     }
 
     public static boolean input_valid(Parameters p, int NUMPOINTS){

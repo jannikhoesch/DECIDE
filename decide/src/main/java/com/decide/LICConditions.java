@@ -6,36 +6,36 @@ import com.decide.Point;
 public class LICConditions {
     public static boolean evaluateLIC(int licIndex, Point[] points, Parameters parameters, int numPoints) {
         switch (licIndex) {
-            // case 0:
-            // return LIC0(points, parameters, numPoints);
-            // case 1:
-            // return LIC1(points, parameters, numPoints);
-            // case 2:
-            // return LIC2(points, parameters, numPoints);
-            // case 3:
-            // return LIC3(points, parameters, numPoints);
-            // case 4:
-            // return LIC4(points, parameters, numPoints);
-            // case 5:
-            // return LIC5(points, parameters, numPoints);
-            // case 6:
-            // return LIC6(points, parameters, numPoints);
-            // case 7:
-            // return LIC7(points, parameters, numPoints);
-            // case 8:
-            // return LIC8(points, parameters, numPoints);
-            // case 9:
-            // return LIC9(points, parameters, numPoints);
-            // case 10:
-            // return LIC10(points, parameters, numPoints);
-            // case 11:
-            // return LIC11(points, parameters, numPoints);
-            // case 12:
-            // return LIC12(points, parameters, numPoints);
-            // case 13:
-            // return LIC13(points, parameters, numPoints);
-            // case 14:
-            // return LIC14(points, parameters, numPoints);
+            case 0:
+                return LIC0(points, parameters.LENGTH1, numPoints);
+            case 1:
+                return LIC1(points, parameters.LENGTH1, numPoints);
+            case 2:
+                //return LIC2(points, parameters.RADIUS1, numPoints);
+            case 3:
+                return LIC3(points, parameters.AREA1, numPoints);
+            case 4:
+                return LIC4(points, parameters.QUADS, parameters.Q_PTS, numPoints);
+            case 5:
+                return LIC5(points, numPoints);
+            case 6:
+                return LIC6(points, parameters.N_PTS, parameters.DIST, numPoints);
+            case 7:
+                //return LIC7(points, parameters.LENGTH1, parameters.LENGTH2, numPoints);
+            case 8:
+                return LIC8(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, numPoints);
+            case 9:
+                return LIC9(points, parameters.C_PTS, parameters.D_PTS, parameters.EPSILON, numPoints);
+            case 10:
+                return LIC10(points, parameters.E_PTS, parameters.F_PTS, parameters.AREA1, numPoints);
+            case 11:
+                return LIC11(points, parameters.G_PTS, numPoints);
+            case 12:
+                //return LIC12(points, parameters.LENGTH1, parameters.LENGTH2, numPoints);
+            case 13:
+                return LIC13(points, parameters.A_PTS, parameters.B_PTS, parameters.RADIUS1, parameters.RADIUS2, numPoints);
+            case 14:
+                return LIC14(points, parameters.E_PTS, parameters.F_PTS, parameters.AREA1, parameters.AREA2, numPoints);
             default:
                 return false;
         }
@@ -43,8 +43,8 @@ public class LICConditions {
 
     /**
      * Determines whether there exists at least one pair of consecutive points in
-     * the given array
-     * such that the distance between them is greater than a specified length.
+     * the given array such that the distance between them is greater than a
+     * specified length.
      *
      * @param points    An array of Point objects representing the coordinates.
      * @param LENGTH1   The length to compare the distance against. Must be
@@ -65,15 +65,21 @@ public class LICConditions {
         return false;
     }
 
+    /**
+     * There exists at least one set of two consecutive data points that are a
+     * distance greater than the length, LENGTH1, apart. (0 ≤ LENGTH1)
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param length    The length to compare the distance against. Must be
+     *                  non-negative.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one pair of consecutive points with a
+     *         distance
+     *         greater than length, otherwise false.
+     */
     public static boolean LIC1(Point[] points, double length, int numPoints) {
-        /*
-         * There exists at least one set of two consecutive data points that are a
-         * distance greater than
-         * the length, LENGTH1, apart. (0 ≤ LENGTH1)
-         * 
-         */
         if (length < 0)
-            return false; // Input validation
+            return false;
 
         for (int i = 0; i < numPoints - 1; i++) {
             double distance = points[i].distance(points[i + 1]);
@@ -83,8 +89,19 @@ public class LICConditions {
         return false;
     }
 
+    /**
+     * Determines whether there exists at least one set of three consecutive points
+     * that form a triangle with an area greater than a specified value.
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param AREA1     The area to compare against. Must be non-negative.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one set of three consecutive points
+     *         that form a triangle with an area greater than AREA1, otherwise
+     *         false.
+     */
     public static boolean LIC3(Point[] points, double AREA1, int numPoints) {
-        if (AREA1 < 0) { // Input validation
+        if (AREA1 < 0) {
             throw new IllegalArgumentException("AREA1 must be greater than or equal to 0.");
         }
 
@@ -98,13 +115,14 @@ public class LICConditions {
 
     /**
      * Checks if a set of consecutive data points lay in more quadrants than QUADS
-     * quadrants
-     * 
-     * @param points
-     * @param QUADS
-     * @param Q_PTS
-     * @param numPoints
-     * @return {boolean}
+     * quadrants.
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param QUADS     The number of quadrants to compare against.
+     * @param Q_PTS     The number of consecutive points to consider.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists a set of consecutive points that lay in more
+     *         quadrants than QUADS, otherwise false.
      */
     public static boolean LIC4(Point[] points, int QUADS, int Q_PTS, int numPoints) {
         for (int i = 0; i + Q_PTS <= numPoints; i++) {
@@ -149,26 +167,32 @@ public class LICConditions {
         return false;
     }
 
-    public static boolean LIC6(Point[] points, Parameters parameters, int numPoints) {
-        /*
-         * There exists at least one set of N PTS consecutive data points such that at
-         * least one of the
-         * points lies a distance greater than DIST from the line joining the first and
-         * last of these N PTS
-         * points. If the first and last points of these N PTS are identical, then the
-         * calculated distance
-         * to compare with DIST will be the distance from the coincident point to all
-         * other points of
-         * the N PTS consecutive points. The condition is not met when NUMPOINTS < 3.
-         * (3 ≤N PTS ≤NUMPOINTS), (0 ≤DIST)
-         */
-        int N_PTS = parameters.N_PTS;
-        double DIST = parameters.DIST;
+    /**
+     * There exists at least one set of N_PTS consecutive data points such that at
+     * least one of the points lies a distance greater than DIST from the line
+     * joining the first and
+     * last of these N_PTS points. If the first and last points of these N_PTS are
+     * identical, then the
+     * calculated distance to compare with DIST will be the distance from the
+     * coincident point to all
+     * other points of the N_PTS consecutive points. The condition is not met when
+     * NUMPOINTS < 3.
+     * (3 ≤ N_PTS ≤ NUMPOINTS), (0 ≤ DIST)
+     *
+     * @param points     An array of Point objects representing the coordinates.
+     * @param parameters The parameters object containing N_PTS and DIST.
+     * @param numPoints  The number of points in the array.
+     * @return True if there exists at least one set of N_PTS consecutive points
+     *         with a point lying a distance greater than DIST from the line joining
+     *         the first and last points, otherwise false.
+     */
+
+    public static boolean LIC6(Point[] points, int N_PTS, double DIST, int numPoints) {
 
         if (N_PTS < 3 || N_PTS > numPoints)
-            return false; // Input validation
+            return false;
         if (DIST < 0)
-            return false; // Input validation
+            return false;
 
         if (numPoints < 3)
             return false;
@@ -193,8 +217,24 @@ public class LICConditions {
         return false;
     }
 
+    /**
+     * Determines whether there exists at least one set of three points separated by
+     * A_PTS and B_PTS
+     * consecutive intervening points, respectively, that form a triangle with a
+     * circumradius greater than RADIUS1.
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param A_PTS     The number of consecutive intervening points between the
+     *                  first and second points.
+     * @param B_PTS     The number of consecutive intervening points between the
+     *                  second and third points.
+     * @param RADIUS1   The radius to compare against.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one set of three points that form a
+     *         triangle with a circumradius greater than RADIUS1, otherwise false.
+     */
     public static boolean LIC8(Point[] points, int A_PTS, int B_PTS, double RADIUS1, int numPoints) {
-        // Input validation
+
         if (A_PTS < 1 || B_PTS < 1) {
             throw new IllegalArgumentException("A_PTS and B_PTS must each be greater than or equal to 1.");
         }
@@ -219,15 +259,18 @@ public class LICConditions {
 
     /**
      * Checks if a set of three data points separated by C_PTS and D_PTS forms an
-     * angle less than PI-EPSILON or
-     * greater than PI+EPSILON
-     * 
-     * @param points
-     * @param C_PTS
-     * @param D_PTS
-     * @param EPSILON
-     * @param numPoints
-     * @return {boolean}
+     * angle less than PI-EPSILON or greater than PI+EPSILON.
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param C_PTS     The number of consecutive intervening points between the
+     *                  first and second points.
+     * @param D_PTS     The number of consecutive intervening points between the
+     *                  second and third points.
+     * @param EPSILON   The epsilon value to compare the angle against.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one set of three points that form an
+     *         angle less than PI-EPSILON or greater than PI+EPSILON, otherwise
+     *         false.
      */
     public static boolean LIC9(Point[] points, int C_PTS, int D_PTS, double EPSILON, int numPoints) {
         if (numPoints < 5)
@@ -254,8 +297,7 @@ public class LICConditions {
      * Determines if there exists a set of three points separated by exactly E_PTS
      * and F_PTS
      * consecutive intervening points, respectively, that form a triangle with an
-     * area greater
-     * than AREA1.
+     * area greater than AREA1.
      *
      * @param points    An array of Point objects representing the coordinates of
      *                  the points.
@@ -266,7 +308,7 @@ public class LICConditions {
      * @param AREA1     The area threshold that the triangle's area must exceed.
      * @param numPoints The number of points in the array.
      * @return True if there exists a set of three points that form a triangle with
-     *         an area greater than AREA1, false otherwise.
+     *         an area greater than AREA1, otherwise false.
      */
     public static boolean LIC10(Point[] points, int E_PTS, int F_PTS, double AREA1, int numPoints) {
         if (numPoints < 5 || E_PTS < 1 || F_PTS < 1 || (E_PTS + F_PTS > numPoints - 3)) {
@@ -287,18 +329,23 @@ public class LICConditions {
         return false;
     }
 
-    public static boolean LIC11(Point[] points, Parameters parameters, int numPoints) {
-        /*
-         * There exists at least one set of two data points, (X[i],Y[i]) and
-         * (X[j],Y[j]), separated by
-         * exactly G PTS consecutive intervening points, such that X[j] - X[i] < 0.
-         * (where i < j )
-         * The condition is not met when NUMPOINTS < 3.
-         */
+    /**
+     * There exists at least one set of two data points, (X[i],Y[i]) and
+     * (X[j],Y[j]), separated by
+     * exactly G_PTS consecutive intervening points, such that X[j] - X[i] < 0.
+     * (where i < j )
+     * The condition is not met when NUMPOINTS < 3.
+     *
+     * @param points     An array of Point objects representing the coordinates.
+     * @param parameters The parameters object containing G_PTS.
+     * @param numPoints  The number of points in the array.
+     * @return True if there exists at least one set of two points with X[j] - X[i]
+     *         < 0, otherwise false.
+     */
+    public static boolean LIC11(Point[] points, int G_PTS, int numPoints) {
         if (numPoints < 3)
             return false;
 
-        int G_PTS = parameters.G_PTS;
         for (int i = 0; i + G_PTS < numPoints; i++) {
             Point A = points[i];
             Point B = points[i + G_PTS];
@@ -309,9 +356,27 @@ public class LICConditions {
         return false;
     }
 
+    /**
+     * Determines whether there exists at least one set of three points separated by
+     * A_PTS and B_PTS
+     * consecutive intervening points, respectively, that form a triangle with a
+     * circumradius greater than RADIUS1
+     * and a triangle with a circumradius less than or equal to RADIUS2.
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param A_PTS     The number of consecutive intervening points between the
+     *                  first and second points.
+     * @param B_PTS     The number of consecutive intervening points between the
+     *                  second and third points.
+     * @param RADIUS1   The first radius to compare against.
+     * @param RADIUS2   The second radius to compare against.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one set of three points that form a
+     *         triangle with a circumradius greater than RADIUS1 and a triangle with
+     *         a circumradius less than or equal to RADIUS2, otherwise false.
+     */
     public static boolean LIC13(Point[] points, int A_PTS, int B_PTS, double RADIUS1, double RADIUS2, int numPoints) {
-
-        if (RADIUS2 < 0) { // Input validation
+        if (RADIUS2 < 0) {
             return false;
         }
 
@@ -338,17 +403,21 @@ public class LICConditions {
     }
 
     /**
-     * Checks if there is a set of three data points seperated by E_PTS and F_PTS
+     * Checks if there is a set of three data points separated by E_PTS and F_PTS
      * that forms a triangle with area greater than AREA1 and
-     * a set that forms a triangle with area less than AREA2
-     * 
-     * @param points
-     * @param E_PTS
-     * @param F_PTS
-     * @param AREA1
-     * @param AREA2
-     * @param numPoints
-     * @return {boolean}
+     * a set that forms a triangle with area less than AREA2.
+     *
+     * @param points    An array of Point objects representing the coordinates.
+     * @param E_PTS     The number of consecutive intervening points between the
+     *                  first and second points.
+     * @param F_PTS     The number of consecutive intervening points between the
+     *                  second and third points.
+     * @param AREA1     The first area threshold to compare against.
+     * @param AREA2     The second area threshold to compare against.
+     * @param numPoints The number of points in the array.
+     * @return True if there exists at least one set of three points that form a
+     *         triangle with an area greater than AREA1 and a set that forms a
+     *         triangle with an area less than AREA2, otherwise false.
      */
     public static boolean LIC14(Point[] points, int E_PTS, int F_PTS, double AREA1, double AREA2, int numPoints) {
         if (numPoints < 5)

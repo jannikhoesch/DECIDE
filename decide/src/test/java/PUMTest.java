@@ -13,6 +13,7 @@ import com.decide.Point;
 class PUMTest {
     @Test
     void testPUMOutput() {
+        // Case 1: PUM with 4 conditions -> 4x4 matrix
         boolean[] CMV = {true, false, true, false}; // Condition Met Vector
         int[][] LCM = { // Logical Connector Matrix
             {1, 2, 3, 1},
@@ -27,10 +28,10 @@ class PUMTest {
             {true, true, true, true},
             {false, false, true, false}
         };
-
         boolean[][] actualPUM = Decide.PUM(CMV, LCM);
         assertTrue(java.util.Arrays.deepEquals(expectedPUM, actualPUM), "PUM arrays do not match.");
 
+        // Case 2: PUM with 2 conditions -> 2x2 matrix
         boolean[] CMV1 = {true, false}; // Condition Met Vector
         int[][] LCM1 = { // Logical Connector Matrix
             {1, 2},
@@ -41,10 +42,8 @@ class PUMTest {
             {true, true},
             {true,  true}
         };
-
         boolean[][] actualPUM1 = Decide.PUM(CMV1, LCM1);
         assertTrue(java.util.Arrays.deepEquals(expectedPUM1, actualPUM1), "PUM arrays do not match.");
-
 
     }
 }

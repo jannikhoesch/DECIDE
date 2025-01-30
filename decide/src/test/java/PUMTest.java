@@ -45,5 +45,19 @@ class PUMTest {
         boolean[][] actualPUM1 = Decide.PUM(CMV1, LCM1);
         assertTrue(java.util.Arrays.deepEquals(expectedPUM1, actualPUM1), "PUM arrays do not match.");
 
+        // Case 3: PUM with 2 conditions -> 2x2 matrix
+        boolean[] CMV2 = {false, false}; // Condition Met Vector
+        int[][] LCM2 = { // Logical Connector Matrix
+                {1, 2},
+                {2, 3},
+        };
+        // Expected PUM result
+        boolean[][] expectedPUM2 = {
+                {false, false},
+                {false, true}
+        };
+
+        boolean[][] actualPUM2 = Decide.PUM(CMV2, LCM2);
+        assertTrue(java.util.Arrays.deepEquals(expectedPUM2, actualPUM2), "PUM arrays do not match.");
     }
 }

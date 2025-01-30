@@ -181,7 +181,8 @@ public class LICConditionsTest {
 
         @Test
         void testLIC5True() {
-                Point[] points = new Point[] {
+            // Test Case: There exists at least one pair of consecutive points where the second point is further from the origin than the first point
+            Point[] points = new Point[] {
                                 new Point(0, 0),
                                 new Point(2, 1),
                                 new Point(1, 2),
@@ -193,6 +194,7 @@ public class LICConditionsTest {
 
         @Test
         void testLIC5False() {
+            // Test Case: All pairs of consecutive points have the second point closer to the origin than the first point
                 Point[] points = new Point[] {
                                 new Point(0, 0),
                                 new Point(1, 1),
@@ -268,6 +270,7 @@ public class LICConditionsTest {
 
         @Test
         void testLIC7True() {
+            // Test Case 1: Points satisfy the condition
                 Point[] points = {new Point(0, 0), new Point(1.1, 0), new Point(0, 0), new Point(0, 0)};
                 int K_PTS = 1;
                 double LENGTH1 = 1;
@@ -389,6 +392,7 @@ public class LICConditionsTest {
 
         @Test
         void testLIC10True() {
+            // Case 1: Area is large enough
                 Point[] points = new Point[] {
                                 new Point(0, 0),
                                 new Point(1, 0),
@@ -438,6 +442,7 @@ public class LICConditionsTest {
 
         @Test
         void testLIC11True() {
+            // Test Case 1: There is at least one pair of points i and j where x_j - x_i < 0
                 Point[] points = { new Point(0, 0), new Point(3, 10), new Point(14, 8), new Point(8, 0),
                                 new Point(-3, 10) };
                 int G_PTS = 3;
@@ -457,6 +462,7 @@ public class LICConditionsTest {
 
         @Test
         void testLIC12True() {
+            // Test Case 1: Points satisfy the condition
                 Point[] points = {new Point(0, 0), new Point(1.1, 0), new Point(0, 0), new Point(0.9, 0)};
                 int K_PTS = 1;
                 double LENGTH1 = 1;
@@ -577,15 +583,19 @@ public class LICConditionsTest {
                                 new Point(0, 4), new Point(0, 3) };
                 E_PTS = 2;
                 F_PTS = 2;
+
+                // 10 > 9 and 3 > 4, so this should be true
                 AREA1 = 9;
                 AREA2 = 4;
                 numPoints = 6;
                 assertTrue(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
 
+                // 10 > 11 and 3 < 2, so this should be false
                 AREA1 = 11;
                 AREA2 = 4;
                 assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
 
+                // 10 < 9 and 3 > 2, so this should be false
                 AREA1 = 9;
                 AREA2 = 2;
                 assertFalse(LICConditions.LIC14(points, E_PTS, F_PTS, AREA1, AREA2, numPoints));
